@@ -3,5 +3,3 @@ google-cloud-datastore==0.22.0
 gunicorn==19.6.0
 oauth2client==4.0.0
 requests
-test
-222222
