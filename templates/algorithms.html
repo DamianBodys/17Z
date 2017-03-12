@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Internet of Things Analytical Ecosystem API</title>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.13/css/jquery.dataTables.css">
+    <style>
+        td.child-row-control {
+            background: url('../static/child-hidden32.png') no-repeat center center;
+            cursor: pointer;
+        }
+        tr.shown td.child-row-control {
+            background: url('../static/child-shown32.png') no-repeat center center;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<h1>List of Algorithms</h1>
+<table id="algorithmstable" class="display">
+        <thead>
+            <tr>
+                <th></th>
+                <th>algorithmId</th>
+                <th>algorithmSummary</th>
+                <th>displayName</th>
+                <th>linkURL</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th></th>
+                <th>algorithmId</th>
+                <th>algorithmSummary</th>
+                <th>displayName</th>
+                <th>linkURL</th>
+            </tr>
+        </tfoot>
+    </table>
+<script>
+    /* Formatting function for row details - modify as you need */
+    function format ( d ) {
+        // `d` is the original data object for the row
+        return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">'+
+            '<tr>'+
+                '<td>Algorithm Description</td>'+
+                '<td>DataSet Description</td>'+
+            '</tr>'+
+            '<tr>'+
+                '<td>'+d.algorithmDescription+'</td>'+
+                '<td>'+d.datasetDescription+'</td>'+
+            '</tr>'+
+        '</table>';
+    }
+    $(document).ready(function() {
+        var my_table = $('#algorithmstable').DataTable( {
+            "ajax": {
+                url: "{{ url_for('api_algorithms_get') }}",
+                dataSrc: ''
+            },
+            "columns": [
+                {
+                "className":      'child-row-control',
+                "orderable":      false,
+                "data":           null,
+                "defaultContent": ''
+                },
+                { "data": "algorithmId" },
+                { "data": "algorithmSummary" },
+                { "data": "displayName" },
+                { "data": "linkURL" }
+            ]
+        } );
+            // Add event listener for opening and closing details
+        $('#algorithmstable tbody').on('click', 'td.child-row-control', function () {
+            var tr = $(this).closest('tr');
+            var row = my_table.row( tr );
+
+            if ( row.child.isShown() ) {
+                // This row is already open - close it
+                row.child.hide();
+                tr.removeClass('shown');
+            }
+            else {
+                $.ajax({
+                    type:'GET',
+                    url: row.data().linkURL,
+                    dataType: 'json',
+                    success: function(result){
+                        // Open this row
+                        row.child( format(result) ).show();
+                        tr.addClass('shown');
+                    }
+                });
+            }
+        } );
+    } );
+</script>
+</body>
+</html>
