@@ -15,6 +15,12 @@ def hello():
     return render_template('index.html')
 
 
+@app.route('/authentication.html')
+def authentication_html():
+    """Return a friendly greeting in HTML."""
+    return render_template('authentication.html')
+
+
 @app.route('/favicon.ico')
 def favicon():
     """Icon for browsers"""
