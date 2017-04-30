@@ -1,3 +1,4 @@
+from functools import wraps
 from flask import request, abort
 from oauth2client import client, crypt
 
@@ -43,8 +44,8 @@ def authenticated(fn):
     def something(user_id=None):
         pass
     """
-
-    def _wrap(*args, **kwargs):
+    @wraps(fn)
+    def wrapped_function(*args, **kwargs):
         if 'Authorization' not in request.headers:
             # Unauthorized
             print("There is no id_token in header")
@@ -61,4 +62,4 @@ def authenticated(fn):
             return None
 
         return fn(user_id=user_id, *args, **kwargs)
-    return _wrap
+    return wrapped_function

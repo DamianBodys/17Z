@@ -29,7 +29,7 @@
     console.log("ID Token: " + id_token);
     $.ajax({
       type: "POST",
-      url: "{{ url_for('api_algorithms_get') }}",
+      url: "{{ url_for('api_algorithms_post') }}",
       headers: {"Authorization" : "Bearer " + id_token, "Content-Type" : "application/json"},
       data: JSON.stringify({
       "algorithmBLOB" : "string3",
