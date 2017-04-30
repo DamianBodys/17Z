@@ -4,6 +4,7 @@
     <meta name="google-signin-scope" content="profile email">
     <meta name="google-signin-client_id" content="388721077607-g4eprjqasdoodlg9nlkim8av6060qi33.apps.googleusercontent.com">
     <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <meta charset="UTF-8">
     <title>Authentication</title>
 </head>
@@ -26,6 +27,27 @@
     // The ID token you need to pass to your backend:
     var id_token = googleUser.getAuthResponse().id_token;
     console.log("ID Token: " + id_token);
+    $.ajax({
+      type: "POST",
+      url: "{{ url_for('api_algorithms_get') }}",
+      headers: {"Authorization" : "Bearer " + id_token, "Content-Type" : "application/json"},
+      data: JSON.stringify({
+      "algorithmBLOB" : "string3",
+      "algorithmDescription" : "string",
+      "algorithmId" : "algorithm1",
+      "algorithmSummary" : "string",
+      "datasetDescription" : "string",
+      "displayName" : "string",
+      "linkURL" : "string"
+      }),
+      dataType: 'json',
+      success: function (responseData, status, xhr) {
+          console.log(responseData);
+      },
+      error: function (request, status, error) {
+          console.log(request.responseText);
+      }
+    });
   };
   function signOut() {
     var auth2 = gapi.auth2.getAuthInstance();

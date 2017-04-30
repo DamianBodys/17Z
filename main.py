@@ -4,6 +4,7 @@ import os
 from dao import Algorithm, AlgorithmDAO
 from flask import Flask, send_from_directory, url_for, redirect, json, \
     Response, request, render_template
+from authentication import authenticated
 
 
 app = Flask(__name__)
@@ -88,14 +89,21 @@ def api_algorithms_get():
 
 
 @app.route('/algorithms/', methods=['POST'])
-def api_algorithms_post():
+@authenticated
+def api_algorithms_post(user_id):
     """Add a new Algorithm"""
     if request.headers['Content-Type'] == 'application/json':
         dict_data = request.json
         algorithm = Algorithm(dict_data)
         returned_code = AlgorithmDAO.set(algorithm)
         if returned_code == 0:
-            resp = Response(status=200)
+            data = {
+                "code": 200,
+                "fields": user_id,
+                "message": "OK"
+            }
+            js = json.dumps(data)
+            resp = Response(js, status=200, mimetype='application/json')
             return resp
     data = {
         "code": 400,
