@@ -52,6 +52,12 @@ def authenticated(fn):
             abort(401)
             return None
 
+        if not(request.headers['Authorization'].startswith("Bearer ")):
+            # Unauthorized
+            print("Authentication doesn't contain Bearer in front")
+            abort(401)
+            return None
+
         print("Checking token...")
         # extracts 'Authorization: Bearer <id_token>' and checks id_token
         user_id = verify_id_token(request.headers['Authorization'].split(" ")[1])
