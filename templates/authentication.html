@@ -11,26 +11,26 @@
 <body>
 <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
 
-<h1>Authentication</h1>
+<h1>Authentication example</h1>
 <form id="restform">
+  <h2>Request</h2>
   <label>url:<input type="text" name="url" value="{{ url_for('api_algorithms_post') }}"></label>
   <label>method:
     <select name="method">
       <option value="GET">GET
       <option value="POST" selected>POST
     </select>
-  </label>
-  <label>Authorization:
+  </label><br>
+  <label>Authorization:<br>
     <textarea name="Authorization" readonly rows="2"></textarea>
-  </label>
+  </label><br>
   <label>Content-Type:
     <select name="Content-Type">
       <option value="application/json" selected>application/json
     </select>
-  </label>
+  </label><br>
   <label>data:<br>
-  <textarea name="data" rows="8" cols="50">
-{
+  <textarea name="data" rows="8" cols="50">{
 "algorithmBLOB" : "string3",
 "algorithmDescription" : "string",
 "algorithmId" : "algorithm1",
@@ -40,11 +40,10 @@
 "linkURL" : "string"
 }</textarea></label>
 <input type="submit" name="submit" value="Submit"><br>
-Response:<br>
-status: <input type="number" name="rstatus" readonly><br>
+<h2>Response:</h2>
+status: <input type="text" name="rstatus" readonly><br>
 body:<br>
-<textarea name="rbody" readonly rows="2">
-</textarea>
+<textarea name="rbody" readonly rows="2"></textarea>
 </form>
 <a href="#" onclick="signOut();">Sign out</a>
 <script>
@@ -61,6 +60,7 @@ body:<br>
     // The ID token you need to pass to your backend:
     var id_token = googleUser.getAuthResponse().id_token;
     console.log("ID Token: " + id_token);
+    // assign proper Authorization field to be used in a request header
     $( 'textarea[name=Authorization]' ).val("Bearer " + id_token);
   };
   var form = $('#restform');
@@ -75,22 +75,17 @@ body:<br>
       type: $( "select[name=method]" ).val(),
       url: $( "input[type=text][name=url]" ).val(),
       headers: headers,
-      data: JSON.stringify(
-      {
-      "algorithmBLOB" : "string3",
-      "algorithmDescription" : "string",
-      "algorithmId" : "algorithm1",
-      "algorithmSummary" : "string",
-      "datasetDescription" : "string",
-      "displayName" : "string",
-      "linkURL" : "string"
-      }),
+      data: $('textarea[name=data]').val(),
       dataType: 'json',
       success: function (responseData, status, xhr) {
           console.log(responseData);
+          $('input[type=text][name=rstatus]').val(status);
+          $('textarea[name=rbody]').val(JSON.stringify(responseData));
       },
       error: function (request, status, error) {
           console.log(request.responseText);
+          $('input[type=text][name=rstatus]').val(status);
+          $('textarea[name=rbody]').val(request.responseText);
       }
     });
   });
@@ -98,6 +93,7 @@ body:<br>
     var auth2 = gapi.auth2.getAuthInstance();
     auth2.signOut().then(function () {
       console.log('User signed out.');
+      // remove Authorization from form and from headers
       $( 'textarea[name=Authorization]' ).val("");
       delete headers['Authorization'];
     });

@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="1fec255a-c391-4bdb-adad-36db39ffe5a1" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/authentication.py" afterPath="$PROJECT_DIR$/authentication.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/authentication.html" afterPath="$PROJECT_DIR$/templates/authentication.html" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -46,13 +45,7 @@
             <state relative-caret-position="500">
               <caret line="75" column="43" lean-forward="false" selection-start-line="75" selection-start-column="43" selection-end-line="75" selection-end-column="43" />
               <folding>
-                <marker date="1493639492563" expanded="true" signature="906:1042" ph="..." />
-                <marker date="1493639492563" expanded="true" signature="952:1031" ph="..." />
-                <marker date="1493639492563" expanded="true" signature="1001:1022" ph="..." />
-                <marker date="1493639492563" expanded="true" signature="1052:1333" ph="..." />
-                <marker date="1493639492563" expanded="true" signature="1105:1325" ph="..." />
-                <marker date="1493639492563" expanded="true" signature="1512:1524" ph="..." />
-                <marker date="1493639492563" expanded="true" signature="1587:3559" ph="..." />
+                <marker date="1493647675768" expanded="true" signature="3624:3735" ph="..." />
               </folding>
             </state>
           </provider>
@@ -292,7 +285,14 @@
       <option name="project" value="LOCAL" />
       <updated>1493582193606</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="authentycation not authorization modified 2">
+      <created>1493639635353</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1493639635353</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TodoView">
@@ -306,12 +306,11 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1370" height="741" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.31914893" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32838285" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32838285" sideWeight="0.50303954" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32698962" sideWeight="0.4969605" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32698962" sideWeight="0.4969605" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32838285" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3262295" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -337,7 +336,8 @@
     <MESSAGE value="java script client authentication by google" />
     <MESSAGE value="authentycation not authorization" />
     <MESSAGE value="authentycation not authorization modified 1" />
-    <option name="LAST_COMMIT_MESSAGE" value="authentycation not authorization modified 1" />
+    <MESSAGE value="authentycation not authorization modified 2" />
+    <option name="LAST_COMMIT_MESSAGE" value="authentycation not authorization modified 2" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -390,13 +390,7 @@
         <state relative-caret-position="620">
           <caret line="31" column="43" lean-forward="false" selection-start-line="31" selection-start-column="43" selection-end-line="31" selection-end-column="43" />
           <folding>
-            <marker date="1493639492563" expanded="true" signature="906:1042" ph="..." />
-            <marker date="1493639492563" expanded="true" signature="952:1031" ph="..." />
-            <marker date="1493639492563" expanded="true" signature="1001:1022" ph="..." />
-            <marker date="1493639492563" expanded="true" signature="1052:1333" ph="..." />
-            <marker date="1493639492563" expanded="true" signature="1105:1325" ph="..." />
-            <marker date="1493639492563" expanded="true" signature="1512:1524" ph="..." />
-            <marker date="1493639492563" expanded="true" signature="1587:3559" ph="..." />
+            <marker date="1493647675768" expanded="true" signature="3624:3735" ph="..." />
           </folding>
         </state>
       </provider>
@@ -426,13 +420,7 @@
         <state relative-caret-position="240">
           <caret line="12" column="0" lean-forward="false" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
           <folding>
-            <marker date="1493639492563" expanded="true" signature="906:1042" ph="..." />
-            <marker date="1493639492563" expanded="true" signature="952:1031" ph="..." />
-            <marker date="1493639492563" expanded="true" signature="1001:1022" ph="..." />
-            <marker date="1493639492563" expanded="true" signature="1052:1333" ph="..." />
-            <marker date="1493639492563" expanded="true" signature="1105:1325" ph="..." />
-            <marker date="1493639492563" expanded="true" signature="1512:1524" ph="..." />
-            <marker date="1493639492563" expanded="true" signature="1587:3559" ph="..." />
+            <marker date="1493647675768" expanded="true" signature="3624:3735" ph="..." />
           </folding>
         </state>
       </provider>
@@ -481,13 +469,7 @@
         <state relative-caret-position="220">
           <caret line="11" column="0" lean-forward="false" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
           <folding>
-            <marker date="1493639492563" expanded="true" signature="906:1042" ph="..." />
-            <marker date="1493639492563" expanded="true" signature="952:1031" ph="..." />
-            <marker date="1493639492563" expanded="true" signature="1001:1022" ph="..." />
-            <marker date="1493639492563" expanded="true" signature="1052:1333" ph="..." />
-            <marker date="1493639492563" expanded="true" signature="1105:1325" ph="..." />
-            <marker date="1493639492563" expanded="true" signature="1512:1524" ph="..." />
-            <marker date="1493639492563" expanded="true" signature="1587:3559" ph="..." />
+            <marker date="1493647675768" expanded="true" signature="3624:3735" ph="..." />
           </folding>
         </state>
       </provider>
@@ -533,13 +515,7 @@
         <state relative-caret-position="220">
           <caret line="11" column="0" lean-forward="false" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
           <folding>
-            <marker date="1493639492563" expanded="true" signature="906:1042" ph="..." />
-            <marker date="1493639492563" expanded="true" signature="952:1031" ph="..." />
-            <marker date="1493639492563" expanded="true" signature="1001:1022" ph="..." />
-            <marker date="1493639492563" expanded="true" signature="1052:1333" ph="..." />
-            <marker date="1493639492563" expanded="true" signature="1105:1325" ph="..." />
-            <marker date="1493639492563" expanded="true" signature="1512:1524" ph="..." />
-            <marker date="1493639492563" expanded="true" signature="1587:3559" ph="..." />
+            <marker date="1493647675768" expanded="true" signature="3624:3735" ph="..." />
           </folding>
         </state>
       </provider>
@@ -734,13 +710,7 @@
         <state relative-caret-position="500">
           <caret line="75" column="43" lean-forward="false" selection-start-line="75" selection-start-column="43" selection-end-line="75" selection-end-column="43" />
           <folding>
-            <marker date="1493639492563" expanded="true" signature="906:1042" ph="..." />
-            <marker date="1493639492563" expanded="true" signature="952:1031" ph="..." />
-            <marker date="1493639492563" expanded="true" signature="1001:1022" ph="..." />
-            <marker date="1493639492563" expanded="true" signature="1052:1333" ph="..." />
-            <marker date="1493639492563" expanded="true" signature="1105:1325" ph="..." />
-            <marker date="1493639492563" expanded="true" signature="1512:1524" ph="..." />
-            <marker date="1493639492563" expanded="true" signature="1587:3559" ph="..." />
+            <marker date="1493647675768" expanded="true" signature="3624:3735" ph="..." />
           </folding>
         </state>
       </provider>
