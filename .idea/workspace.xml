@@ -3,7 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="1fec255a-c391-4bdb-adad-36db39ffe5a1" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/authentication.html" afterPath="$PROJECT_DIR$/templates/authentication.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/index.html" afterPath="$PROJECT_DIR$/templates/index.html" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -292,7 +292,14 @@
       <option name="project" value="LOCAL" />
       <updated>1493639635353</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="authentication not authorization modified with response">
+      <created>1493647833103</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1493647833103</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TodoView">
@@ -337,7 +344,8 @@
     <MESSAGE value="authentycation not authorization" />
     <MESSAGE value="authentycation not authorization modified 1" />
     <MESSAGE value="authentycation not authorization modified 2" />
-    <option name="LAST_COMMIT_MESSAGE" value="authentycation not authorization modified 2" />
+    <MESSAGE value="authentication not authorization modified with response" />
+    <option name="LAST_COMMIT_MESSAGE" value="authentication not authorization modified with response" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
