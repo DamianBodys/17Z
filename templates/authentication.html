@@ -12,6 +12,25 @@
 <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
 
 <h1>Authentication</h1>
+<form>
+  url:<input type="url" name="url" value="/algorithms/"><br>
+  method:<br>
+  <input type="radio" name="method" value="GET">GET<br>
+  <input type="radio" name="method" value="POST" checked>POST<br>
+  Authorization:<input type="text" readonly><br>
+  Content-Type:<input type="radio" name="content-type" value="application/json" checked>application/json<br>
+  data:<br>
+  <textarea name="data" rows="8" cols="50">
+{
+"algorithmBLOB" : "string3",
+"algorithmDescription" : "string",
+"algorithmId" : "algorithm1",
+"algorithmSummary" : "string",
+"datasetDescription" : "string",
+"displayName" : "string",
+"linkURL" : "string"
+}</textarea>
+</form>
 <a href="#" onclick="signOut();">Sign out</a>
 <script>
   function onSignIn(googleUser) {
