@@ -142,7 +142,16 @@ def api_algorithm_get(algorithm_id):
 def create_user(user_id=None):
     """Add a new User"""
     if request.headers['Content-Type'] == 'application/json':
-        dict_data = request.json
+        dict_data = {
+            'userID': 0,
+            'firstName': "",
+            'lastName': "",
+            'email': "",
+            'phone': "",
+            'userStatus': 0
+        }
+        dict_data1 = request.json
+        dict_data.update(dict_data1)
         user = User(dict_data)
     else:
         user = get_user_from_id_token(request.headers['Authorization'].split(" ")[1])
