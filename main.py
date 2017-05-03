@@ -141,9 +141,10 @@ def api_algorithm_get(algorithm_id):
 @authenticated
 def create_user(user_id=None):
     """Add a new User"""
+    # TODO modify swagger to enable 2 methods of creating users
     if request.headers['Content-Type'] == 'application/json':
         dict_data = {
-            'userID': 0,
+            'userID': user_id,
             'firstName': "",
             'lastName': "",
             'email': "",
