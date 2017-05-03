@@ -90,7 +90,7 @@ def api_algorithms_get():
 
 @app.route('/algorithms/', methods=['POST'])
 @authenticated
-def api_algorithms_post(user_id):
+def api_algorithms_post(user_id=None):
     """Add a new Algorithm"""
     if request.headers['Content-Type'] == 'application/json':
         dict_data = request.json

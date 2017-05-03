@@ -3,7 +3,7 @@ from flask import request, abort
 from oauth2client import client, crypt
 
 
-def verify_id_token(id_token):
+def verify_google_id_token(id_token):
     """
     Verifies if id_token is a valid google account token
     :param id_token: 
@@ -35,7 +35,7 @@ def authenticated(fn):
     """
     Decorator which checks if there is Authenticate: Bearer id_token in headers and then 
     checks if it's a valid Google ID
-     Returns sub of the user or None if error
+    Returns sub of the user or None if error
     :param fn: 
     :return: None or sub
     Usage:
@@ -46,6 +46,7 @@ def authenticated(fn):
     """
     @wraps(fn)
     def wrapped_function(*args, **kwargs):
+        # TODO: input data verification to be handled by separate module
         if 'Authorization' not in request.headers:
             # Unauthorized
             print("There is no id_token in header")
@@ -60,7 +61,7 @@ def authenticated(fn):
 
         print("Checking token...")
         # extracts 'Authorization: Bearer <id_token>' and checks id_token
-        user_id = verify_id_token(request.headers['Authorization'].split(" ")[1])
+        user_id = verify_google_id_token(request.headers['Authorization'].split(" ")[1])
         if user_id is None:
             print("This is not a valid Google account id_token")
             # Unauthorized

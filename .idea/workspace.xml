@@ -1,9 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="1fec255a-c391-4bdb-adad-36db39ffe5a1" name="Default" comment="">
+    <list default="true" id="1fec255a-c391-4bdb-adad-36db39ffe5a1" name="Default" comment="modified swagger and added user endpoint (swagger v 308)">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/swaggerui/css/print.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/swaggerui/css/reset.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/swaggerui/css/screen.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/swaggerui/css/style.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/swaggerui/css/typography.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/swaggerui/fonts/DroidSans-Bold.ttf" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/swaggerui/fonts/DroidSans.ttf" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/swaggerui/images/collapse.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/swaggerui/images/expand.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/swaggerui/images/explorer_icons.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/swaggerui/images/favicon-16x16.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/swaggerui/images/favicon-32x32.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/swaggerui/images/favicon.ico" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/swaggerui/images/logo_small.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/swaggerui/images/pet_store_api.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/swaggerui/images/throbber.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/swaggerui/images/wordnik_api.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/swaggerui/lang/en.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/swaggerui/lang/es.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/swaggerui/lang/fr.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/swaggerui/lang/it.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/swaggerui/lang/ja.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/swaggerui/lang/pl.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/swaggerui/lang/pt.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/swaggerui/lang/ru.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/swaggerui/lang/tr.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/swaggerui/lang/translator.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/swaggerui/lang/zh-cn.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/swaggerui/lib/backbone-min.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/swaggerui/lib/handlebars-2.0.0.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/swaggerui/lib/highlight.7.3.pack.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/swaggerui/lib/jquery-1.8.0.min.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/swaggerui/lib/jquery.ba-bbq.min.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/swaggerui/lib/jquery.slideto.min.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/swaggerui/lib/jquery.wiggle.min.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/swaggerui/lib/jsoneditor.min.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/swaggerui/lib/marked.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/swaggerui/lib/swagger-oauth.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/swaggerui/lib/underscore-min.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/swaggerui/lib/underscore-min.map" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/swaggerui/o2c.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/swaggerui/swagger-ui.min.js" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/index.html" afterPath="$PROJECT_DIR$/templates/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/authentication.py" afterPath="$PROJECT_DIR$/authentication.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main.py" afterPath="$PROJECT_DIR$/main.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/swagger.json" afterPath="$PROJECT_DIR$/static/swagger.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/swagger.yaml" afterPath="$PROJECT_DIR$/static/swagger.yaml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/swaggerui/index.html" afterPath="$PROJECT_DIR$/static/swaggerui/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/swaggerui/swagger-ui.js" afterPath="$PROJECT_DIR$/static/swaggerui/swagger-ui.js" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -15,11 +62,11 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="main.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="main.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1840">
-              <caret line="97" column="51" lean-forward="false" selection-start-line="97" selection-start-column="51" selection-end-line="97" selection-end-column="51" />
+            <state relative-caret-position="951">
+              <caret line="89" column="0" lean-forward="false" selection-start-line="89" selection-start-column="0" selection-end-line="89" selection-end-column="0" />
               <folding>
                 <element signature="e#14#28#0" expanded="true" />
               </folding>
@@ -42,7 +89,7 @@
       <file leaf-file-name="authentication.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/authentication.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="500">
+            <state relative-caret-position="1500">
               <caret line="75" column="43" lean-forward="false" selection-start-line="75" selection-start-column="43" selection-end-line="75" selection-end-column="43" />
               <folding>
                 <marker date="1493647675768" expanded="true" signature="3624:3735" ph="..." />
@@ -61,15 +108,34 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="authentication.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="authentication.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/authentication.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="91">
-              <caret line="56" column="65" lean-forward="false" selection-start-line="56" selection-start-column="65" selection-end-line="56" selection-end-column="65" />
+            <state relative-caret-position="480">
+              <caret line="47" column="33" lean-forward="false" selection-start-line="47" selection-start-column="33" selection-end-line="47" selection-end-column="33" />
               <folding>
                 <element signature="e#0#27#0" expanded="true" />
-                <element signature="e#137#1042#0" expanded="false" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="swagger.json" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/static/swagger.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="swagger.yaml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/static/swagger.yaml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -96,8 +162,8 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/templates/index.html" />
-        <option value="$PROJECT_DIR$/main.py" />
         <option value="$PROJECT_DIR$/templates/authentication.html" />
+        <option value="$PROJECT_DIR$/main.py" />
         <option value="$PROJECT_DIR$/authentication.py" />
       </list>
     </option>
@@ -121,6 +187,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -147,9 +214,22 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="17Z" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="17Z" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="static" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="Scratches" />
     </panes>
   </component>
@@ -299,10 +379,17 @@
       <option name="project" value="LOCAL" />
       <updated>1493647833103</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="authentication not authorization modified with response 2">
+      <created>1493648517172</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1493648517173</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
-  <component name="TodoView">
+  <component name="TodoView" selected-index="4">
     <todo-panel id="selected-file">
       <is-autoscroll-to-source value="true" />
     </todo-panel>
@@ -314,10 +401,11 @@
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1370" height="741" extended-state="0" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.31914893" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32838285" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.33054712" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="TODO" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32698962" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32838285" sideWeight="0.50303954" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32698962" sideWeight="0.4969605" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32871974" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32698962" sideWeight="0.4969605" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32838285" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3262295" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -330,7 +418,6 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -345,7 +432,9 @@
     <MESSAGE value="authentycation not authorization modified 1" />
     <MESSAGE value="authentycation not authorization modified 2" />
     <MESSAGE value="authentication not authorization modified with response" />
-    <option name="LAST_COMMIT_MESSAGE" value="authentication not authorization modified with response" />
+    <MESSAGE value="authentication not authorization modified with response 2" />
+    <MESSAGE value="modified swagger and added user endpoint (swagger v 308)" />
+    <option name="LAST_COMMIT_MESSAGE" value="modified swagger and added user endpoint (swagger v 308)" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -354,6 +443,102 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1680">
+          <caret line="89" column="0" lean-forward="true" selection-start-line="89" selection-start-column="0" selection-end-line="89" selection-end-column="0" />
+          <folding>
+            <element signature="e#14#28#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dao.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="34" />
+          <folding>
+            <element signature="e#352#2641#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/authentication.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1500">
+          <caret line="75" column="43" lean-forward="false" selection-start-line="75" selection-start-column="43" selection-end-line="75" selection-end-column="43" />
+          <folding>
+            <marker date="1493647675768" expanded="true" signature="3624:3735" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="12" column="46" lean-forward="false" selection-start-line="12" selection-start-column="46" selection-end-line="12" selection-end-column="46" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/authentication.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="900">
+          <caret line="47" column="33" lean-forward="true" selection-start-line="47" selection-start-column="33" selection-end-line="47" selection-end-column="33" />
+          <folding>
+            <element signature="e#0#27#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1840">
+          <caret line="97" column="51" lean-forward="false" selection-start-line="97" selection-start-column="51" selection-end-line="97" selection-end-column="51" />
+          <folding>
+            <element signature="e#14#28#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dao.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="34" />
+          <folding>
+            <element signature="e#352#2641#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/authentication.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1500">
+          <caret line="75" column="43" lean-forward="false" selection-start-line="75" selection-start-column="43" selection-end-line="75" selection-end-column="43" />
+          <folding>
+            <marker date="1493647675768" expanded="true" signature="3624:3735" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="12" column="46" lean-forward="false" selection-start-line="12" selection-start-column="46" selection-end-line="12" selection-end-column="46" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/authentication.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="620">
+          <caret line="56" column="65" lean-forward="false" selection-start-line="56" selection-start-column="65" selection-end-line="56" selection-end-column="65" />
+          <folding>
+            <element signature="e#0#27#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1840">
@@ -388,7 +573,6 @@
           <caret line="62" column="0" lean-forward="true" selection-start-line="62" selection-start-column="0" selection-end-line="62" selection-end-column="0" />
           <folding>
             <element signature="e#0#27#0" expanded="true" />
-            <element signature="e#137#1042#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -447,7 +631,6 @@
           <caret line="11" column="31" lean-forward="false" selection-start-line="11" selection-start-column="31" selection-end-line="11" selection-end-column="31" />
           <folding>
             <element signature="e#0#27#0" expanded="true" />
-            <element signature="e#137#1042#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -703,19 +886,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1840">
-          <caret line="97" column="51" lean-forward="false" selection-start-line="97" selection-start-column="51" selection-end-line="97" selection-end-column="51" />
-          <folding>
-            <element signature="e#14#28#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/templates/authentication.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="500">
+        <state relative-caret-position="1500">
           <caret line="75" column="43" lean-forward="false" selection-start-line="75" selection-start-column="43" selection-end-line="75" selection-end-column="43" />
           <folding>
             <marker date="1493647675768" expanded="true" signature="3624:3735" ph="..." />
@@ -725,11 +898,36 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/authentication.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="91">
-          <caret line="56" column="65" lean-forward="false" selection-start-line="56" selection-start-column="65" selection-end-line="56" selection-end-column="65" />
+        <state relative-caret-position="480">
+          <caret line="47" column="33" lean-forward="false" selection-start-line="47" selection-start-column="33" selection-end-line="47" selection-end-column="33" />
           <folding>
             <element signature="e#0#27#0" expanded="true" />
-            <element signature="e#137#1042#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/swagger.yaml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/swagger.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="951">
+          <caret line="89" column="0" lean-forward="false" selection-start-line="89" selection-start-column="0" selection-end-line="89" selection-end-column="0" />
+          <folding>
+            <element signature="e#14#28#0" expanded="true" />
           </folding>
         </state>
       </provider>
