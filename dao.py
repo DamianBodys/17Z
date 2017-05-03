@@ -6,9 +6,116 @@ from datetime import datetime
 
 # this is an address of standard appengine app to access Full Text Search
 _ALGORITHM_SEARCH_URL = 'localhost:8080'
-# name of kind to store algorithm data in Datastore
-_DATASTORE_KIND = 'algorithms'
+# name of kind to store data in Datastore
+_DATASTORE_KIND_ALGORITHMS = 'algorithms'
+_DATASTORE_KIND_USERS = 'users'
 
+
+# User class
+class User:
+    _data = {
+        #      userID: integer # google id_info['sub']
+        #      firstName: string
+        #       lastName: string
+        #       email: string
+        #       phone: string
+        #       userStatus: integer
+    }
+
+    def setuser_id(self, user_id):
+        self._data['userID'] = user_id
+    
+    def getuser_id(self):
+        return self._data['userID']
+
+    def setfirst_name(self, first_name):
+        self._data['firstName'] = first_name
+
+    def getfirst_name(self):
+        return self._data['firstName']
+
+    def setlast_name(self, last_name):
+        self._data['lastName'] = last_name
+
+    def getlast_name(self):
+        return self._data['lastName']
+
+    def setemail(self, email):
+        self._data['email'] = email
+
+    def getemail(self):
+        return self._data['email']
+
+    def setphone(self, phone):
+        self._data['phone'] = phone
+
+    def getphone(self):
+        return self._data['phone']
+    
+    def setuser_status(self, user_status):
+        self._data['userStatus'] = user_status
+
+    def getuser_status(self):
+        return self._data['userStatus']
+
+    def __init__(self, dict_data):
+        self.setuser_id(dict_data['userID'])
+        self.setfirst_name(dict_data['firstName'])
+        self.setlast_name(dict_data['lastName'])
+        self.setemail(dict_data['email'])
+        self.setphone(dict_data['phone'])
+        self.setuser_status(dict_data['userStatus'])
+        
+    def get_dict(self):
+        user_dict = {
+            'userID': self.getuser_id(),
+            'firstName': self.getfirst_name(),
+            'lastName': self.getlast_name(),
+            'email': self.getemail(),
+            'phone': self.getphone(),
+            'userStatus': self.getuser_status()
+        }
+        return user_dict
+
+
+# Data Access Object Interface for User
+class UserDAO:
+
+    @staticmethod
+    def set(user):
+        """
+        Writing main blob algorithm data to Datastore
+        :rtype : int
+        """
+        ds = datastore.Client()
+        try:
+            entity = datastore.Entity(key=ds.key(_DATASTORE_KIND_USERS, user.getuser_id()))
+            entity.update({
+                'firstName': self.getfirst_name(),
+                'lastName': self.getlast_name(),
+                'email': self.getemail(),
+                'phone': self.getphone(),
+                'userStatus': self.getuser_status()
+            })
+            ds.put(entity)
+        except:
+            return 1
+        return 0
+
+    @staticmethod
+    def get(user_id):
+        """
+        Get a single algorithm data from Datastore
+        :rtype : dict
+        """
+        ds = datastore.Client()
+        try:
+            key = ds.key(_DATASTORE_KIND_USERS, user_id)
+            entity = ds.get(key)
+            entity.pop('timestamp')
+        except:
+            return 1
+        return entity
 
 # Algorithm class
 class Algorithm:
@@ -111,7 +218,7 @@ class AlgorithmDAO:
         """
         ds = datastore.Client()
         try:
-            entity = datastore.Entity(key=ds.key(_DATASTORE_KIND, algorithm.getalgorithm_id()))
+            entity = datastore.Entity(key=ds.key(_DATASTORE_KIND_ALGORITHMS, algorithm.getalgorithm_id()))
             entity.update({
                 'algorithmBLOB': algorithm.getblob(),
                 'algorithmDescription': algorithm.getdescription(),
@@ -180,7 +287,7 @@ class AlgorithmDAO:
         """
         ds = datastore.Client()
         try:
-            key = ds.key(_DATASTORE_KIND, algorithm_id)
+            key = ds.key(_DATASTORE_KIND_ALGORITHMS, algorithm_id)
             entity = ds.get(key)
             entity.pop('timestamp')
         except:

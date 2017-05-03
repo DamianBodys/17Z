@@ -1,6 +1,25 @@
 from functools import wraps
 from flask import request, abort
 from oauth2client import client, crypt
+from dao import User
+
+
+def get_user_from_id_token(id_token):
+    """
+    :param id_token: 
+    :return: User object 
+    """
+    id_info = client.verify_id_token(id_token, None)
+    dict_data = {
+        'userID': id_info['sub'],
+        'firstName': id_info['given_name'],
+        'lastName': id_info['family_name'],
+        'email': id_info['email'],
+        'phone': "",
+        'userStatus': 0
+    }
+    user = User(dict_data)
+    return user
 
 
 def verify_google_id_token(id_token):

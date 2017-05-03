@@ -1,10 +1,10 @@
 # [START app]
 import logging
 import os
-from dao import Algorithm, AlgorithmDAO
+from dao import Algorithm, AlgorithmDAO, User, UserDAO
 from flask import Flask, send_from_directory, url_for, redirect, json, \
     Response, request, render_template
-from authentication import authenticated
+from authentication import authenticated, get_user_from_id_token
 
 
 app = Flask(__name__)
@@ -134,6 +134,34 @@ def api_algorithm_get(algorithm_id):
         }
         js = json.dumps(data)
         resp = Response(js, status=404, mimetype='application/json')
+    return resp
+
+
+@app.route('/user/', methods=['POST'])
+@authenticated
+def create_user(user_id=None):
+    """Add a new User"""
+    if request.headers['Content-Type'] == 'application/json':
+        dict_data = request.json
+        user = User(dict_data)
+    else:
+        user = get_user_from_id_token(request.headers['Authorization'].split(" ")[1])
+
+    returned_code = UserDAO.set(user)
+    if returned_code == 0:
+        data = {
+            "code": 200,
+            "fields": "",
+            "message": "OK"
+        }
+    else:
+        data = {
+            "code": 400,
+            "fields": "string",
+            "message": "Malformed Data"
+        }
+    js = json.dumps(data)
+    resp = Response(js, status=400, mimetype='application/json')
     return resp
 
 
