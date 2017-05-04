@@ -95,7 +95,8 @@ class UserDAO:
                 'lastName': user.getlast_name(),
                 'email': user.getemail(),
                 'phone': user.getphone(),
-                'userStatus': user.getuser_status()
+                'userStatus': user.getuser_status(),
+                'timestamp': datetime.now()
             })
             ds.put(entity)
         except:
@@ -106,7 +107,7 @@ class UserDAO:
     def get(user_id):
         """
         Get a single algorithm data from Datastore
-        :rtype : dict
+        :rtype : User
         """
         ds = datastore.Client()
         try:
@@ -115,7 +116,8 @@ class UserDAO:
             entity.pop('timestamp')
         except:
             return 1
-        return entity
+        entity['userID'] = user_id
+        return User(entity)
 
 
 # Algorithm class
