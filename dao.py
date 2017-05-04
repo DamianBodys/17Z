@@ -84,18 +84,18 @@ class UserDAO:
     @staticmethod
     def set(user):
         """
-        Writing main blob algorithm data to Datastore
+        Writing user data to Datastore
         :rtype : int
         """
         ds = datastore.Client()
         try:
             entity = datastore.Entity(key=ds.key(_DATASTORE_KIND_USERS, user.getuser_id()))
             entity.update({
-                'firstName': self.getfirst_name(),
-                'lastName': self.getlast_name(),
-                'email': self.getemail(),
-                'phone': self.getphone(),
-                'userStatus': self.getuser_status()
+                'firstName': user.getfirst_name(),
+                'lastName': user.getlast_name(),
+                'email': user.getemail(),
+                'phone': user.getphone(),
+                'userStatus': user.getuser_status()
             })
             ds.put(entity)
         except:
@@ -116,6 +116,7 @@ class UserDAO:
         except:
             return 1
         return entity
+
 
 # Algorithm class
 class Algorithm:
