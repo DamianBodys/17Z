@@ -164,14 +164,42 @@ def create_user(user_id=None):
             "fields": "",
             "message": "OK"
         }
+        js = json.dumps(data)
+        resp = Response(js, status=200, mimetype='application/json')
     else:
         data = {
             "code": 400,
             "fields": "string",
             "message": "Malformed Data"
         }
-    js = json.dumps(data)
-    resp = Response(js, status=400, mimetype='application/json')
+        js = json.dumps(data)
+        resp = Response(js, status=400, mimetype='application/json')
+    return resp
+
+
+@app.route('/user/<uid>', methods=['GET'])
+@authenticated
+def get_user_by_id(uid, user_id = None):
+    """
+    Get complete user data
+    :param uid: ID of a user to get 
+    :param user_id: ID of the logged on user
+    :return: user_data
+    """
+    result = UserDAO.get(uid)
+    if result != 1:
+        user = result.get_dict()
+        js = json.dumps(user)
+        user_data = Response(js, status=200, mimetype='application/json')
+        resp = user_data
+    else:
+        data = {
+            "code": 404,
+            "fields": "string",
+            "message": "Not Found"
+        }
+        js = json.dumps(data)
+        resp = Response(js, status=404, mimetype='application/json')
     return resp
 
 

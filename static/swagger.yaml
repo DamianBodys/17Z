@@ -55,13 +55,13 @@ paths:
       responses:
         default:
           description: success
-  /user/{username}:
+  /user/{userID}:
     get:
       tags:
       - User
-      summary: Get user by user name
+      summary: Get user by user ID
       description: Get user info - requres authorization
-      operationId: getUserByName
+      operationId: getUserByID
       produces:
       - application/json
       security:
