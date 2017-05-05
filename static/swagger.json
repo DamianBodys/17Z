@@ -1,1 +1,1002 @@
-{"swagger":"2.0","info":{"description":"This API is a set of functions that provides consumer and supplier with all ecosystem services","version":"1.0.1","title":"Internet of Things Analytical Ecosystem API","contact":{}},"host":"localhost:5000","basePath":"/","tags":[{"name":"Algorithms","description":"Everything about Algorithms","externalDocs":{"description":"Find out more","url":"http://tobeaddedinthefuture"}},{"name":"Dataset","description":"Access to data"},{"name":"User","description":"User manipulation","externalDocs":{"description":"Find out more about user access","url":"http://tobeaddedinthefuture"}},{"name":"Supplier API","description":"Supplier functions"},{"name":"Consumer API","description":"Consumer functions"}],"schemes":["http"],"securityDefinitions":{"GoogleIdToken":{"description":"[Google Identity Platform](https://developers.google.com/identity/) authentication with id_token as authentication key. The security definision in OpenAPI 2.0 lacks the 'Bearer ' string before <id_token> as described in [RFC 6750 section 2.1](https://tools.ietf.org/html/rfc6750#section-2.1) Please insert 'Bearer ' manualy. Remember to insert required header in your application requests 'Authentication &#58; Bearer <id_token>'","type":"apiKey","in":"header","name":"Authorization"}},"paths":{"/user":{"post":{"tags":["User"],"summary":"Create a new user","description":"This can only be done by authenticated user.","operationId":"createUser","produces":["application/json"],"security":[{"GoogleIdToken":[]}],"parameters":[{"in":"body","name":"body","description":"Created user object","required":true,"schema":{"$ref":"#/definitions/User"}}],"responses":{"default":{"description":"success"}}}},"/user/{username}":{"get":{"tags":["User"],"summary":"Get user by user name","description":"Get user info - requres authorization","operationId":"getUserByName","produces":["application/json"],"security":[{"GoogleIdToken":[]}],"parameters":[{"name":"username","in":"path","required":true,"type":"string"}],"responses":{"200":{"description":"success","schema":{"$ref":"#/definitions/User"}},"400":{"description":"Invalid username"},"404":{"description":"User not found"}}},"put":{"tags":["User"],"summary":"Update user","description":"This can only be done by the authorized user.","operationId":"updateUser","produces":["application/json"],"security":[{"GoogleIdToken":[]}],"parameters":[{"name":"username","in":"path","required":true,"type":"string"},{"in":"body","name":"body","description":"Updated user object","required":true,"schema":{"$ref":"#/definitions/User"}}],"responses":{"400":{"description":"Invalid user supplied"},"404":{"description":"User not found"}}},"delete":{"tags":["User"],"summary":"Delete user","description":"This can only be done by the logged in user.","operationId":"deleteUser","produces":["application/json"],"security":[{"GoogleIdToken":[]}],"parameters":[{"name":"username","in":"path","description":"The name that needs to be deleted","required":true,"type":"string"}],"responses":{"400":{"description":"Invalid username supplied"},"404":{"description":"User not found"}}}},"/datasets":{"get":{"tags":["Consumer API","Dataset"],"summary":"Returns information about the stored Datasets","description":"The Datasets endpoint returns information about the stored Datasets. The response includes the display name and other details about each dataset. It also allows full-text search of tags.","operationId":"getDatasets","consumes":[],"produces":["application/json"],"security":[{"GoogleIdToken":[]}],"parameters":[{"name":"tags","in":"query","description":"Comma separated Tags for search query.","required":false,"type":"string","x-example":"sum two items, sum multiple items"}],"responses":{"200":{"description":"An array of datasets","schema":{"type":"array","items":{"$ref":"#/definitions/Datasets"}}},"401":{"description":"No authentication. Need to login."},"403":{"description":"Not authorized to post new datasets"}}},"post":{"tags":["Dataset","Consumer API"],"summary":"Add an empty Dataset","description":"Add an empty Dataset","operationId":"postDataset","consumes":["application/json"],"produces":["application/json"],"security":[{"GoogleIdToken":[]}],"parameters":[{"in":"body","name":"body","required":true,"schema":{"$ref":"#/definitions/DatasetDetails"}}],"responses":{"200":{"description":"OK - returns datasetID","schema":{"$ref":"#/definitions/Datasets"}},"401":{"description":"No authentication. Need to login."},"403":{"description":"Not authorized to post new datasets"}}}},"/datasets/{datasetID}":{"get":{"tags":["Dataset","Consumer API"],"summary":"Returns a given dataset","description":"Returns a given dataset","operationId":"getDatasetsDataset","consumes":[],"produces":["application/json"],"security":[{"GoogleIdToken":[]}],"parameters":[{"name":"datasetID","in":"path","description":"ID of a dattaset","required":true,"type":"string"}],"responses":{"200":{"description":"Data of the dataset","schema":{"$ref":"#/definitions/Dataset"}},"401":{"description":"No authentication. Need to login."},"403":{"description":"Not authorized to read that datasets"},"404":{"description":"The given datasetID was not found in collection"}}},"put":{"tags":["Dataset","Consumer API"],"summary":"Add etities to dataset","description":"Add etities to dataset","operationId":"addDatasetsData","consumes":["application/json"],"produces":[],"security":[{"GoogleIdToken":[]}],"parameters":[{"name":"datasetID","in":"path","description":"ID of a dataset","required":true,"type":"string"},{"in":"body","name":"body","required":true,"schema":{"$ref":"#/definitions/Dataset"}}],"responses":{"200":{"description":"OK"},"400":{"description":"Malformed data","schema":{"$ref":"#/definitions/Error"}},"401":{"description":"No authentication. Need to login."},"403":{"description":"Not authorized to post data at all or not an owner of a given dataset"},"404":{"description":"algorithmID not found"}}}},"/algorithms/":{"get":{"tags":["Consumer API","Algorithms"],"summary":"All available Algorithms descriptions.","description":"The Algorithms endpoint returns information about the available algorithms. The response includes the display name and other details about each algorithm. It also allows full-text search of tags.","operationId":"getAlgorithms","consumes":[],"produces":["application/json"],"parameters":[{"name":"tags","in":"query","description":"Comma separated Tags for search query.","required":false,"type":"string","x-example":"sum two items, sum multiple items"}],"responses":{"200":{"description":"An array of algorithms","schema":{"type":"array","items":{"$ref":"#/definitions/Algorithms"}}}}},"post":{"tags":["Algorithms","Supplier API"],"summary":"Add a new Algorithm","description":"Add a new Algorithm","operationId":"postAlgorithms","consumes":["application/json"],"produces":[],"security":[{"GoogleIdToken":[]}],"parameters":[{"in":"body","name":"body","required":false,"schema":{"$ref":"#/definitions/AlgorithmBody"}}],"responses":{"200":{"description":"OK"},"400":{"description":"Malformed data","schema":{"$ref":"#/definitions/Error"}},"401":{"description":"No authentication. Need to login."},"403":{"description":"Not authorized to post new algorithms"},"409":{"description":"AlgorithmID already exists.","schema":{"$ref":"#/definitions/Error"}}}}},"/algorithms/{algorithmID}":{"get":{"tags":["Algorithms","Consumer API"],"summary":"Detailed description of an Algorithm.","description":"The Algorithm Details endpoint returns detailed description of a given algorithm.","operationId":"getAlgorithmsAlgorithm","consumes":[],"produces":["application/json"],"parameters":[{"name":"algorithmID","in":"path","description":"ID of an algorithm","required":true,"type":"string"}],"responses":{"200":{"description":"Details of the algorithm","schema":{"$ref":"#/definitions/AlgorithmDetails"}},"404":{"description":"The given algorithmID was not found in collection"}}},"post":{"tags":["Algorithms","Dataset","Consumer API"],"summary":"Run an algorithm with a Data Set","description":"Run an algorithm with a Data Set","operationId":"executeAlgorithm","consumes":["application/json"],"produces":["application/json"],"security":[{"GoogleIdToken":[]}],"parameters":[{"name":"algorithmID","in":"path","description":"ID of an algorithm","required":true,"type":"string"},{"in":"body","name":"body","description":"ID of a dataset","required":true,"schema":{"$ref":"#/definitions/DatasetID"}}],"responses":{"200":{"description":"OK","schema":{"$ref":"#/definitions/ResultSetID"}},"400":{"description":"Malformed data","schema":{"$ref":"#/definitions/Error"}},"401":{"description":"No authentication. Need to login."},"403":{"description":"Not authorized to run algorithms"},"404":{"description":"The given algorithmID was not found in collection"}}},"put":{"tags":["Algorithms","Supplier API"],"summary":"Update existing Algorithm","description":"Replace existing Algorithm","operationId":"updateAlgorithm","consumes":["application/json"],"produces":[],"security":[{"GoogleIdToken":[]}],"parameters":[{"name":"algorithmID","in":"path","description":"ID of an algorithm","required":true,"type":"string"},{"in":"body","name":"body","required":true,"schema":{"$ref":"#/definitions/AlgorithmBody"}}],"responses":{"200":{"description":"OK"},"400":{"description":"Malformed data","schema":{"$ref":"#/definitions/Error"}},"401":{"description":"No authentication. Need to login."},"403":{"description":"Not authorized to replace algorithms at all or not an owner of a given algorithm"},"404":{"description":"algorithmID not found"}}},"delete":{"tags":["Algorithms","Supplier API"],"summary":"Delete an algorithm","description":"Delete an algorithm","operationId":"deleteAlgorithm","consumes":[],"produces":[],"security":[{"GoogleIdToken":[]}],"parameters":[{"name":"algorithmID","in":"path","description":"ID of an algorithm","required":true,"type":"string"}],"responses":{"200":{"description":"OK"},"401":{"description":"No authentication. Need to login."},"403":{"description":"Not an owner of the algorithm"},"404":{"description":"algorithmID not found"}}}},"/algorithms/{algorithmID}/{resultsetID}":{"get":{"tags":["Algorithms","Consumer API"],"summary":"The Result Set endpoint returns result set data for a given algorithm and ID.","description":"The Result Set endpoint returns result set data for a given algorithm and ID.","operationId":"getAlgorithmsAlgorithmResultsetID","consumes":[],"produces":["application/json"],"security":[{"GoogleIdToken":[]}],"parameters":[{"name":"algorithmID","in":"path","description":"ID of an algorithm","required":true,"type":"string"},{"name":"resultsetID","in":"path","description":"ID of the result-set","required":true,"type":"string"}],"responses":{"102":{"description":"The job is in progress"},"200":{"description":"A resulting set of data.","schema":{"$ref":"#/definitions/ResultSet"}},"401":{"description":"Not authenticated. Need to login."},"403":{"description":"Not the proper owner of that result-set"},"404":{"description":"Wrong resultsetID or algorithmID","schema":{"$ref":"#/definitions/Error"}}}},"delete":{"tags":["Algorithms","Consumer API"],"summary":"Confirm Result-Set receive and request deletion.","description":"Confirm Result-Set receive and request deletion.","operationId":"deleteResultSet","consumes":[],"produces":[],"security":[{"GoogleIdToken":[]}],"parameters":[{"name":"algorithmID","in":"path","description":"ID of an algorithm","required":true,"type":"string"},{"name":"resultsetID","in":"path","description":"ID of the result-set","required":true,"type":"string"}],"responses":{"200":{"description":"OK"},"401":{"description":"Not authenticated. Need to login."},"403":{"description":"Not the proper owner of that result-set"},"404":{"description":"Wrong resultsetID or algorithmID","schema":{"$ref":"#/definitions/Error"}}}}}},"definitions":{"AlgorithmBody":{"type":"object","required":["algorithmBLOB"],"properties":{"algorithmBLOB":{"type":"string","description":"The main algorithm program, definitions, data etc."},"algorithmDescription":{"type":"string","description":"detailed description of the algorithm."},"algorithmId":{"type":"string","description":"Unique identifier representing a specific algorithm."},"algorithmSummary":{"type":"string","description":"Brief summary of the algorithm."},"datasetDescription":{"type":"string","description":"detailed description of that algorithm data set."},"displayName":{"type":"string","description":"Display name of the algorithm."},"linkURL":{"type":"string","description":"detailed url of the algorithm."}},"description":"All the data to needed to store an algorithm"},"AlgorithmDetails":{"type":"object","properties":{"algorithmDescription":{"type":"string","description":"detailed description of the algorithm."},"algorithmId":{"type":"string","description":"Unique identifier representing a specific algorithm."},"algorithmSummary":{"type":"string","description":"Brief summary of the algorithm."},"datasetDescription":{"type":"string","description":"detailed description of that algorithm data set."},"displayName":{"type":"string","description":"Display name of the algorithm."},"linkURL":{"type":"string","description":"detailed url of the algorithm."}}},"Algorithms":{"type":"object","properties":{"algorithmId":{"type":"string","description":"Unique identifier representing a specific algorithm."},"algorithmSummary":{"type":"string","description":"Brief summary of the algorithm."},"displayName":{"type":"string","description":"Display name of the algorithm."},"linkURL":{"type":"string","description":"detailed url of the algorithm."}}},"Datasets":{"type":"object","properties":{"datasetId":{"type":"string","description":"Unique identifier representing a specific dataset."},"datasetDescription":{"type":"string","description":"users description of a dataset"},"datasetSize":{"type":"integer","description":"size in kB"},"linkURL":{"type":"string","description":"detailed url of the dataset."}}},"DatasetDetails":{"type":"object","properties":{"datasetDescription":{"type":"string","description":"users description of a dataset"}}},"Error":{"type":"object","properties":{"code":{"type":"integer","format":"int32"},"fields":{"type":"string"},"message":{"type":"string"}}},"ResultSet":{"type":"object","properties":{"resultSet":{"type":"string","description":"Resultant set of data."}}},"Dataset":{"type":"object","properties":{"dataset":{"type":"string","description":"Curent set of data in dataset."}}},"DatasetID":{"type":"object","properties":{"datasetID":{"type":"string","description":"Curent set of data in dataset."}}},"ResultSetID":{"type":"object","properties":{"resultsetID":{"type":"string","description":"Curent set of data in dataset."}}},"User":{"type":"object","properties":{"userID":{"type":"integer","format":"int64"},"firstName":{"type":"string"},"lastName":{"type":"string"},"email":{"type":"string"},"phone":{"type":"string"},"userStatus":{"type":"integer","format":"int32","description":"User Status"}}}}}
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "This API is a set of functions that provides consumer and supplier with all ecosystem services",
+    "version": "1.0.2",
+    "title": "Internet of Things Analytical Ecosystem API",
+    "contact": {}
+  },
+  "host": "localhost:5000",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "Algorithms",
+      "description": "Everything about Algorithms",
+      "externalDocs": {
+        "description": "Find out more",
+        "url": "http://tobeaddedinthefuture"
+      }
+    },
+    {
+      "name": "Dataset",
+      "description": "Access to data"
+    },
+    {
+      "name": "Admin",
+      "description": "Administration API"
+    },
+    {
+      "name": "User",
+      "description": "User manipulation",
+      "externalDocs": {
+        "description": "Find out more about user access",
+        "url": "http://tobeaddedinthefuture"
+      }
+    },
+    {
+      "name": "Supplier API",
+      "description": "Supplier functions"
+    },
+    {
+      "name": "Consumer API",
+      "description": "Consumer functions"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "securityDefinitions": {
+    "GoogleIdToken": {
+      "description": "[Google Identity Platform](https://developers.google.com/identity/) authentication with id_token as authentication key. The security definision in OpenAPI 2.0 lacks the 'Bearer ' string before <id_token> as described in [RFC 6750 section 2.1](https://tools.ietf.org/html/rfc6750#section-2.1) Please insert 'Bearer ' manualy. Remember to insert required header in your application requests 'Authentication &#58; Bearer <id_token>'",
+      "type": "apiKey",
+      "in": "header",
+      "name": "Authorization"
+    }
+  },
+  "paths": {
+    "/user": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Create a new user by self sign-on.",
+        "description": "This can only be done by a user authenticated in Google Identity Platform. User data is decoded form id_token. Additional information supposed to be added through '/user/{userID} PUT'",
+        "operationId": "selfSignOn",
+        "produces": [
+          "application/json"
+        ],
+        "security": [
+          {
+            "GoogleIdToken": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/user/{userID}": {
+      "post": {
+        "tags": [
+          "User",
+          "Admin"
+        ],
+        "summary": "Create a new user",
+        "description": "This can only be done by admin.",
+        "operationId": "createUser",
+        "produces": [
+          "application/json"
+        ],
+        "security": [
+          {
+            "GoogleIdToken": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "User object to be created",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Get user by user ID",
+        "description": "Get user info - requres authorization",
+        "operationId": "getUserByID",
+        "produces": [
+          "application/json"
+        ],
+        "security": [
+          {
+            "GoogleIdToken": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "userID",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "400": {
+            "description": "Invalid username"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Update user",
+        "description": "This can only be done by the authorized user.",
+        "operationId": "updateUser",
+        "produces": [
+          "application/json"
+        ],
+        "security": [
+          {
+            "GoogleIdToken": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "userID",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Updated user object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid user supplied"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Delete user",
+        "description": "This can only be done by the logged in user.",
+        "operationId": "deleteUser",
+        "produces": [
+          "application/json"
+        ],
+        "security": [
+          {
+            "GoogleIdToken": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "userID",
+            "in": "path",
+            "description": "The name that needs to be deleted",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid username supplied"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
+    "/datasets": {
+      "get": {
+        "tags": [
+          "Consumer API",
+          "Dataset"
+        ],
+        "summary": "Returns information about the stored Datasets",
+        "description": "The Datasets endpoint returns information about the stored Datasets. The response includes the display name and other details about each dataset. It also allows full-text search of tags.",
+        "operationId": "getDatasets",
+        "consumes": [],
+        "produces": [
+          "application/json"
+        ],
+        "security": [
+          {
+            "GoogleIdToken": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "tags",
+            "in": "query",
+            "description": "Comma separated Tags for search query.",
+            "required": false,
+            "type": "string",
+            "x-example": "sum two items, sum multiple items"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of datasets",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Datasets"
+              }
+            }
+          },
+          "401": {
+            "description": "No authentication. Need to login."
+          },
+          "403": {
+            "description": "Not authorized to post new datasets"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Dataset",
+          "Consumer API"
+        ],
+        "summary": "Add an empty Dataset",
+        "description": "Add an empty Dataset",
+        "operationId": "postDataset",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "security": [
+          {
+            "GoogleIdToken": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DatasetDetails"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK - returns datasetID",
+            "schema": {
+              "$ref": "#/definitions/Datasets"
+            }
+          },
+          "401": {
+            "description": "No authentication. Need to login."
+          },
+          "403": {
+            "description": "Not authorized to post new datasets"
+          }
+        }
+      }
+    },
+    "/datasets/{datasetID}": {
+      "get": {
+        "tags": [
+          "Dataset",
+          "Consumer API"
+        ],
+        "summary": "Returns a given dataset",
+        "description": "Returns a given dataset",
+        "operationId": "getDatasetsDataset",
+        "consumes": [],
+        "produces": [
+          "application/json"
+        ],
+        "security": [
+          {
+            "GoogleIdToken": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "datasetID",
+            "in": "path",
+            "description": "ID of a dattaset",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Data of the dataset",
+            "schema": {
+              "$ref": "#/definitions/Dataset"
+            }
+          },
+          "401": {
+            "description": "No authentication. Need to login."
+          },
+          "403": {
+            "description": "Not authorized to read that datasets"
+          },
+          "404": {
+            "description": "The given datasetID was not found in collection"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Dataset",
+          "Consumer API"
+        ],
+        "summary": "Add etities to dataset",
+        "description": "Add etities to dataset",
+        "operationId": "addDatasetsData",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [],
+        "security": [
+          {
+            "GoogleIdToken": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "datasetID",
+            "in": "path",
+            "description": "ID of a dataset",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Dataset"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Malformed data",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "401": {
+            "description": "No authentication. Need to login."
+          },
+          "403": {
+            "description": "Not authorized to post data at all or not an owner of a given dataset"
+          },
+          "404": {
+            "description": "algorithmID not found"
+          }
+        }
+      }
+    },
+    "/algorithms/": {
+      "get": {
+        "tags": [
+          "Consumer API",
+          "Algorithms"
+        ],
+        "summary": "All available Algorithms descriptions.",
+        "description": "The Algorithms endpoint returns information about the available algorithms. The response includes the display name and other details about each algorithm. It also allows full-text search of tags.",
+        "operationId": "getAlgorithms",
+        "consumes": [],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "tags",
+            "in": "query",
+            "description": "Comma separated Tags for search query.",
+            "required": false,
+            "type": "string",
+            "x-example": "sum two items, sum multiple items"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of algorithms",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Algorithms"
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Algorithms",
+          "Supplier API"
+        ],
+        "summary": "Add a new Algorithm",
+        "description": "Add a new Algorithm",
+        "operationId": "postAlgorithms",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [],
+        "security": [
+          {
+            "GoogleIdToken": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/AlgorithmBody"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Malformed data",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "401": {
+            "description": "No authentication. Need to login."
+          },
+          "403": {
+            "description": "Not authorized to post new algorithms"
+          },
+          "409": {
+            "description": "AlgorithmID already exists.",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/algorithms/{algorithmID}": {
+      "get": {
+        "tags": [
+          "Algorithms",
+          "Consumer API"
+        ],
+        "summary": "Detailed description of an Algorithm.",
+        "description": "The Algorithm Details endpoint returns detailed description of a given algorithm.",
+        "operationId": "getAlgorithmsAlgorithm",
+        "consumes": [],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "algorithmID",
+            "in": "path",
+            "description": "ID of an algorithm",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Details of the algorithm",
+            "schema": {
+              "$ref": "#/definitions/AlgorithmDetails"
+            }
+          },
+          "404": {
+            "description": "The given algorithmID was not found in collection"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Algorithms",
+          "Dataset",
+          "Consumer API"
+        ],
+        "summary": "Run an algorithm with a Data Set",
+        "description": "Run an algorithm with a Data Set",
+        "operationId": "executeAlgorithm",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "security": [
+          {
+            "GoogleIdToken": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "algorithmID",
+            "in": "path",
+            "description": "ID of an algorithm",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "ID of a dataset",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DatasetID"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ResultSetID"
+            }
+          },
+          "400": {
+            "description": "Malformed data",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "401": {
+            "description": "No authentication. Need to login."
+          },
+          "403": {
+            "description": "Not authorized to run algorithms"
+          },
+          "404": {
+            "description": "The given algorithmID was not found in collection"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Algorithms",
+          "Supplier API"
+        ],
+        "summary": "Update existing Algorithm",
+        "description": "Replace existing Algorithm",
+        "operationId": "updateAlgorithm",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [],
+        "security": [
+          {
+            "GoogleIdToken": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "algorithmID",
+            "in": "path",
+            "description": "ID of an algorithm",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AlgorithmBody"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Malformed data",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "401": {
+            "description": "No authentication. Need to login."
+          },
+          "403": {
+            "description": "Not authorized to replace algorithms at all or not an owner of a given algorithm"
+          },
+          "404": {
+            "description": "algorithmID not found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Algorithms",
+          "Supplier API"
+        ],
+        "summary": "Delete an algorithm",
+        "description": "Delete an algorithm",
+        "operationId": "deleteAlgorithm",
+        "consumes": [],
+        "produces": [],
+        "security": [
+          {
+            "GoogleIdToken": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "algorithmID",
+            "in": "path",
+            "description": "ID of an algorithm",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "No authentication. Need to login."
+          },
+          "403": {
+            "description": "Not an owner of the algorithm"
+          },
+          "404": {
+            "description": "algorithmID not found"
+          }
+        }
+      }
+    },
+    "/algorithms/{algorithmID}/{resultsetID}": {
+      "get": {
+        "tags": [
+          "Algorithms",
+          "Consumer API"
+        ],
+        "summary": "The Result Set endpoint returns result set data for a given algorithm and ID.",
+        "description": "The Result Set endpoint returns result set data for a given algorithm and ID.",
+        "operationId": "getAlgorithmsAlgorithmResultsetID",
+        "consumes": [],
+        "produces": [
+          "application/json"
+        ],
+        "security": [
+          {
+            "GoogleIdToken": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "algorithmID",
+            "in": "path",
+            "description": "ID of an algorithm",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "resultsetID",
+            "in": "path",
+            "description": "ID of the result-set",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "102": {
+            "description": "The job is in progress"
+          },
+          "200": {
+            "description": "A resulting set of data.",
+            "schema": {
+              "$ref": "#/definitions/ResultSet"
+            }
+          },
+          "401": {
+            "description": "Not authenticated. Need to login."
+          },
+          "403": {
+            "description": "Not the proper owner of that result-set"
+          },
+          "404": {
+            "description": "Wrong resultsetID or algorithmID",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Algorithms",
+          "Consumer API"
+        ],
+        "summary": "Confirm Result-Set receive and request deletion.",
+        "description": "Confirm Result-Set receive and request deletion.",
+        "operationId": "deleteResultSet",
+        "consumes": [],
+        "produces": [],
+        "security": [
+          {
+            "GoogleIdToken": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "algorithmID",
+            "in": "path",
+            "description": "ID of an algorithm",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "resultsetID",
+            "in": "path",
+            "description": "ID of the result-set",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Not authenticated. Need to login."
+          },
+          "403": {
+            "description": "Not the proper owner of that result-set"
+          },
+          "404": {
+            "description": "Wrong resultsetID or algorithmID",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "AlgorithmBody": {
+      "type": "object",
+      "required": [
+        "algorithmBLOB"
+      ],
+      "properties": {
+        "algorithmBLOB": {
+          "type": "string",
+          "description": "The main algorithm program, definitions, data etc."
+        },
+        "algorithmDescription": {
+          "type": "string",
+          "description": "detailed description of the algorithm."
+        },
+        "algorithmId": {
+          "type": "string",
+          "description": "Unique identifier representing a specific algorithm."
+        },
+        "algorithmSummary": {
+          "type": "string",
+          "description": "Brief summary of the algorithm."
+        },
+        "datasetDescription": {
+          "type": "string",
+          "description": "detailed description of that algorithm data set."
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Display name of the algorithm."
+        },
+        "linkURL": {
+          "type": "string",
+          "description": "detailed url of the algorithm."
+        }
+      },
+      "description": "All the data to needed to store an algorithm"
+    },
+    "AlgorithmDetails": {
+      "type": "object",
+      "properties": {
+        "algorithmDescription": {
+          "type": "string",
+          "description": "detailed description of the algorithm."
+        },
+        "algorithmId": {
+          "type": "string",
+          "description": "Unique identifier representing a specific algorithm."
+        },
+        "algorithmSummary": {
+          "type": "string",
+          "description": "Brief summary of the algorithm."
+        },
+        "datasetDescription": {
+          "type": "string",
+          "description": "detailed description of that algorithm data set."
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Display name of the algorithm."
+        },
+        "linkURL": {
+          "type": "string",
+          "description": "detailed url of the algorithm."
+        }
+      }
+    },
+    "Algorithms": {
+      "type": "object",
+      "properties": {
+        "algorithmId": {
+          "type": "string",
+          "description": "Unique identifier representing a specific algorithm."
+        },
+        "algorithmSummary": {
+          "type": "string",
+          "description": "Brief summary of the algorithm."
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Display name of the algorithm."
+        },
+        "linkURL": {
+          "type": "string",
+          "description": "detailed url of the algorithm."
+        }
+      }
+    },
+    "Datasets": {
+      "type": "object",
+      "properties": {
+        "datasetId": {
+          "type": "string",
+          "description": "Unique identifier representing a specific dataset."
+        },
+        "datasetDescription": {
+          "type": "string",
+          "description": "users description of a dataset"
+        },
+        "datasetSize": {
+          "type": "integer",
+          "description": "size in kB"
+        },
+        "linkURL": {
+          "type": "string",
+          "description": "detailed url of the dataset."
+        }
+      }
+    },
+    "DatasetDetails": {
+      "type": "object",
+      "properties": {
+        "datasetDescription": {
+          "type": "string",
+          "description": "users description of a dataset"
+        }
+      }
+    },
+    "Error": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "fields": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    },
+    "ResultSet": {
+      "type": "object",
+      "properties": {
+        "resultSet": {
+          "type": "string",
+          "description": "Resultant set of data."
+        }
+      }
+    },
+    "Dataset": {
+      "type": "object",
+      "properties": {
+        "dataset": {
+          "type": "string",
+          "description": "Curent set of data in dataset."
+        }
+      }
+    },
+    "DatasetID": {
+      "type": "object",
+      "properties": {
+        "datasetID": {
+          "type": "string",
+          "description": "Curent set of data in dataset."
+        }
+      }
+    },
+    "ResultSetID": {
+      "type": "object",
+      "properties": {
+        "resultsetID": {
+          "type": "string",
+          "description": "Curent set of data in dataset."
+        }
+      }
+    },
+    "User": {
+      "type": "object",
+      "properties": {
+        "userID": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "userStatus": {
+          "type": "integer",
+          "format": "int32",
+          "description": "User Status"
+        }
+      }
+    }
+  }
+}

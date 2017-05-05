@@ -155,8 +155,42 @@ def create_user(user_id=None):
         dict_data.update(dict_data1)
         user = User(dict_data)
     else:
-        user = get_user_from_id_token(request.headers['Authorization'].split(" ")[1])
+        data = {
+            "code": 400,
+            "fields": "string",
+            "message": "Malformed Data"
+        }
+        js = json.dumps(data)
+        resp = Response(js, status=400, mimetype='application/json')
+        return resp
+    returned_code = UserDAO.set(user)
+    if returned_code == 0:
+        data = {
+            "code": 200,
+            "fields": "",
+            "message": "OK"
+        }
+        js = json.dumps(data)
+        resp = Response(js, status=200, mimetype='application/json')
+    else:
+        data = {
+            "code": 400,
+            "fields": "string",
+            "message": "Malformed Data"
+        }
+        js = json.dumps(data)
+        resp = Response(js, status=400, mimetype='application/json')
+    return resp
 
+
+@app.route('/user/signon/', methods=['POST'])
+@authenticated
+def selfsignon(user_id = None):
+    """
+    :param user_id: from Google id_token supplied in header Authenticate: Bearer <id_token>  
+    :return: OK
+    """
+    user = get_user_from_id_token(request.headers['Authorization'].split(" ")[1])
     returned_code = UserDAO.set(user)
     if returned_code == 0:
         data = {
