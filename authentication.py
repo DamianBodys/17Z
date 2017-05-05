@@ -6,6 +6,8 @@ from dao import User
 
 def get_user_from_id_token(id_token):
     """
+    Extracts user data from Google Identity Platform id_token.
+    There is no phone in id_token so it's set to ""
     :param id_token: 
     :return: User object 
     """

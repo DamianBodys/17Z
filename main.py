@@ -147,7 +147,7 @@ def create_user(user_id=None):
     """
     if request.headers['Content-Type'] == 'application/json':
         dict_data = {
-            'userID': user_id,
+            'userID': 0,
             'firstName': "",
             'lastName': "",
             'email': "",
@@ -160,7 +160,7 @@ def create_user(user_id=None):
     else:
         data = {
             "code": 400,
-            "fields": "string",
+            "fields": "Content-Type",
             "message": "Malformed Data"
         }
         js = json.dumps(data)
@@ -178,7 +178,7 @@ def create_user(user_id=None):
     else:
         data = {
             "code": 400,
-            "fields": "string",
+            "fields": "returned_code",
             "message": "Malformed Data"
         }
         js = json.dumps(data)
@@ -190,7 +190,7 @@ def create_user(user_id=None):
 @authenticated
 def self_sign_on(user_id = None):
     """
-    :param user_id: from Google id_token supplied in header Authenticate: Bearer <id_token>  
+    :param user_id: 'sub' field from Google id_token supplied in header Authenticate: Bearer <id_token>  
     :return: OK
     """
     user = get_user_from_id_token(request.headers['Authorization'].split(" ")[1])

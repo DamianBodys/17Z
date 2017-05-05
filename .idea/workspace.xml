@@ -3,7 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="1fec255a-c391-4bdb-adad-36db39ffe5a1" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/authentication.py" afterPath="$PROJECT_DIR$/authentication.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main.py" afterPath="$PROJECT_DIR$/main.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/authentication.html" afterPath="$PROJECT_DIR$/templates/authentication.html" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -18,8 +20,8 @@
       <file leaf-file-name="main.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-60">
-              <caret line="190" column="14" lean-forward="false" selection-start-line="190" selection-start-column="14" selection-end-line="190" selection-end-column="14" />
+            <state relative-caret-position="-27">
+              <caret line="169" column="0" lean-forward="false" selection-start-line="169" selection-start-column="0" selection-end-line="169" selection-end-column="0" />
               <folding>
                 <element signature="e#14#28#0" expanded="true" />
               </folding>
@@ -27,13 +29,14 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="dao.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="dao.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/dao.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2240">
-              <caret line="119" column="25" lean-forward="false" selection-start-line="119" selection-start-column="25" selection-end-line="119" selection-end-column="25" />
+            <state relative-caret-position="212">
+              <caret line="115" column="0" lean-forward="false" selection-start-line="115" selection-start-column="0" selection-end-line="115" selection-end-column="0" />
               <folding>
                 <element signature="e#19#34#0" expanded="true" />
+                <element signature="e#375#2145#0" expanded="false" />
                 <element signature="e#3314#5603#0" expanded="false" />
               </folding>
             </state>
@@ -50,14 +53,14 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="authentication.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="authentication.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/authentication.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1500">
-              <caret line="89" column="0" lean-forward="false" selection-start-line="89" selection-start-column="0" selection-end-line="89" selection-end-column="0" />
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding>
                 <element signature="e#0#27#0" expanded="true" />
-                <element signature="e#1526#1846#1" expanded="false" />
+                <element signature="e#1641#1961#1" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -97,9 +100,9 @@
       <list>
         <option value="$PROJECT_DIR$/templates/index.html" />
         <option value="$PROJECT_DIR$/templates/authentication.html" />
-        <option value="$PROJECT_DIR$/authentication.py" />
         <option value="$PROJECT_DIR$/dao.py" />
         <option value="$PROJECT_DIR$/static/swagger.yaml" />
+        <option value="$PROJECT_DIR$/authentication.py" />
         <option value="$PROJECT_DIR$/main.py" />
       </list>
     </option>
@@ -364,7 +367,14 @@
       <option name="project" value="LOCAL" />
       <updated>1493997712025</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="user can be added by sign-on or by admin">
+      <created>1494016083215</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1494016083215</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TodoView">
@@ -385,7 +395,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32838285" sideWeight="0.50303954" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32698962" sideWeight="0.4969605" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32698962" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3252595" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3252595" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3252595" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39965397" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -418,31 +428,40 @@
     <MESSAGE value="get_user_by_id is not working" />
     <MESSAGE value="get_user_by_id is OK" />
     <MESSAGE value="changes in adding user" />
-    <option name="LAST_COMMIT_MESSAGE" value="changes in adding user" />
+    <MESSAGE value="user can be added by sign-on or by admin" />
+    <option name="LAST_COMMIT_MESSAGE" value="user can be added by sign-on or by admin" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="8" />
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/main.py</url>
+          <line>169</line>
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/dao.py</url>
+          <line>91</line>
+          <option name="timeStamp" value="9" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/dao.py</url>
+          <line>113</line>
+          <option name="timeStamp" value="11" />
+        </line-breakpoint>
+      </breakpoints>
+      <option name="time" value="12" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1680">
-          <caret line="89" column="0" lean-forward="true" selection-start-line="89" selection-start-column="0" selection-end-line="89" selection-end-column="0" />
-          <folding>
-            <element signature="e#14#28#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/dao.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
           <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="34" />
           <folding>
             <element signature="e#19#34#0" expanded="true" />
+            <element signature="e#375#2145#0" expanded="false" />
             <element signature="e#3314#5603#0" expanded="false" />
           </folding>
         </state>
@@ -468,7 +487,7 @@
           <caret line="47" column="33" lean-forward="true" selection-start-line="47" selection-start-column="33" selection-end-line="47" selection-end-column="33" />
           <folding>
             <element signature="e#0#27#0" expanded="true" />
-            <element signature="e#1526#1846#1" expanded="false" />
+            <element signature="e#1641#1961#1" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -489,6 +508,7 @@
           <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="34" />
           <folding>
             <element signature="e#19#34#0" expanded="true" />
+            <element signature="e#375#2145#0" expanded="false" />
             <element signature="e#3314#5603#0" expanded="false" />
           </folding>
         </state>
@@ -514,7 +534,7 @@
           <caret line="56" column="65" lean-forward="false" selection-start-line="56" selection-start-column="65" selection-end-line="56" selection-end-column="65" />
           <folding>
             <element signature="e#0#27#0" expanded="true" />
-            <element signature="e#1526#1846#1" expanded="false" />
+            <element signature="e#1641#1961#1" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -535,6 +555,7 @@
           <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="34" />
           <folding>
             <element signature="e#19#34#0" expanded="true" />
+            <element signature="e#375#2145#0" expanded="false" />
             <element signature="e#3314#5603#0" expanded="false" />
           </folding>
         </state>
@@ -553,7 +574,7 @@
           <caret line="62" column="0" lean-forward="true" selection-start-line="62" selection-start-column="0" selection-end-line="62" selection-end-column="0" />
           <folding>
             <element signature="e#0#27#0" expanded="true" />
-            <element signature="e#1526#1846#1" expanded="false" />
+            <element signature="e#1641#1961#1" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -581,6 +602,7 @@
           <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="34" />
           <folding>
             <element signature="e#19#34#0" expanded="true" />
+            <element signature="e#375#2145#0" expanded="false" />
             <element signature="e#3314#5603#0" expanded="false" />
           </folding>
         </state>
@@ -606,7 +628,7 @@
           <caret line="11" column="31" lean-forward="false" selection-start-line="11" selection-start-column="31" selection-end-line="11" selection-end-column="31" />
           <folding>
             <element signature="e#0#27#0" expanded="true" />
-            <element signature="e#1526#1846#1" expanded="false" />
+            <element signature="e#1641#1961#1" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -627,6 +649,7 @@
           <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="34" />
           <folding>
             <element signature="e#19#34#0" expanded="true" />
+            <element signature="e#375#2145#0" expanded="false" />
             <element signature="e#3314#5603#0" expanded="false" />
           </folding>
         </state>
@@ -662,6 +685,7 @@
           <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="34" />
           <folding>
             <element signature="e#19#34#0" expanded="true" />
+            <element signature="e#375#2145#0" expanded="false" />
             <element signature="e#3314#5603#0" expanded="false" />
           </folding>
         </state>
@@ -697,6 +721,7 @@
           <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="34" />
           <folding>
             <element signature="e#19#34#0" expanded="true" />
+            <element signature="e#375#2145#0" expanded="false" />
             <element signature="e#3314#5603#0" expanded="false" />
           </folding>
         </state>
@@ -718,6 +743,7 @@
           <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="34" />
           <folding>
             <element signature="e#19#34#0" expanded="true" />
+            <element signature="e#375#2145#0" expanded="false" />
             <element signature="e#3314#5603#0" expanded="false" />
           </folding>
         </state>
@@ -739,6 +765,7 @@
           <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="34" />
           <folding>
             <element signature="e#19#34#0" expanded="true" />
+            <element signature="e#375#2145#0" expanded="false" />
             <element signature="e#3314#5603#0" expanded="false" />
           </folding>
         </state>
@@ -760,6 +787,7 @@
           <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="34" />
           <folding>
             <element signature="e#19#34#0" expanded="true" />
+            <element signature="e#375#2145#0" expanded="false" />
             <element signature="e#3314#5603#0" expanded="false" />
           </folding>
         </state>
@@ -781,6 +809,7 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#19#34#0" expanded="true" />
+            <element signature="e#375#2145#0" expanded="false" />
             <element signature="e#3314#5603#0" expanded="false" />
           </folding>
         </state>
@@ -872,10 +901,29 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/authentication.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#27#0" expanded="true" />
+            <element signature="e#1641#1961#1" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/envpyt35/lib/python3.5/site-packages/werkzeug/serving.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="106">
+          <caret line="716" column="0" lean-forward="false" selection-start-line="716" selection-start-column="0" selection-end-line="716" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-60">
-          <caret line="190" column="14" lean-forward="false" selection-start-line="190" selection-start-column="14" selection-end-line="190" selection-end-column="14" />
+        <state relative-caret-position="-27">
+          <caret line="169" column="0" lean-forward="false" selection-start-line="169" selection-start-column="0" selection-end-line="169" selection-end-column="0" />
           <folding>
             <element signature="e#14#28#0" expanded="true" />
           </folding>
@@ -884,22 +932,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/dao.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2240">
-          <caret line="119" column="25" lean-forward="false" selection-start-line="119" selection-start-column="25" selection-end-line="119" selection-end-column="25" />
+        <state relative-caret-position="212">
+          <caret line="115" column="0" lean-forward="false" selection-start-line="115" selection-start-column="0" selection-end-line="115" selection-end-column="0" />
           <folding>
             <element signature="e#19#34#0" expanded="true" />
+            <element signature="e#375#2145#0" expanded="false" />
             <element signature="e#3314#5603#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/authentication.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1500">
-          <caret line="89" column="0" lean-forward="false" selection-start-line="89" selection-start-column="0" selection-end-line="89" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#27#0" expanded="true" />
-            <element signature="e#1526#1846#1" expanded="false" />
           </folding>
         </state>
       </provider>
