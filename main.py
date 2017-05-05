@@ -140,8 +140,11 @@ def api_algorithm_get(algorithm_id):
 @app.route('/user/', methods=['POST'])
 @authenticated
 def create_user(user_id=None):
-    """Add a new User"""
-    # TODO modify swagger to enable 2 methods of creating users
+    """
+    Create new user from json object
+    :param user_id: 
+    :return: 
+    """
     if request.headers['Content-Type'] == 'application/json':
         dict_data = {
             'userID': user_id,
@@ -185,7 +188,7 @@ def create_user(user_id=None):
 
 @app.route('/user/signon/', methods=['POST'])
 @authenticated
-def selfsignon(user_id = None):
+def self_sign_on(user_id = None):
     """
     :param user_id: from Google id_token supplied in header Authenticate: Bearer <id_token>  
     :return: OK
