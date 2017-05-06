@@ -50,7 +50,7 @@ paths:
         - Admin
       summary: Create a new user
       description: This can only be done by admin.
-      operationId: createUser
+      operationId: create_user
       produces:
         - application/json
       security:
@@ -65,16 +65,16 @@ paths:
       responses:
         '200':
           description: OK
-  '/user/signon':
+  /user/signup:
     post:
       tags:
         - User
-      summary: Create a new user by self sign-on.
+      summary: Create a new user by self sign-up.
       description: >-
         This can only be done by a user authenticated in Google Identity
         Platform. User data is decoded form id_token. Additional information
         supposed to be added through '/user/{userID} PUT'
-      operationId: selfSignOn
+      operationId: self_sign_up
       produces:
         - application/json
       security:
@@ -88,7 +88,7 @@ paths:
         - User
       summary: Get user by user ID
       description: Get user info - requres authorization
-      operationId: getUserByID
+      operationId: get_user_by_id
       produces:
         - application/json
       security:
@@ -112,7 +112,7 @@ paths:
         - User
       summary: Update user
       description: This can only be done by the authorized user.
-      operationId: updateUser
+      operationId: update_user
       produces:
         - application/json
       security:
@@ -675,8 +675,7 @@ definitions:
     type: object
     properties:
       userID:
-        type: integer
-        format: int64
+        type: string
       firstName:
         type: string
       lastName:
