@@ -23,6 +23,12 @@ class User:
     }
 
     def setuser_id(self, user_id):
+        """
+        We have to make sure that every user_id is treated as string
+        regardless of user input.
+        :param user_id: 
+        :return: writes user_id to self._dict private property 
+        """
         if type(user_id) is str:
             self._data['userID'] = user_id
         else:
