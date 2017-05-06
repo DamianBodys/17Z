@@ -186,9 +186,9 @@ def create_user(user_id=None):
     return resp
 
 
-@app.route('/user/signon/', methods=['POST'])
+@app.route('/user/signup/', methods=['POST'])
 @authenticated
-def self_sign_on(user_id = None):
+def self_sign_up(user_id = None):
     """
     :param user_id: 'sub' field from Google id_token supplied in header Authenticate: Bearer <id_token>  
     :return: OK
