@@ -3,7 +3,7 @@ info:
   description: >-
     This API is a set of functions that provides consumer and supplier with all
     ecosystem services
-  version: 1.0.2
+  version: 1.0.3
   title: Internet of Things Analytical Ecosystem API
   contact: {}
 host: 'localhost:5000'
@@ -11,18 +11,14 @@ basePath: /
 tags:
   - name: Algorithms
     description: Everything about Algorithms
-    externalDocs:
-      description: Find out more
-      url: 'http://tobeaddedinthefuture'
+  - name: Billing
+    description: Billing and settlements
   - name: Dataset
     description: Access to data
   - name: Admin
     description: Administration API
   - name: User
     description: User manipulation
-    externalDocs:
-      description: Find out more about user access
-      url: 'http://tobeaddedinthefuture'
   - name: Supplier API
     description: Supplier functions
   - name: Consumer API
@@ -43,7 +39,30 @@ securityDefinitions:
     in: header
     name: Authorization
 paths:
-  /user:
+  '/bill/':
+    post:
+      tags:
+      - Billing
+      - Consumer API
+      - Supplier API
+      summary: Request a billing report
+      description: Request a billing report for a given period of time
+      operationId: bill_rqst
+      produces:
+        - application/json
+      security:
+        - GoogleIdToken: []
+      parameters:
+        - in: body
+          name: body
+          description: Billing period
+          required: true
+          schema:
+            $ref: #/definitions/Period'
+      responses:
+        '200':
+          description: OK
+  '/user/':
     post:
       tags:
         - User
@@ -65,7 +84,7 @@ paths:
       responses:
         '200':
           description: OK
-  /user/signup:
+  '/user/signup':
     post:
       tags:
         - User
@@ -154,7 +173,7 @@ paths:
           description: Invalid username supplied
         '404':
           description: User not found
-  /datasets:
+  '/datasets':
     get:
       tags:
         - Consumer API
@@ -284,7 +303,7 @@ paths:
             dataset
         '404':
           description: algorithmID not found
-  /algorithms/:
+  '/algorithms/':
     get:
       tags:
         - Consumer API
@@ -688,3 +707,11 @@ definitions:
         type: integer
         format: int32
         description: User Status
+  Period:
+    type: object
+    properties:
+      begin:
+        type: integer
+      end:
+        type: integer
+
