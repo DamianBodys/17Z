@@ -84,6 +84,38 @@
             "description": "OK"
           }
         }
+      },
+      "get": {
+        "tags": [
+          "Billing",
+          "Consumer API",
+          "Supplier API"
+        ],
+        "summary": "Receive a billing report",
+        "description": "Receive requested billing report",
+        "operationId": "bill_rcv",
+        "produces": [
+          "application/json"
+        ],
+        "security": [
+          {
+            "GoogleIdToken": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Billing Report",
+            "schema": {
+              "$ref": "#/definitions/BillingReport"
+            }
+          },
+          "400": {
+            "description": "Report wasn't requested. Post request first."
+          },
+          "404": {
+            "description": "Report is not ready yet."
+          }
+        }
       }
     },
     "/user/": {
@@ -1044,6 +1076,16 @@
           "type": "integer",
           "format": "int64",
           "description": "Date of the end of a report period"
+        }
+      }
+    },
+    "BillingReport": {
+      "type": "object",
+      "description": "Report containng billing information",
+      "properties": {
+        "reportData": {
+          "type": "string",
+          "description": "Complete data of the billing report"
         }
       }
     }
