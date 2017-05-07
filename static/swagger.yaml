@@ -39,12 +39,12 @@ securityDefinitions:
     in: header
     name: Authorization
 paths:
-  '/bill/':
+  /bill/:
     post:
       tags:
-      - Billing
-      - Consumer API
-      - Supplier API
+        - Billing
+        - Consumer API
+        - Supplier API
       summary: Request a billing report
       description: Request a billing report for a given period of time
       operationId: bill_rqst
@@ -58,11 +58,11 @@ paths:
           description: Billing period
           required: true
           schema:
-            $ref: #/definitions/Period'
+            $ref: '#/definitions/Period'
       responses:
         '200':
           description: OK
-  '/user/':
+  /user/:
     post:
       tags:
         - User
@@ -84,7 +84,7 @@ paths:
       responses:
         '200':
           description: OK
-  '/user/signup':
+  /user/signup:
     post:
       tags:
         - User
@@ -173,7 +173,7 @@ paths:
           description: Invalid username supplied
         '404':
           description: User not found
-  '/datasets':
+  /datasets:
     get:
       tags:
         - Consumer API
@@ -303,7 +303,7 @@ paths:
             dataset
         '404':
           description: algorithmID not found
-  '/algorithms/':
+  /algorithms/:
     get:
       tags:
         - Consumer API
@@ -709,9 +709,13 @@ definitions:
         description: User Status
   Period:
     type: object
+    description: Time span of e report
     properties:
       begin:
         type: integer
+        format: int64
+        description: Date of the beginning of a report period
       end:
         type: integer
-
+        format: int64
+        description: Date of the end of a report period

@@ -2,7 +2,7 @@
   "swagger": "2.0",
   "info": {
     "description": "This API is a set of functions that provides consumer and supplier with all ecosystem services",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "title": "Internet of Things Analytical Ecosystem API",
     "contact": {}
   },
@@ -11,11 +11,11 @@
   "tags": [
     {
       "name": "Algorithms",
-      "description": "Everything about Algorithms",
-      "externalDocs": {
-        "description": "Find out more",
-        "url": "http://tobeaddedinthefuture"
-      }
+      "description": "Everything about Algorithms"
+    },
+    {
+      "name": "Billing",
+      "description": "Billing and settlements"
     },
     {
       "name": "Dataset",
@@ -27,11 +27,7 @@
     },
     {
       "name": "User",
-      "description": "User manipulation",
-      "externalDocs": {
-        "description": "Find out more about user access",
-        "url": "http://tobeaddedinthefuture"
-      }
+      "description": "User manipulation"
     },
     {
       "name": "Supplier API",
@@ -54,7 +50,43 @@
     }
   },
   "paths": {
-    "/user": {
+    "/bill/": {
+      "post": {
+        "tags": [
+          "Billing",
+          "Consumer API",
+          "Supplier API"
+        ],
+        "summary": "Request a billing report",
+        "description": "Request a billing report for a given period of time",
+        "operationId": "bill_rqst",
+        "produces": [
+          "application/json"
+        ],
+        "security": [
+          {
+            "GoogleIdToken": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Billing period",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Period"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/user/": {
       "post": {
         "tags": [
           "User",
@@ -996,6 +1028,22 @@
           "type": "integer",
           "format": "int32",
           "description": "User Status"
+        }
+      }
+    },
+    "Period": {
+      "type": "object",
+      "description": "Time span of e report",
+      "properties": {
+        "begin": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Date of the beginning of a report period"
+        },
+        "end": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Date of the end of a report period"
         }
       }
     }
