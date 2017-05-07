@@ -156,7 +156,9 @@
     "/user/signup": {
       "post": {
         "tags": [
-          "User"
+          "User",
+          "Consumer API",
+          "Supplier API"
         ],
         "summary": "Create a new user by self sign-up.",
         "description": "This can only be done by a user authenticated in Google Identity Platform. User data is decoded form id_token. Additional information supposed to be added through '/user/{userID} PUT'",
@@ -179,7 +181,10 @@
     "/user/{userID}": {
       "get": {
         "tags": [
-          "User"
+          "User",
+          "Admin",
+          "Consumer API",
+          "Supplier API"
         ],
         "summary": "Get user by user ID",
         "description": "Get user info - requres authorization",
@@ -217,7 +222,10 @@
       },
       "put": {
         "tags": [
-          "User"
+          "User",
+          "Admin",
+          "Consumer API",
+          "Supplier API"
         ],
         "summary": "Update user",
         "description": "This can only be done by the authorized user.",
@@ -258,10 +266,11 @@
       },
       "delete": {
         "tags": [
-          "User"
+          "User",
+          "Admin"
         ],
         "summary": "Delete user",
-        "description": "This can only be done by the logged in user.",
+        "description": "This can only be done by the Administrator.",
         "operationId": "deleteUser",
         "produces": [
           "application/json"
