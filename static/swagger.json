@@ -1016,7 +1016,7 @@
       "properties": {
         "dataset": {
           "type": "string",
-          "description": "Curent set of data in dataset."
+          "description": "Data entity to be added to dataset."
         }
       }
     },
@@ -1025,7 +1025,7 @@
       "properties": {
         "datasetID": {
           "type": "string",
-          "description": "Curent set of data in dataset."
+          "description": "Unique identifier representing a specific dataset."
         }
       }
     },
@@ -1034,7 +1034,7 @@
       "properties": {
         "resultsetID": {
           "type": "string",
-          "description": "Curent set of data in dataset."
+          "description": "ID of a result dataset to be received from requested algorithm run."
         }
       }
     },
@@ -1042,7 +1042,8 @@
       "type": "object",
       "properties": {
         "userID": {
-          "type": "string"
+          "type": "string",
+          "description": "ID from sub field extracted from id_token as described in [Google Identity Platform](https://developers.google.com/identity/)"
         },
         "firstName": {
           "type": "string"
