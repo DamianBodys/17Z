@@ -14,7 +14,7 @@ _DATASTORE_KIND_USERS = 'users'
 # User class
 class User:
     _data = {
-        #      userID: integer # google id_info['sub']
+        #      userID: string # google id_info['sub']
         #      firstName: string
         #       lastName: string
         #       email: string
@@ -23,7 +23,16 @@ class User:
     }
 
     def setuser_id(self, user_id):
-        self._data['userID'] = user_id
+        """
+        We have to make sure that every user_id is treated as string
+        regardless of user input.
+        :param user_id: 
+        :return: writes user_id to self._dict private property 
+        """
+        if type(user_id) is str:
+            self._data['userID'] = user_id
+        else:
+            self._data['userID'] = str(user_id)
     
     def getuser_id(self):
         return self._data['userID']

@@ -3,7 +3,7 @@ info:
   description: >-
     This API is a set of functions that provides consumer and supplier with all
     ecosystem services
-  version: 1.0.2
+  version: 1.0.3
   title: Internet of Things Analytical Ecosystem API
   contact: {}
 host: 'localhost:5000'
@@ -11,18 +11,14 @@ basePath: /
 tags:
   - name: Algorithms
     description: Everything about Algorithms
-    externalDocs:
-      description: Find out more
-      url: 'http://tobeaddedinthefuture'
+  - name: Billing
+    description: Billing and settlements
   - name: Dataset
     description: Access to data
   - name: Admin
     description: Administration API
   - name: User
     description: User manipulation
-    externalDocs:
-      description: Find out more about user access
-      url: 'http://tobeaddedinthefuture'
   - name: Supplier API
     description: Supplier functions
   - name: Consumer API
@@ -43,14 +39,58 @@ securityDefinitions:
     in: header
     name: Authorization
 paths:
-  /user:
+  /bill/:
+    post:
+      tags:
+        - Billing
+        - Consumer API
+        - Supplier API
+      summary: Request a billing report
+      description: Request a billing report for a given period of time
+      operationId: bill_rqst
+      produces:
+        - application/json
+      security:
+        - GoogleIdToken: []
+      parameters:
+        - in: body
+          name: body
+          description: Billing period
+          required: true
+          schema:
+            $ref: '#/definitions/Period'
+      responses:
+        '200':
+          description: OK
+    get:
+      tags:
+        - Billing
+        - Consumer API
+        - Supplier API
+      summary: Receive a billing report
+      description: Receive requested billing report
+      operationId: bill_rcv
+      produces:
+        - application/json
+      security:
+        - GoogleIdToken: []
+      responses:
+        '200':
+          description: Billing Report
+          schema:
+            $ref: '#/definitions/BillingReport'
+        '400':
+          description: Report wasn't requested. Post request first.
+        '404':
+          description: Report is not ready yet.
+  /user/:
     post:
       tags:
         - User
         - Admin
       summary: Create a new user
       description: This can only be done by admin.
-      operationId: createUser
+      operationId: create_user
       produces:
         - application/json
       security:
@@ -65,16 +105,18 @@ paths:
       responses:
         '200':
           description: OK
-  '/user/signon':
+  /user/signup:
     post:
       tags:
         - User
-      summary: Create a new user by self sign-on.
+        - Consumer API
+        - Supplier API
+      summary: Create a new user by self sign-up.
       description: >-
         This can only be done by a user authenticated in Google Identity
         Platform. User data is decoded form id_token. Additional information
         supposed to be added through '/user/{userID} PUT'
-      operationId: selfSignOn
+      operationId: self_sign_up
       produces:
         - application/json
       security:
@@ -86,9 +128,12 @@ paths:
     get:
       tags:
         - User
+        - Admin
+        - Consumer API
+        - Supplier API
       summary: Get user by user ID
       description: Get user info - requres authorization
-      operationId: getUserByID
+      operationId: get_user_by_id
       produces:
         - application/json
       security:
@@ -110,9 +155,12 @@ paths:
     put:
       tags:
         - User
+        - Admin
+        - Consumer API
+        - Supplier API
       summary: Update user
       description: This can only be done by the authorized user.
-      operationId: updateUser
+      operationId: update_user
       produces:
         - application/json
       security:
@@ -136,8 +184,9 @@ paths:
     delete:
       tags:
         - User
+        - Admin
       summary: Delete user
-      description: This can only be done by the logged in user.
+      description: This can only be done by the Administrator.
       operationId: deleteUser
       produces:
         - application/json
@@ -658,25 +707,27 @@ definitions:
     properties:
       dataset:
         type: string
-        description: Curent set of data in dataset.
+        description: Data entity to be added to dataset.
   DatasetID:
     type: object
     properties:
       datasetID:
         type: string
-        description: Curent set of data in dataset.
+        description: Unique identifier representing a specific dataset.
   ResultSetID:
     type: object
     properties:
       resultsetID:
         type: string
-        description: Curent set of data in dataset.
+        description: ID of a result dataset to be received from requested algorithm run.
   User:
     type: object
     properties:
       userID:
-        type: integer
-        format: int64
+        type: string
+        description: >-
+          ID from sub field extracted from id_token as described in [Google
+          Identity Platform](https://developers.google.com/identity/)
       firstName:
         type: string
       lastName:
@@ -689,3 +740,22 @@ definitions:
         type: integer
         format: int32
         description: User Status
+  Period:
+    type: object
+    description: Time span of e report
+    properties:
+      begin:
+        type: integer
+        format: int64
+        description: Date of the beginning of a report period
+      end:
+        type: integer
+        format: int64
+        description: Date of the end of a report period
+  BillingReport:
+    type: object
+    description: Report containng billing information
+    properties:
+      reportData:
+        type: string
+        description: Complete data of the billing report
