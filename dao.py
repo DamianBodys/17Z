@@ -320,3 +320,15 @@ class AlgorithmDAO:
         idx.update(dat)
         found_algorithm = Algorithm(idx)
         return found_algorithm
+
+
+def del_all():
+    ds = datastore.Client()
+    q = ds.query(kind='__kind__')
+    q.keys_only()
+    kinds = [entity.key.id_or_name for entity in q.fetch()]
+    for k in kinds:
+        qk = ds.query(kind=k)
+        qk.keys_only()
+        kys = [entity.key for entity in qk.fetch()]
+        ds.delete_multi(kys)

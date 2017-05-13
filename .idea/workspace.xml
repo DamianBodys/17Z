@@ -3,8 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="1fec255a-c391-4bdb-adad-36db39ffe5a1" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/swagger.json" afterPath="$PROJECT_DIR$/static/swagger.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/swagger.yaml" afterPath="$PROJECT_DIR$/static/swagger.yaml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dao.py" afterPath="$PROJECT_DIR$/dao.py" />
     </list>
     <ignored path=".idea/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -29,23 +28,25 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="dao.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="dao.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/dao.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="28" column="24" lean-forward="true" selection-start-line="28" selection-start-column="24" selection-end-line="28" selection-end-column="24" />
+            <state relative-caret-position="6">
+              <caret line="322" column="0" lean-forward="true" selection-start-line="322" selection-start-column="0" selection-end-line="322" selection-end-column="0" />
               <folding>
                 <element signature="e#19#34#0" expanded="true" />
+                <element signature="e#375#2459#0" expanded="false" />
+                <element signature="e#2519#3589#0" expanded="false" />
                 <element signature="e#3628#5917#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="swagger.yaml" pinned="false" current-in-tab="true">
+      <file leaf-file-name="swagger.yaml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/static/swagger.yaml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="289">
+            <state relative-caret-position="2760">
               <caret line="138" column="15" lean-forward="false" selection-start-line="138" selection-start-column="15" selection-end-line="138" selection-end-column="15" />
               <folding>
                 <marker date="1494188006518" expanded="true" signature="153:157" ph="1.0.2" />
@@ -141,8 +142,8 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
       <pane id="Scope" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -389,7 +390,14 @@
       <option name="project" value="LOCAL" />
       <updated>1494180806208</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="user API divided between Consumer, Supplier and Admin">
+      <created>1494188300490</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1494188300490</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TodoView">
@@ -403,14 +411,13 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1370" height="741" extended-state="0" />
-    <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.39513677" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24696049" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33044982" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32838285" sideWeight="0.50303954" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32698962" sideWeight="0.4969605" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.33044982" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32698962" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3298969" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.38235295" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3252595" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39965397" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -446,7 +453,8 @@
     <MESSAGE value="user can be added by sign-on or by admin" />
     <MESSAGE value="undecided if user_id is str or int" />
     <MESSAGE value="Further changes in swagger" />
-    <option name="LAST_COMMIT_MESSAGE" value="Further changes in swagger" />
+    <MESSAGE value="user API divided between Consumer, Supplier and Admin" />
+    <option name="LAST_COMMIT_MESSAGE" value="user API divided between Consumer, Supplier and Admin" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -473,6 +481,8 @@
           <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="34" />
           <folding>
             <element signature="e#19#34#0" expanded="true" />
+            <element signature="e#375#2459#0" expanded="false" />
+            <element signature="e#2519#3589#0" expanded="false" />
             <element signature="e#3628#5917#0" expanded="false" />
           </folding>
         </state>
@@ -519,6 +529,8 @@
           <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="34" />
           <folding>
             <element signature="e#19#34#0" expanded="true" />
+            <element signature="e#375#2459#0" expanded="false" />
+            <element signature="e#2519#3589#0" expanded="false" />
             <element signature="e#3628#5917#0" expanded="false" />
           </folding>
         </state>
@@ -565,6 +577,8 @@
           <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="34" />
           <folding>
             <element signature="e#19#34#0" expanded="true" />
+            <element signature="e#375#2459#0" expanded="false" />
+            <element signature="e#2519#3589#0" expanded="false" />
             <element signature="e#3628#5917#0" expanded="false" />
           </folding>
         </state>
@@ -611,6 +625,8 @@
           <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="34" />
           <folding>
             <element signature="e#19#34#0" expanded="true" />
+            <element signature="e#375#2459#0" expanded="false" />
+            <element signature="e#2519#3589#0" expanded="false" />
             <element signature="e#3628#5917#0" expanded="false" />
           </folding>
         </state>
@@ -657,6 +673,8 @@
           <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="34" />
           <folding>
             <element signature="e#19#34#0" expanded="true" />
+            <element signature="e#375#2459#0" expanded="false" />
+            <element signature="e#2519#3589#0" expanded="false" />
             <element signature="e#3628#5917#0" expanded="false" />
           </folding>
         </state>
@@ -692,6 +710,8 @@
           <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="34" />
           <folding>
             <element signature="e#19#34#0" expanded="true" />
+            <element signature="e#375#2459#0" expanded="false" />
+            <element signature="e#2519#3589#0" expanded="false" />
             <element signature="e#3628#5917#0" expanded="false" />
           </folding>
         </state>
@@ -727,6 +747,8 @@
           <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="34" />
           <folding>
             <element signature="e#19#34#0" expanded="true" />
+            <element signature="e#375#2459#0" expanded="false" />
+            <element signature="e#2519#3589#0" expanded="false" />
             <element signature="e#3628#5917#0" expanded="false" />
           </folding>
         </state>
@@ -748,6 +770,8 @@
           <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="34" />
           <folding>
             <element signature="e#19#34#0" expanded="true" />
+            <element signature="e#375#2459#0" expanded="false" />
+            <element signature="e#2519#3589#0" expanded="false" />
             <element signature="e#3628#5917#0" expanded="false" />
           </folding>
         </state>
@@ -769,6 +793,8 @@
           <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="34" />
           <folding>
             <element signature="e#19#34#0" expanded="true" />
+            <element signature="e#375#2459#0" expanded="false" />
+            <element signature="e#2519#3589#0" expanded="false" />
             <element signature="e#3628#5917#0" expanded="false" />
           </folding>
         </state>
@@ -790,6 +816,8 @@
           <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="34" />
           <folding>
             <element signature="e#19#34#0" expanded="true" />
+            <element signature="e#375#2459#0" expanded="false" />
+            <element signature="e#2519#3589#0" expanded="false" />
             <element signature="e#3628#5917#0" expanded="false" />
           </folding>
         </state>
@@ -811,6 +839,8 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#19#34#0" expanded="true" />
+            <element signature="e#375#2459#0" expanded="false" />
+            <element signature="e#2519#3589#0" expanded="false" />
             <element signature="e#3628#5917#0" expanded="false" />
           </folding>
         </state>
@@ -922,23 +952,25 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/dao.py">
+    <entry file="file://$PROJECT_DIR$/static/swagger.yaml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="28" column="24" lean-forward="true" selection-start-line="28" selection-start-column="24" selection-end-line="28" selection-end-column="24" />
+        <state relative-caret-position="2760">
+          <caret line="138" column="15" lean-forward="false" selection-start-line="138" selection-start-column="15" selection-end-line="138" selection-end-column="15" />
           <folding>
-            <element signature="e#19#34#0" expanded="true" />
-            <element signature="e#3628#5917#0" expanded="false" />
+            <marker date="1494188006518" expanded="true" signature="153:157" ph="1.0.2" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/static/swagger.yaml">
+    <entry file="file://$PROJECT_DIR$/dao.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="138" column="15" lean-forward="false" selection-start-line="138" selection-start-column="15" selection-end-line="138" selection-end-column="15" />
+        <state relative-caret-position="6">
+          <caret line="322" column="0" lean-forward="true" selection-start-line="322" selection-start-column="0" selection-end-line="322" selection-end-column="0" />
           <folding>
-            <marker date="1494188006518" expanded="true" signature="153:157" ph="1.0.2" />
+            <element signature="e#19#34#0" expanded="true" />
+            <element signature="e#375#2459#0" expanded="false" />
+            <element signature="e#2519#3589#0" expanded="false" />
+            <element signature="e#3628#5917#0" expanded="false" />
           </folding>
         </state>
       </provider>
