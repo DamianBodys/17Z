@@ -5,7 +5,7 @@ from google.cloud import datastore
 from datetime import datetime
 
 # this is an address of standard appengine app to access Full Text Search
-_ALGORITHM_SEARCH_URL = 'localhost:8080'
+_ALGORITHM_SEARCH_URL = 'http://localhost:8080'
 # name of kind to store data in Datastore
 _DATASTORE_KIND_ALGORITHMS = 'algorithms'
 _DATASTORE_KIND_USERS = 'users'
@@ -209,7 +209,7 @@ class Algorithm:
 class AlgorithmDAO:
     @staticmethod
     def setindex(algorithm):
-        url = 'http://' + _ALGORITHM_SEARCH_URL
+        url = _ALGORITHM_SEARCH_URL
         index_data = {"algorithmId": algorithm.getalgorithm_id(),
                       "algorithmSummary": algorithm.getsummary(),
                       "displayName": algorithm.getdisplay_name(),
@@ -261,7 +261,7 @@ class AlgorithmDAO:
         search for algorithms in index from Full Text Search
         :rtype : int
         """
-        url = 'http://' + _ALGORITHM_SEARCH_URL
+        url = _ALGORITHM_SEARCH_URL
         if tags != '':
             query_string = ' OR '.join(tags.split(','))
             url += '?query=' + query_string
@@ -281,7 +281,7 @@ class AlgorithmDAO:
         """
         :rtype : dict : dictionary of a single algorithm index
         """
-        url = 'http://' + _ALGORITHM_SEARCH_URL + '/algorithms/' + algorithm_id
+        url = _ALGORITHM_SEARCH_URL + '/algorithms/' + algorithm_id
         try:
             response_from_url = requests.get(url)
         except requests.ConnectionError:
@@ -323,6 +323,14 @@ class AlgorithmDAO:
 
 
 def del_all():
+    """
+    Clears all databases for testing purposes. To start from scratch.
+    usage:
+    from dao import del_all
+    del_all()
+    :return: string OK if EOK or other if Search in GAE Standard didn't behave as expected
+    """
+    # deleting all from datastore
     ds = datastore.Client()
     q = ds.query(kind='__kind__')
     q.keys_only()
@@ -332,3 +340,13 @@ def del_all():
         qk.keys_only()
         kys = [entity.key for entity in qk.fetch()]
         ds.delete_multi(kys)
+        
+    # deleting all from Search in GAE Standard
+    url = _ALGORITHM_SEARCH_URL
+    try:
+        response = requests.delete(url)
+    except requests.ConnectionError:
+        return 'Can not connect to GAE Standard Search'
+    if response.status_code != 200:
+        return 'GAE Standard Error - did not return 200'
+    return 'Everything deleted OK'
