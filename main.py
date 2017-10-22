@@ -6,7 +6,6 @@ from flask import Flask, send_from_directory, url_for, redirect, json, \
     Response, request, render_template
 from authentication import authenticated, get_user_from_id_token
 
-
 app = Flask(__name__)
 
 
@@ -188,7 +187,7 @@ def create_user(user_id=None):
 
 @app.route('/user/signup/', methods=['POST'])
 @authenticated
-def self_sign_up(user_id = None):
+def self_sign_up(user_id=None):
     """
     :param user_id: 'sub' field from Google id_token supplied in header Authenticate: Bearer <id_token>  
     :return: OK
@@ -216,7 +215,7 @@ def self_sign_up(user_id = None):
 
 @app.route('/user/<uid>', methods=['GET'])
 @authenticated
-def get_user_by_id(uid, user_id = None):
+def get_user_by_id(uid, user_id=None):
     """
     Get complete user data
     :param uid: ID of a user to get 
@@ -252,6 +251,7 @@ def server_error(e):
 if __name__ == '__main__':
     # This is used when running locally. Gunicorn is used to run the
     # application on Google App Engine. See entry point in app.yaml.
+    #    app.run(host='0.0.0.0', port=5000, debug=True)
     app.run(host='localhost', port=5000, debug=True)
-#    app.run(host='localhost', port=8080, debug=True)
+    # app.run(host='localhost', port=8080, debug=True)
 # [END app]
