@@ -2,11 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1fec255a-c391-4bdb-adad-36db39ffe5a1" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/17Z.iml" afterPath="$PROJECT_DIR$/.idea/17Z.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/runConfigurations/main.xml" afterPath="$PROJECT_DIR$/.idea/runConfigurations/main.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/authentication.html" afterPath="$PROJECT_DIR$/templates/authentication.html" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/17Z.iml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/runConfigurations/main.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="" />
     </list>
     <ignored path=".idea/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -178,7 +179,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="last_opened_file_path" value="$PROJECT_DIR$/.idea" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Ignored.Files" />
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
   </component>
   <component name="RestoreUpdateTree" date="Moments ago" ActionInfo="_Update">
@@ -550,7 +551,14 @@
       <option name="project" value="LOCAL" />
       <updated>1508672042344</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="changed google-signing-client-id to point at project zflexible1">
+      <created>1508868730910</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1508868730910</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="TodoView">
@@ -655,7 +663,8 @@
     <MESSAGE value="user API divided between Consumer, Supplier and Admin" />
     <MESSAGE value="added del_all function to clear datastore" />
     <MESSAGE value="added checksvrdatetime.py in tools directory to check for correct time on server.&#10;It's an external tool to check if server has correct time so it needs to be run befor main.py on test server" />
-    <option name="LAST_COMMIT_MESSAGE" value="added checksvrdatetime.py in tools directory to check for correct time on server.&#10;It's an external tool to check if server has correct time so it needs to be run befor main.py on test server" />
+    <MESSAGE value="changed google-signing-client-id to point at project zflexible1" />
+    <option name="LAST_COMMIT_MESSAGE" value="changed google-signing-client-id to point at project zflexible1" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
