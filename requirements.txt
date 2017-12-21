@@ -4,3 +4,4 @@ gunicorn
 oauth2client
 requests
 ntplib
+WebTest
