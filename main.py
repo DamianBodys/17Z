@@ -46,6 +46,7 @@ def swagger():
     data = json.load(open('static/swagger.json'))
     js = json.dumps(data)
     resp = Response(js, status=200, mimetype='application/json')
+    resp.headers['Content-Type'] = 'application/json; charset=utf-8'
     resp.headers.add_header('Access-Control-Allow-Origin', '*')
     resp.headers.add_header('Access-Control-Allow-Methods', 'POST, GET, DELETE, PUT, OPTIONS')
     resp.headers.add_header(
@@ -86,6 +87,7 @@ def api_algorithms_get():
         }]
         js = json.dumps(data)
         resp = Response(js, status=400, mimetype='application/json')
+        resp.headers['Content-Type'] = 'application/json; charset=utf-8'
         return resp
 
 
@@ -105,6 +107,7 @@ def api_algorithms_post(user_id=None):
             }
             js = json.dumps(data)
             resp = Response(js, status=200, mimetype='application/json')
+            resp.headers['Content-Type'] = 'application/json; charset=utf-8'
             return resp
     data = {
         "code": 400,
@@ -113,6 +116,7 @@ def api_algorithms_post(user_id=None):
     }
     js = json.dumps(data)
     resp = Response(js, status=400, mimetype='application/json')
+    resp.headers['Content-Type'] = 'application/json; charset=utf-8'
     return resp
 
 
@@ -127,6 +131,7 @@ def api_algorithm_get(algorithm_id):
         algorithm = result.get_dict()
         js = json.dumps(algorithm)
         resp = Response(js, status=200, mimetype='application/json')
+        resp.headers['Content-Type'] = 'application/json; charset=utf-8'
     else:
         data = {
             "code": 404,
@@ -135,6 +140,7 @@ def api_algorithm_get(algorithm_id):
         }
         js = json.dumps(data)
         resp = Response(js, status=404, mimetype='application/json')
+        resp.headers['Content-Type'] = 'application/json; charset=utf-8'
     return resp
 
 
@@ -166,6 +172,7 @@ def create_user(user_id=None):
         }
         js = json.dumps(data)
         resp = Response(js, status=400, mimetype='application/json')
+        resp.headers['Content-Type'] = 'application/json; charset=utf-8'
         return resp
     returned_code = UserDAO.set(user)
     if returned_code == 0:
@@ -176,6 +183,7 @@ def create_user(user_id=None):
         }
         js = json.dumps(data)
         resp = Response(js, status=200, mimetype='application/json')
+        resp.headers['Content-Type'] = 'application/json; charset=utf-8'
     else:
         data = {
             "code": 400,
@@ -184,6 +192,7 @@ def create_user(user_id=None):
         }
         js = json.dumps(data)
         resp = Response(js, status=400, mimetype='application/json')
+        resp.headers['Content-Type'] = 'application/json; charset=utf-8'
     return resp
 
 
@@ -204,6 +213,7 @@ def self_sign_up(user_id=None):
         }
         js = json.dumps(data)
         resp = Response(js, status=200, mimetype='application/json')
+        resp.headers['Content-Type'] = 'application/json; charset=utf-8'
     else:
         data = {
             "code": 400,
@@ -212,6 +222,7 @@ def self_sign_up(user_id=None):
         }
         js = json.dumps(data)
         resp = Response(js, status=400, mimetype='application/json')
+        resp.headers['Content-Type'] = 'application/json; charset=utf-8'
     return resp
 
 
@@ -229,6 +240,7 @@ def get_user_by_id(uid, user_id=None):
         user = result.get_dict()
         js = json.dumps(user)
         user_data = Response(js, status=200, mimetype='application/json')
+        resp.headers['Content-Type'] = 'application/json; charset=utf-8'
         resp = user_data
     else:
         data = {
@@ -238,6 +250,7 @@ def get_user_by_id(uid, user_id=None):
         }
         js = json.dumps(data)
         resp = Response(js, status=404, mimetype='application/json')
+        resp.headers['Content-Type'] = 'application/json; charset=utf-8'
     return resp
 
 
