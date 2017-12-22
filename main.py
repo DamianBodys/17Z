@@ -76,6 +76,7 @@ def api_algorithms_get():
     if result_code == 0:
         js = json.dumps(algorithms_list)
         resp = Response(js, status=200, mimetype='application/json')
+        resp.headers['Content-Type'] = 'application/json; charset=utf-8'
         return resp
     else:
         data = [{

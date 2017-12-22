@@ -16,7 +16,8 @@ class MyTestCase(unittest.TestCase):
     def test_algorithms_GET_Empty(self):
         response = self.testapp.get('/algorithms/')
         self.assertEqual(200, response.status_int)
-        self.assertEqual('[]', response.normal_body)
+        self.assertIsNotNone(response.charset, msg='There is no charset in response')
+        self.assertEqual('[]', response.normal_body.decode(encoding=response.charset))
         self.assertEqual('application/json', response.content_type)
 
 
