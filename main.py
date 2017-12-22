@@ -78,11 +78,12 @@ def api_algorithms_get():
         resp = Response(js, status=200, mimetype='application/json')
         return resp
     else:
-        js = [{
+        data = [{
             "code": 400,
             "fields": "string",
             "message": "Malformed Data"
         }]
+        js = json.dumps(data)
         resp = Response(js, status=400, mimetype='application/json')
         return resp
 
@@ -239,6 +240,13 @@ def get_user_by_id(uid, user_id=None):
     return resp
 
 
+@app.errorhandler(404)
+def error404(e):
+    return """
+    Page Not Found.
+    """, 404
+
+
 @app.errorhandler(500)
 def server_error(e):
     logging.exception('An error occurred during a request.')
@@ -252,6 +260,6 @@ if __name__ == '__main__':
     # This is used when running locally. Gunicorn is used to run the
     # application on Google App Engine. See entry point in app.yaml.
     #    app.run(host='0.0.0.0', port=5000, debug=True)
-    app.run(host='localhost', port=5000, debug=True)
+    app.run(host='localhost', port=5000, debug=False)
     # app.run(host='localhost', port=8080, debug=True)
 # [END app]
