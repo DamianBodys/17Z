@@ -209,13 +209,18 @@ class Algorithm:
 class AlgorithmDAO:
     @staticmethod
     def setindex(algorithm):
+        """
+        Writes algorithm to search database in standard GAE
+        :param algorithm:
+        :return: int
+        """
         url = _ALGORITHM_SEARCH_URL
         index_data = {"algorithmId": algorithm.getalgorithm_id(),
                       "algorithmSummary": algorithm.getsummary(),
                       "displayName": algorithm.getdisplay_name(),
                       "linkURL": algorithm.getlink_url()}
         try:
-            response = requests.post(url, json=index_data, headers={'content-type': 'application/json'})
+            response = requests.post(url, json=index_data, headers={'Content-Type': 'application/json: charset=utf-8'})
         except requests.ConnectionError:
             return 2
         if response.status_code != 200:
@@ -269,11 +274,17 @@ class AlgorithmDAO:
             response_from_url = requests.get(url)
         except requests.ConnectionError:
             return 2
+        if response_from_url.status_code > 499:
+            return 2
         if response_from_url.status_code != 200:
             return 1
         # to pass list by reference one can't touch the outer list one can only append or extend
         # it's a major distinction of python from real programming languages
-        found_algorithms_list.extend(json.loads(response_from_url.text))
+        try:
+            js = json.loads(response_from_url.text)
+            found_algorithms_list.extend(js)
+        except:
+            return 2
         return 0
 
     @staticmethod
