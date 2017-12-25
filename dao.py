@@ -212,7 +212,7 @@ class AlgorithmDAO:
         """
         Writes algorithm to search database in standard GAE
         :param algorithm:
-        :return: int
+        :return: int (2 - Connection Error)
         """
         url = _ALGORITHM_SEARCH_URL
         index_data = {"algorithmId": algorithm.getalgorithm_id(),
@@ -231,7 +231,7 @@ class AlgorithmDAO:
     def setdata(algorithm):
         """
         Writing main blob algorithm data to Datastore
-        :rtype : int
+        :rtype : int (2 - Connection Error)
         """
         ds = datastore.Client()
         try:
@@ -275,7 +275,7 @@ class AlgorithmDAO:
         except requests.ConnectionError:
             return 2
         if response_from_url.status_code > 499:
-            return 2
+            return 3
         if response_from_url.status_code != 200:
             return 1
         # to pass list by reference one can't touch the outer list one can only append or extend
@@ -284,7 +284,7 @@ class AlgorithmDAO:
             js = json.loads(response_from_url.text)
             found_algorithms_list.extend(js)
         except:
-            return 2
+            return 3
         return 0
 
     @staticmethod

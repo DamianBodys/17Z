@@ -6,12 +6,10 @@ import webtest
 import main
 
 
-class MyTestCase(unittest.TestCase):
+class MainHTTPTestCase(unittest.TestCase):
     def setUp(self):
         self.test_app = webtest.TestApp(main.app)
 
-    def tearDown(self):
-        pass
 
     def test_algorithms_GET_Empty(self):
         response = self.test_app.get('/algorithms/')
