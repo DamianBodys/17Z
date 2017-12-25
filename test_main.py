@@ -10,7 +10,6 @@ class MainHTTPTestCase(unittest.TestCase):
     def setUp(self):
         self.test_app = webtest.TestApp(main.app)
 
-
     def test_algorithms_GET_Empty(self):
         response = self.test_app.get('/algorithms/')
         self.assertEqual(200, response.status_int)
