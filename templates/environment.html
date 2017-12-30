@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Environment</title>
+</head>
+<body>
+<h1>Environment variables</h1>
+<table>
+    <tr>
+        <th>name</th>
+        <th>value</th>
+    </tr>
+{% for key, value in env_vars %}
+    <tr>
+        <th>{{key}}</th>
+        <th>{{value}}</th>
+    </tr>
+{% endfor %}
+</table>
+</body>
+</html>

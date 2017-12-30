@@ -21,6 +21,13 @@ def authentication_html():
     return render_template('authentication.html')
 
 
+@app.route('/environment.html')
+def environment_html():
+    """Return a environment variables in HTML."""
+    env_vars = dict(os.environ)
+    return render_template('environment.html', env_vars=env_vars)
+
+
 @app.route('/favicon.ico')
 def favicon():
     """Icon for browsers"""
