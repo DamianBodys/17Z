@@ -11,7 +11,7 @@
         <th>name</th>
         <th>value</th>
     </tr>
-{% for key, value in env_vars %}
+{% for key, value in env_vars.items() %}
     <tr>
         <th>{{key}}</th>
         <th>{{value}}</th>
