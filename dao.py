@@ -1,15 +1,22 @@
-__author__ = 'jan'
 import requests
 import json
+import os
 from google.cloud import datastore
 from datetime import datetime
 
-# this is an address of standard appengine app to access Full Text Search
-_ALGORITHM_SEARCH_URL = 'http://localhost:8080'
 # name of kind to store data in Datastore
 _DATASTORE_KIND_ALGORITHMS = 'algorithms'
 _DATASTORE_KIND_USERS = 'users'
 
+
+def get_search_url():
+    """this gets address of standard appengine app to access Full Text Search"""
+    _SEARCH_PROJECT_NAME = 'zsearch1'
+    if os.environ.get('GOOGLE_CLOUD_PROJECT') is None:
+        url = 'http://localhost:8080'
+    else:
+        url = 'https://' + _SEARCH_PROJECT_NAME + '.appspot.com'
+    return url
 
 # User class
 class User:
@@ -214,7 +221,7 @@ class AlgorithmDAO:
         :param algorithm:
         :return: int (2 - Connection Error)
         """
-        url = _ALGORITHM_SEARCH_URL
+        url = get_search_url()
         index_data = {"algorithmId": algorithm.getalgorithm_id(),
                       "algorithmSummary": algorithm.getsummary(),
                       "displayName": algorithm.getdisplay_name(),
@@ -266,7 +273,7 @@ class AlgorithmDAO:
         search for algorithms in index from Full Text Search
         :rtype : int
         """
-        url = _ALGORITHM_SEARCH_URL
+        url = get_search_url()
         if tags != '':
             query_string = ' OR '.join(tags.split(','))
             url += '?query=' + query_string
@@ -292,7 +299,7 @@ class AlgorithmDAO:
         """
         :rtype : dict : dictionary of a single algorithm index
         """
-        url = _ALGORITHM_SEARCH_URL + '/algorithms/' + algorithm_id
+        url = get_search_url() + '/algorithms/' + algorithm_id
         try:
             response_from_url = requests.get(url)
         except requests.ConnectionError:
@@ -353,7 +360,7 @@ def del_all():
         ds.delete_multi(kys)
         
     # deleting all from Search in GAE Standard
-    url = _ALGORITHM_SEARCH_URL
+    url = get_search_url()
     try:
         response = requests.delete(url)
     except requests.ConnectionError:

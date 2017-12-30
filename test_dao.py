@@ -8,7 +8,7 @@ class DaoUnittestAlgorithmDaoTestCase(unittest.TestCase):
         right_algorithm_list = []
         test_algorithm_list = []
         ret_code = dao.AlgorithmDAO.searchindex(test_algorithm_list)
-        self.assertNotEqual(2, ret_code, msg='Can not connect to search GAE standard - check ' + dao._ALGORITHM_SEARCH_URL)
+        self.assertNotEqual(2, ret_code, msg='Can not connect to search GAE standard - check ' + dao.get_search_url())
         self.assertEqual(0, ret_code, msg='Wrong status Code')
         self.assertCountEqual(right_algorithm_list, test_algorithm_list)
 
@@ -18,7 +18,7 @@ class DaoUnittestAlgorithmDaoTestCase(unittest.TestCase):
         right_algorithm_list = []
         test_algorithm_list = []
         ret_code = dao.AlgorithmDAO.searchindex(test_algorithm_list, tags=tags)
-        self.assertNotEqual(2, ret_code, msg='Can not connect to search GAE standard - check ' + dao._ALGORITHM_SEARCH_URL)
+        self.assertNotEqual(2, ret_code, msg='Can not connect to search GAE standard - check ' + dao.get_search_url())
         self.assertEqual(0, ret_code, msg='Wrong status Code')
         self.assertCountEqual(right_algorithm_list, test_algorithm_list)
 
