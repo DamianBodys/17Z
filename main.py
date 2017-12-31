@@ -1,7 +1,7 @@
 # [START app]
 import logging
 import os
-from dao import Algorithm, AlgorithmDAO, User, UserDAO
+from dao import Algorithm, AlgorithmDAO, User, UserDAO, get_search_url
 from flask import Flask, send_from_directory, url_for, redirect, json, \
     Response, request, render_template
 from authentication import authenticated, get_user_from_id_token
@@ -18,7 +18,8 @@ def hello():
 @app.route('/authentication.html')
 def authentication_html():
     """Return a friendly greeting in HTML."""
-    return render_template('authentication.html')
+    url = get_search_url()
+    return render_template('authentication.html', url=url)
 
 
 @app.route('/environment.html')
