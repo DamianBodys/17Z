@@ -227,7 +227,7 @@ class AlgorithmDAO:
                       "displayName": algorithm.getdisplay_name(),
                       "linkURL": algorithm.getlink_url()}
         try:
-            response = requests.post(url, json=index_data, headers={'Content-Type': 'application/json: charset=utf-8'})
+            response = requests.post(url, json=index_data, headers={'Content-Type': 'application/json; charset=utf-8'})
         except requests.ConnectionError:
             return 2
         if response.status_code != 200:
