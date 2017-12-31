@@ -1,12 +1,22 @@
 # [START app]
 import logging
 import os
-from dao import Algorithm, AlgorithmDAO, User, UserDAO, get_search_url
+from dao import Algorithm, AlgorithmDAO, User, UserDAO
 from flask import Flask, send_from_directory, url_for, redirect, json, \
     Response, request, render_template
 from authentication import authenticated, get_user_from_id_token
 
 app = Flask(__name__)
+
+
+def get_flexible_url():
+    """this gets address of flexible app for jinja"""
+    _FLEXIBLE_PROJECT_NAME = 'zflexible1'
+    if os.environ.get('GOOGLE_CLOUD_PROJECT') is None:
+        url = 'http://localhost:5000'
+    else:
+        url = 'https://' + _FLEXIBLE_PROJECT_NAME + '.appspot.com'
+    return url
 
 
 @app.route('/')
@@ -18,7 +28,7 @@ def hello():
 @app.route('/authentication.html')
 def authentication_html():
     """Return a friendly greeting in HTML."""
-    url = get_search_url()
+    url = get_flexible_url()
     return render_template('authentication.html', url=url)
 
 
@@ -52,6 +62,11 @@ def doc():
 def swagger():
     """Main file for SwaggerUI prepared for automatic generation of data"""
     data = json.load(open('static/swagger.json'))
+    # changing schemes and host in swagger.json to get_flexible_url()
+    url = get_flexible_url()
+    data['host'] = url.split('://')[1]
+    data['schemes'].clear()
+    data['schemes'].append(url.split('://')[0])
     js = json.dumps(data)
     resp = Response(js, status=200, mimetype='application/json')
     resp.headers['Content-Type'] = 'application/json; charset=utf-8'
