@@ -125,7 +125,7 @@ def api_algorithms_post(user_id=None):
         if returned_code == 0:
             data = {
                 "code": 200,
-                "fields": user_id,
+                "fields": "string",
                 "message": "OK"
             }
             js = json.dumps(data)
