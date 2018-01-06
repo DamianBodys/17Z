@@ -340,31 +340,4 @@ class AlgorithmDAO:
         return found_algorithm
 
 
-def del_all():
-    """
-    Clears all databases for testing purposes. To start from scratch.
-    usage:
-    from dao import del_all
-    del_all()
-    :return: string OK if EOK or other if Search in GAE Standard didn't behave as expected
-    """
-    # deleting all from datastore
-    ds = datastore.Client()
-    q = ds.query(kind='__kind__')
-    q.keys_only()
-    kinds = [entity.key.id_or_name for entity in q.fetch()]
-    for k in kinds:
-        qk = ds.query(kind=k)
-        qk.keys_only()
-        kys = [entity.key for entity in qk.fetch()]
-        ds.delete_multi(kys)
-        
-    # deleting all from Search in GAE Standard
-    url = get_search_url()
-    try:
-        response = requests.delete(url)
-    except requests.ConnectionError:
-        return 'Can not connect to GAE Standard Search'
-    if response.status_code != 200:
-        return 'GAE Standard Error - did not return 200'
-    return 'Everything deleted OK'
+
