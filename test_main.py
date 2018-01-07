@@ -19,7 +19,7 @@ class MainHTTPTestCase(unittest.TestCase):
         self.assertEqual('application/json', response.content_type)
 
     def test_algorithms_GET_EmptyWithTags(self):
-        """TODO: not started just copied"""
+        """Test Get with tags on empty database"""
         response = self.test_app.get('/algorithms/', params={'tags': 'algorithm'})
         self.assertEqual(200, response.status_int)
         self.assertIsNotNone(response.charset, msg='There is no charset in response')
