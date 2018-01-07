@@ -17,6 +17,22 @@ def create_test_search_algorithm_list(data_list, length):
         data_list.append(data)
 
 
+def save_test_list(data_list):
+    """Saves test algorithms to search GAE application"""
+    url = dao.get_search_url()
+    for item in data_list:
+        index_data = {"algorithmId": item["algorithmId"],
+                      "algorithmSummary": item["algorithmSummary"],
+                      "displayName": item["displayName"],
+                      "linkURL": item["linkURL"]}
+        try:
+            response = requests.post(url, json=index_data, headers={'Content-Type': 'application/json; charset=utf-8'})
+        except requests.ConnectionError:
+            return 2
+        if response.status_code != 200:
+            return 1
+    return 0
+
 def del_all_from_datastore():
     """Delete everything from datastore"""
     # deleting all from datastore
@@ -94,6 +110,21 @@ class DaoUnittestAlgorithmDaoTestCase(unittest.TestCase):
         except requests.ConnectionError:
             self.fail(msg='Can not connect to search GAE standard while adding test data - check ' + dao.get_search_url())
         if response.status_code != 200:
+            self.fail(msg='Wrong status code while adding test data to search GAE standard ' + dao.get_search_url())
+        test_algorithm_list = []
+        ret_code = dao.AlgorithmDAO.searchindex(test_algorithm_list)
+        self.assertNotEqual(2, ret_code, msg='Can not connect to search GAE standard - check ' + dao.get_search_url())
+        self.assertEqual(0, ret_code, msg='Wrong status Code')
+        self.assertCountEqual(right_algorithm_list, test_algorithm_list)
+
+    def test_AlgorithmDAO_searchindex_300Algorithms(self):
+        """ checks if from 300 algorithms Search database exactly 300 algorithms is returned and statuscode =0"""
+        right_algorithm_list = []
+        create_test_search_algorithm_list(right_algorithm_list, 300)
+        result = save_test_list(right_algorithm_list)
+        if result == 2:
+            self.fail(msg='Can not connect to search GAE standard while adding test data - check ' + dao.get_search_url())
+        elif result == 1:
             self.fail(msg='Wrong status code while adding test data to search GAE standard ' + dao.get_search_url())
         test_algorithm_list = []
         ret_code = dao.AlgorithmDAO.searchindex(test_algorithm_list)
