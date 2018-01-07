@@ -283,6 +283,7 @@ class AlgorithmDAO:
         except requests.ConnectionError:
             return 2
         if response_from_url.status_code > 499:
+            # server error 500 and above
             return 3
         if response_from_url.status_code != 200:
             return 1
