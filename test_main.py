@@ -20,7 +20,7 @@ class MainHTTPTestCase(unittest.TestCase):
 
     def test_algorithms_GET_EmptyWithTags(self):
         """TODO: not started just copied"""
-        response = self.test_app.get('/algorithms/')
+        response = self.test_app.get('/algorithms/', params={'tags': 'algorithm'})
         self.assertEqual(200, response.status_int)
         self.assertIsNotNone(response.charset, msg='There is no charset in response')
         self.assertEqual('[]', response.normal_body.decode(encoding=response.charset))

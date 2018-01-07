@@ -18,6 +18,7 @@ def get_search_url():
         url = 'https://' + _SEARCH_PROJECT_NAME + '.appspot.com'
     return url
 
+
 # User class
 class User:
     _data = {
