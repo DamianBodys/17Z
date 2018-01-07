@@ -508,10 +508,10 @@
           {
             "name": "tags",
             "in": "query",
-            "description": "Comma separated Tags for search query.",
+            "description": "Comma separated Tags for search query No whitespace characters allowed in searched tags. No wildcard or substring searches.",
             "required": false,
             "type": "string",
-            "x-example": "sum two items, sum multiple items"
+            "x-example": "algorithm1, algorithm2"
           }
         ],
         "responses": {
