@@ -273,6 +273,10 @@ class AlgorithmDAO:
         """
         search for algorithms in index from Full Text Search
         :rtype : int
+        0 OK
+        1 Malformed query in uri
+        2 Connection error
+        3 Application or server error
         """
         url = get_search_url()
         if tags != '':

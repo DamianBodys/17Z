@@ -5,8 +5,16 @@ from dao import Algorithm, AlgorithmDAO, User, UserDAO
 from flask import Flask, send_from_directory, url_for, redirect, json, \
     Response, request, render_template
 from authentication import authenticated, get_user_from_id_token
+import string
 
 app = Flask(__name__)
+
+
+def has_no_whitespaces(my_string):
+    for my_char in my_string:
+        if my_char in string.whitespace:
+            return False
+    return True
 
 
 def get_flexible_url():
@@ -90,11 +98,30 @@ def api_algorithms_get():
     The Algorithms endpoint returns information about the available algorithms.
     The response includes the display name and other details about each algorithm.
     It also allows full-text search of tags.
+    result_code:
+        0 OK
+        1 Malformed query in uri
+        2 Connection error
+        3 Application or server error
+        4 Wrong tags parameter
     """
     algorithms_list = []
     if 'tags' in request.args:
         tags = request.args['tags']
-        result_code = AlgorithmDAO.searchindex(tags=tags, found_algorithms_list=algorithms_list)
+        # check if tags is a string and a coma delimited list of words (one space is acceptable only after coma)
+        if not isinstance(tags, str):
+            result_code = 4
+        else:
+            tags = tags.replace(', ', ',')
+            tags_are_ok = True
+            for tag in tags.split(','):
+                if not has_no_whitespaces(tag):
+                    tags_are_ok = False
+                    break
+            if not tags_are_ok:
+                result_code = 4
+            else:
+                result_code = AlgorithmDAO.searchindex(tags=tags, found_algorithms_list=algorithms_list)
     else:
         result_code = AlgorithmDAO.searchindex(found_algorithms_list=algorithms_list)
     if result_code == 0:
