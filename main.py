@@ -290,8 +290,8 @@ def get_user_by_id(uid, user_id=None):
         user = result.get_dict()
         js = json.dumps(user)
         user_data = Response(js, status=200, mimetype='application/json')
-        resp.headers['Content-Type'] = 'application/json; charset=utf-8'
         resp = user_data
+        resp.headers['Content-Type'] = 'application/json; charset=utf-8'
     else:
         data = {
             "code": 404,
