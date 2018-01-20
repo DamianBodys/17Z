@@ -10,7 +10,8 @@ _DATASTORE_KIND_USERS = 'users'
 
 
 def get_search_url():
-    """this gets address of standard appengine app to access Full Text Search
+    """
+    Gets address of standard appengine app to access Full Text Search in test and GAE environment
 
     :returns: url of 17ZSearch
     :rtype: str
@@ -221,7 +222,12 @@ class Algorithm:
 
 
 class AlgorithmDAO:
-    """Data Access Object Interface for Algorithm"""
+    """
+    Data Access Object Interface for Algorithm
+
+    aaa
+    """
+
     @staticmethod
     def setindex(algorithm):
         """

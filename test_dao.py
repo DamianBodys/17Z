@@ -234,6 +234,19 @@ class DaoUnittestAlgorithmDaoTestCase(unittest.TestCase):
         self.assertNotEqual(1, returned, msg='Wrong status Code returned from GAE standard')
         self.assertDictEqual(right_dict, returned, msg='Returned data is not as expected')
 
+    def test_AlgorithmDAO_getdata_Empty(self):
+        """Search algorithmid from empty Datastore and return error"""
+        algorithm_id_to_get = 'algorithmId2'
+        returned = dao.AlgorithmDAO.getdata(algorithm_id_to_get)
+        self.assertEqual(1, returned, msg='Wrongly error status Code not returned from Datastore')
+
+    def test_AlgorithmDAO_getdata_NotFound(self):
+        """Search nonexistent algorithmid from empty Datastore and return error"""
+        algorithm_id_to_get = 'Wrong algorithmId'
+        #TODO: add data to Datastore
+        returned = dao.AlgorithmDAO.getdata(algorithm_id_to_get)
+        self.assertEqual(1, returned, msg='Wrongly error status Code not returned from Datastore')
+
 
 if __name__ == '__main__':
     unittest.main()
