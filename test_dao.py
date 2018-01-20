@@ -62,12 +62,19 @@ def del_all_from_search():
 
 def del_all():
     """
-    Clears all databases for testing purposes. To start from scratch.
-    usage:
-    from test_dao import del_all
-    del_all()
-    :return: string OK if EOK or other if Search in GAE Standard didn't behave as expected
+    Clears all databases for testing purposes to start from scratch.
+
+    :returns: string OK if EOK or other if Search in GAE Standard didn't behave as expected
+    :rtype: str
+
+    :Example:
+
+    >>>import test_dao
+    >>>test_dao.del_all()
+    OK
+
     """
+
     del_all_from_datastore()
     return del_all_from_search()
 

@@ -10,7 +10,11 @@ _DATASTORE_KIND_USERS = 'users'
 
 
 def get_search_url():
-    """this gets address of standard appengine app to access Full Text Search"""
+    """this gets address of standard appengine app to access Full Text Search
+
+    :returns: url of 17ZSearch
+    :rtype: str
+    """
     _SEARCH_PROJECT_NAME = 'zsearch1'
     if os.environ.get('GOOGLE_CLOUD_PROJECT') is None:
         url = 'http://localhost:8080'
@@ -19,8 +23,8 @@ def get_search_url():
     return url
 
 
-# User class
 class User:
+    """ User class"""
     _data = {
         #      userID: string # google id_info['sub']
         #      firstName: string
@@ -32,10 +36,13 @@ class User:
 
     def setuser_id(self, user_id):
         """
+        Writes userID and converts parameters to str
+
         We have to make sure that every user_id is treated as string
         regardless of user input.
-        :param user_id: 
-        :return: writes user_id to self._dict private property 
+
+        :param user_id: id to write
+        :type user_id: str, int
         """
         if type(user_id) is str:
             self._data['userID'] = user_id
