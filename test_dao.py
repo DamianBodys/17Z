@@ -5,20 +5,45 @@ from main import get_flexible_url
 from google.cloud import datastore
 
 
+def create_test_search_algorithm_dict(id):
+    """
+    Creates part of the algorithm for search GAE app for testing purposes
+
+    :param id: id number of an algorithm to be created
+    :type id: int
+    :returns: algorithm as dictionary
+    :rtype: dict
+    """
+    data = {}
+    data['algorithmId'] = 'algorithmId' + str(id)
+    data['algorithmSummary'] = 'algorithmSummary' + str(id)
+    data['displayName'] = 'displayName' + str(id)
+    data['linkURL'] = get_flexible_url() + '/algorithms/' + data['algorithmId']
+    return data
+
+
 def create_test_search_algorithm_list(data_list, length):
-    """Prepare test data for search GAE as list by name data_list given by reference
-     of length algorithm descriptions"""
+    """
+    Generate test data for search GAE as list by name data_list given by reference of length algorithm descriptions
+
+    :param data_list: passed by reference, will be appended by length of algorithms
+    :type data_list: list
+    :param length: the length of the list to generate
+    :type length: int
+    """
     for i in range(length):
-        data={}
-        data['algorithmId'] = 'algorithmId' + str(i)
-        data['algorithmSummary'] = 'algorithmSummary' + str(i)
-        data['displayName'] = 'displayName' + str(i)
-        data['linkURL'] = get_flexible_url() + '/algorithms/' + data['algorithmId']
-        data_list.append(data)
+        data_list.append(create_test_search_algorithm_dict(i))
 
 
 def save_test_list_to_search_app(data_list):
-    """Saves test algorithms to search GAE application"""
+    """
+    Saves test algorithms to search GAE application
+
+    :param data_list: the list of algorithmss to be written to search GAE application
+    :type data_list: list
+    :returns: 0 if EOK, 1 if status code other then 200 and 2 if a connection error occurred
+    :rtype: int
+    """
     url = dao.get_search_url()
     for item in data_list:
         index_data = {"algorithmId": item["algorithmId"],
@@ -35,21 +60,35 @@ def save_test_list_to_search_app(data_list):
 
 
 def del_all_from_datastore():
-    """Delete everything from datastore"""
-    # deleting all from datastore
+    """
+    Delete everything from datastore
+
+    Retrieves all kinds from datastore and for each kind deletes all entities
+    """
     ds = datastore.Client()
     q = ds.query(kind='__kind__')
     q.keys_only()
-    kinds = [entity.key.id_or_name for entity in q.fetch()]
+    kinds = []
+    for entity in q.fetch():
+        kinds.append(entity.key.id_or_name)
     for k in kinds:
         qk = ds.query(kind=k)
         qk.keys_only()
-        kys = [entity.key for entity in qk.fetch()]
+        kys = []
+        for ent in qk.fetch():
+            kys.append(ent.key)
         ds.delete_multi(kys)
 
 
 def del_all_from_search():
-    """deletes everything from standard GAE search application"""
+    """
+    Deletes everything from standard GAE search application
+
+    Sends http DELETE to GAE search application
+
+    :returns: string 'Everything deleted OK' if EOK or other if Search in GAE Standard didn't behave as expected
+    :rtype: str
+    """
     url = dao.get_search_url()
     try:
         response = requests.delete(url)
@@ -64,14 +103,14 @@ def del_all():
     """
     Clears all databases for testing purposes to start from scratch.
 
-    :returns: string OK if EOK or other if Search in GAE Standard didn't behave as expected
+    :returns: string 'Everything deleted OK' if EOK or other if Search in GAE Standard didn't behave as expected
     :rtype: str
 
     :Example:
 
     >>>import test_dao
     >>>test_dao.del_all()
-    OK
+    Everything deleted OK
 
     """
 
@@ -80,8 +119,10 @@ def del_all():
 
 
 class DaoUnittestAlgorithmDaoTestCase(unittest.TestCase):
+    """Tests of all static methods of class AlgorithmDAO"""
     def setUp(self):
-        if 'Everything deleted OK' != del_all():
+        """Deletes everything from all databases"""
+        if del_all() != 'Everything deleted OK':
             self.fail("there was a problem while deleting everything check if search GAE standard app is OK?" +
                       dao.get_search_url())
 
@@ -162,10 +203,36 @@ class DaoUnittestAlgorithmDaoTestCase(unittest.TestCase):
     def test_AlgorithmDAO_getindex_Empty(self):
         """checks if from empty Search database returns other status code then 200 so getindex returns 1"""
         algorithm_id_to_get = 'algorithmId0'
-        right_algorithm_dict = {}
         returned = dao.AlgorithmDAO.getindex(algorithm_id_to_get)
         self.assertNotEqual(2, returned, msg='Can not connect to search GAE standard - check ' + dao.get_search_url())
         self.assertEqual(1, returned, msg='Wrongly status Code returned from empty GAE standard is 200')
+
+    def test_AlgorithmDAO_getindex_NotFound(self):
+        """
+        checks if get of nonexistent algorithmID Search database returns other status code then 200
+        so getindex returns 1
+        """
+        list_of_algorithms_to_put = []
+        create_test_search_algorithm_list(list_of_algorithms_to_put, 5)
+        save_test_list_to_search_app(list_of_algorithms_to_put)
+        algorithm_id_to_get = 'WrongAlgorithmID'
+        returned = dao.AlgorithmDAO.getindex(algorithm_id_to_get)
+        self.assertNotEqual(2, returned, msg='Can not connect to search GAE standard - check ' + dao.get_search_url())
+        self.assertEqual(1, returned, msg='Wrongly status Code returned from GAE standard is 200')
+
+    def test_AlgorithmDAO_getindex_Found(self):
+        """
+        checks if get of existent algorithmID Search database returns correct data
+        """
+        list_of_algorithms_to_put = []
+        create_test_search_algorithm_list(list_of_algorithms_to_put, 5)
+        save_test_list_to_search_app(list_of_algorithms_to_put)
+        algorithm_id_to_get = 'algorithmId2'
+        right_dict = create_test_search_algorithm_dict(2)
+        returned = dao.AlgorithmDAO.getindex(algorithm_id_to_get)
+        self.assertNotEqual(2, returned, msg='Can not connect to search GAE standard - check ' + dao.get_search_url())
+        self.assertNotEqual(1, returned, msg='Wrong status Code returned from GAE standard')
+        self.assertDictEqual(right_dict, returned, msg='Returned data is not as expected')
 
 
 if __name__ == '__main__':
