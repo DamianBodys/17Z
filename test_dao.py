@@ -33,6 +33,7 @@ def save_test_list_to_search_app(data_list):
             return 1
     return 0
 
+
 def del_all_from_datastore():
     """Delete everything from datastore"""
     # deleting all from datastore
@@ -150,6 +151,14 @@ class DaoUnittestAlgorithmDaoTestCase(unittest.TestCase):
         self.assertNotEqual(2, ret_code, msg='Can not connect to search GAE standard - check ' + dao.get_search_url())
         self.assertEqual(0, ret_code, msg='Wrong status Code')
         self.assertCountEqual(expected_list, test_algorithm_list)
+
+    def test_AlgorithmDAO_getindex_Empty(self):
+        """checks if from empty Search database returns other status code then 200 so getindex returns 1"""
+        algorithm_id_to_get = 'algorithmId0'
+        right_algorithm_dict = {}
+        returned = dao.AlgorithmDAO.getindex(algorithm_id_to_get)
+        self.assertNotEqual(2, returned, msg='Can not connect to search GAE standard - check ' + dao.get_search_url())
+        self.assertEqual(1, returned, msg='Wrongly status Code returned from empty GAE standard is 200')
 
 
 if __name__ == '__main__':

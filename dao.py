@@ -303,6 +303,7 @@ class AlgorithmDAO:
     @staticmethod
     def getindex(algorithm_id):
         """
+        Get a single algorithm data from GAE Search
         :rtype : dict : dictionary of a single algorithm index
         """
         url = get_search_url() + '/algorithms/' + algorithm_id
