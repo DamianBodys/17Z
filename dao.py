@@ -220,14 +220,17 @@ class Algorithm:
         return algorithm_dict
 
 
-# Data Access Object Interface for Algorithm
 class AlgorithmDAO:
+    """Data Access Object Interface for Algorithm"""
     @staticmethod
     def setindex(algorithm):
         """
-        Writes algorithm to search database in standard GAE
-        :param algorithm:
-        :return: int (2 - Connection Error)
+        Writes algorithm to search database in standard
+
+        :param algorithm: an algorithm to be written
+        :type algorithm: Algorithm
+        :returns: 2 - Connection Error, 1 - other status_code then 200, 0 - EOK
+        :rtype: int
         """
         url = get_search_url()
         index_data = {"algorithmId": algorithm.getalgorithm_id(),
@@ -246,7 +249,11 @@ class AlgorithmDAO:
     def setdata(algorithm):
         """
         Writing main blob algorithm data to Datastore
-        :rtype : int (2 - Connection Error)
+
+        :param algorithm: an algorithm to be written
+        :type algorithm: Algorithm
+        :returns: 1 - Error, 0 - EOK
+        :rtype: int
         """
         ds = datastore.Client()
         try:
@@ -265,25 +272,29 @@ class AlgorithmDAO:
     @staticmethod
     def set(algorithm):
         """
-        Writing whole algorithm partly to index in Full Text Search and mainly to Datastre
-        :rtype : int
+        Writing the whole algorithm partly to index in Full Text Search and mainly to Datastore
+
+        :param algorithm: an algorithm to be written
+        :type algorithm: Algorithm
+        :returns: 0 - EOK, first digit Datastore error code, second digit search GAE error code
+        :rtype: int
+
+        .. todo:: set digits according to returns description
         """
         idx = AlgorithmDAO.setindex(algorithm)
         if idx == 0:
             dat = AlgorithmDAO.setdata(algorithm)
         else:
             dat = 2
-        return idx + 10 * dat
+        return 10 * dat + idx
 
     @staticmethod
     def searchindex(found_algorithms_list, tags=''):
         """
-        search for algorithms in index from Full Text Search
+        Search for algorithms in index from Full Text Search and write into found_algorithms_list
+
         :rtype : int
-        0 OK
-        1 Malformed query in uri
-        2 Connection error
-        3 Application or server error
+        :returns: 0 OK, 1 Malformed query in uri, 2 Connection error, 3 Application or server error
         """
         url = get_search_url()
         if tags != '':
@@ -299,7 +310,7 @@ class AlgorithmDAO:
         if response_from_url.status_code != 200:
             return 1
         # to pass list by reference one can't touch the outer list one can only append or extend
-        # it's a major distinction of python from real programming languages
+        # it's a major distinction of python from real programming languages like C
         try:
             js = json.loads(response_from_url.text)
             found_algorithms_list.extend(js)
@@ -311,7 +322,11 @@ class AlgorithmDAO:
     def getindex(algorithm_id):
         """
         Get a single algorithm data from GAE Search
-        :rtype : dict : dictionary of a single algorithm index
+
+        :param algorithm_id: id of an algorithm to be retrieved
+        :type algorithm_id: str
+        :rtype : dict
+        :returns: dictionary of a single algorithm index
         """
         url = get_search_url() + '/algorithms/' + algorithm_id
         try:
@@ -327,7 +342,11 @@ class AlgorithmDAO:
     def getdata(algorithm_id):
         """
         Get a single algorithm data from Datastore
-        :rtype : dict
+
+        :param algorithm_id: id of an algorithm to be retrieved
+        :type algorithm_id: str
+        :returns: dictionary of a single algorithm data or 1 - Error
+        :rtype : dict, int
         """
         ds = datastore.Client()
         try:
@@ -341,7 +360,12 @@ class AlgorithmDAO:
     @staticmethod
     def get(algorithm_id):
         """
-        :rtype : Algorithm
+        Get specific algorithm data
+
+        :param algorithm_id: id of an algorithm to be retrieved
+        :type algorithm_id: str
+        :returns: Algorithm object or 1 - GAE search Error or 2 - Datastore Error
+        :rtype : Algorithm, int
         """
         idx = AlgorithmDAO.getindex(algorithm_id)
         if idx in [1, 2]:
