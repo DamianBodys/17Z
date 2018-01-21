@@ -5,44 +5,80 @@ from main import get_flexible_url
 from google.cloud import datastore
 
 
-def create_test_search_algorithm_dict(id):
+class WrongStatusCodeError(Exception):
+    """
+    Exception raised when Http status code is greater then 399 -> Http Errors
+
+    Attributes:
+        returned_http_status_code (int): http status code
+        message (str): message
+
+    """
+    def __init__(self, returned_http_status_code, message='Http status code from Search GAE > 399 - check ' + dao.get_search_url()):
+        """
+        Exception constructor
+
+        Args:
+            returned_http_status_code (int): http status code
+            message (str):  message
+        """
+        self.returned_http_status_code = returned_http_status_code
+        self.message = message
+
+
+class SearchConnectionError(requests.RequestException):
+    """
+    Exception rised by requests to Search Database in GAE standard
+    """
+
+
+def create_test_search_algorithm_dict(id_number):
     """
     Creates part of the algorithm for search GAE app for testing purposes
 
-    :param id: id number of an algorithm to be created
-    :type id: int
-    :returns: algorithm as dictionary
-    :rtype: dict
+    Args:
+        id_number (int): number of an algorithm to be created
+
+    Returns:
+        dict: algorithm as dictionary
+
     """
     data = {}
-    data['algorithmId'] = 'algorithmId' + str(id)
-    data['algorithmSummary'] = 'algorithmSummary' + str(id)
-    data['displayName'] = 'displayName' + str(id)
+    data['algorithmId'] = 'algorithmId' + str(id_number)
+    data['algorithmSummary'] = 'algorithmSummary' + str(id_number)
+    data['displayName'] = 'displayName' + str(id_number)
     data['linkURL'] = get_flexible_url() + '/algorithms/' + data['algorithmId']
     return data
 
 
-def create_test_search_algorithm_list(data_list, length):
+def create_test_search_algorithm_list(length):
     """
     Generate test data for search GAE as list by name data_list given by reference of length algorithm descriptions
 
-    :param data_list: passed by reference, will be appended by length of algorithms
-    :type data_list: list
-    :param length: the length of the list to generate
-    :type length: int
+    Args:
+        length (int): the length of the list to generate
+
+    Returns:
+        list: generated list of algorithm indexes
+
     """
+    data_list = []
     for i in range(length):
         data_list.append(create_test_search_algorithm_dict(i))
+    return data_list
 
 
 def save_test_list_to_search_app(data_list):
     """
     Saves test algorithms to search GAE application
 
-    :param data_list: the list of algorithmss to be written to search GAE application
-    :type data_list: list
-    :returns: 0 if EOK, 1 if status code other then 200 and 2 if a connection error occurred
-    :rtype: int
+    Args:
+        data_list (list): the list of algorithmss to be written to search GAE application
+
+    Raises:
+        SearchConnectionError: requests.ConnectionError
+        WrongStatusCodeError: errors from Search GAE standard
+
     """
     url = dao.get_search_url()
     for item in data_list:
@@ -52,11 +88,10 @@ def save_test_list_to_search_app(data_list):
                       "linkURL": item["linkURL"]}
         try:
             response = requests.post(url, json=index_data, headers={'Content-Type': 'application/json; charset=utf-8'})
-        except requests.ConnectionError:
-            return 2
-        if response.status_code != 200:
-            return 1
-    return 0
+        except SearchConnectionError:
+            raise
+        if response.status_code > 399:
+            raise WrongStatusCodeError(response.status_code)
 
 
 def del_all_from_datastore():
@@ -147,8 +182,7 @@ class DaoUnittestAlgorithmDaoTestCase(unittest.TestCase):
 
     def test_AlgorithmDAO_searchindex_1Algorithm(self):
         """ checks if from 1 algorithm Search database exactly 1 algorithm is returned and statuscode =0"""
-        right_algorithm_list = []
-        create_test_search_algorithm_list(right_algorithm_list, 1)
+        right_algorithm_list = create_test_search_algorithm_list(1)
         url = dao.get_search_url()
         index_data = {"algorithmId": right_algorithm_list[0]["algorithmId"],
                       "algorithmSummary": right_algorithm_list[0]["algorithmSummary"],
@@ -156,7 +190,7 @@ class DaoUnittestAlgorithmDaoTestCase(unittest.TestCase):
                       "linkURL": right_algorithm_list[0]["linkURL"]}
         try:
             response = requests.post(url, json=index_data, headers={'Content-Type': 'application/json; charset=utf-8'})
-        except requests.ConnectionError:
+        except SearchConnectionError:
             self.fail(msg='Can not connect to search GAE standard while adding test data - check ' + dao.get_search_url())
         if response.status_code != 200:
             self.fail(msg='Wrong status code while adding test data to search GAE standard ' + dao.get_search_url())
@@ -169,7 +203,7 @@ class DaoUnittestAlgorithmDaoTestCase(unittest.TestCase):
     def test_AlgorithmDAO_searchindex_300Algorithms(self):
         """ checks if from 300 algorithms Search database exactly 300 algorithms is returned and statuscode =0"""
         right_algorithm_list = []
-        create_test_search_algorithm_list(right_algorithm_list, 300)
+        create_test_search_algorithm_list(300)
         result = save_test_list_to_search_app(right_algorithm_list)
         if result == 2:
             self.fail(msg='Can not connect to search GAE standard while adding test data - check ' + dao.get_search_url())
@@ -185,8 +219,7 @@ class DaoUnittestAlgorithmDaoTestCase(unittest.TestCase):
         """ checks if from 300 algorithms Search database exactly 1 algorithm is returned  'algorithm69' by searching
         for tag 'algorithmSummary69'"""
         searched_string = 'algorithmSummary69'
-        right_algorithm_list = []
-        create_test_search_algorithm_list(right_algorithm_list, 300)
+        right_algorithm_list = create_test_search_algorithm_list(300)
         result = save_test_list_to_search_app(right_algorithm_list)
         expected_list=[]
         expected_list.append(right_algorithm_list[69])
@@ -213,7 +246,7 @@ class DaoUnittestAlgorithmDaoTestCase(unittest.TestCase):
         so getindex returns 1
         """
         list_of_algorithms_to_put = []
-        create_test_search_algorithm_list(list_of_algorithms_to_put, 5)
+        create_test_search_algorithm_list(5)
         save_test_list_to_search_app(list_of_algorithms_to_put)
         algorithm_id_to_get = 'WrongAlgorithmID'
         returned = dao.AlgorithmDAO.getindex(algorithm_id_to_get)
@@ -224,14 +257,16 @@ class DaoUnittestAlgorithmDaoTestCase(unittest.TestCase):
         """
         checks if get of existent algorithmID Search database returns correct data
         """
-        list_of_algorithms_to_put = []
-        create_test_search_algorithm_list(list_of_algorithms_to_put, 5)
-        save_test_list_to_search_app(list_of_algorithms_to_put)
+        list_of_algorithms_to_put = create_test_search_algorithm_list(5)
+        try:
+            save_test_list_to_search_app(list_of_algorithms_to_put)
+        except WrongStatusCodeError as err:
+            self.fail(err.message)
+        except SearchConnectionError:
+            self.fail('Can not connect to search GAE standard - check ' + dao.get_search_url())
         algorithm_id_to_get = 'algorithmId2'
         right_dict = create_test_search_algorithm_dict(2)
         returned = dao.AlgorithmDAO.getindex(algorithm_id_to_get)
-        self.assertNotEqual(2, returned, msg='Can not connect to search GAE standard - check ' + dao.get_search_url())
-        self.assertNotEqual(1, returned, msg='Wrong status Code returned from GAE standard')
         self.assertDictEqual(right_dict, returned, msg='Returned data is not as expected')
 
     def test_AlgorithmDAO_getdata_Empty(self):
