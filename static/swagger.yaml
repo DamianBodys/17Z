@@ -40,35 +40,13 @@ securityDefinitions:
     name: Authorization
 paths:
   /bill/:
-    post:
-      tags:
-        - Billing
-        - Consumer API
-        - Supplier API
-      summary: Request a billing report
-      description: Request a billing report for a given period of time
-      operationId: bill_rqst
-      produces:
-        - application/json
-      security:
-        - GoogleIdToken: []
-      parameters:
-        - in: body
-          name: body
-          description: Billing period
-          required: true
-          schema:
-            $ref: '#/definitions/Period'
-      responses:
-        '200':
-          description: OK
     get:
       tags:
         - Billing
         - Consumer API
         - Supplier API
       summary: Receive a billing report
-      description: Receive requested billing report
+      description: Receive billing report
       operationId: bill_rcv
       produces:
         - application/json
@@ -79,10 +57,50 @@ paths:
           description: Billing Report
           schema:
             $ref: '#/definitions/BillingReport'
-        '400':
-          description: Report wasn't requested. Post request first.
-        '404':
-          description: Report is not ready yet.
+  /bill/result/{resultsetId}:
+    get:
+      tags:
+        - Billing
+        - Consumer API
+      summary: Receive a billing summary for result set
+      description: Receive a billing summary for result set
+      operationId: bill_result_id_rcv
+      produces:
+        - application/json
+      security:
+        - GoogleIdToken: []
+      parameters:
+        - name: resultsetId
+          in: path
+          required: true
+          type: string  
+      responses:
+        '200':
+          description: Billing result set summary
+          schema:
+            $ref: '#/definitions/BillingReport'
+  /bill/algorithm/{algorithmId}:
+    get:
+      tags:
+        - Billing
+        - Supplier API
+      summary: Receive a billing summary for result set
+      description: Receive a billing summary for result set
+      operationId: bill_algorithm_id_rcv
+      produces:
+        - application/json
+      security:
+        - GoogleIdToken: []
+      parameters: 
+        - name: algorithmId
+          in: path
+          required: true
+          type: string  
+      responses:
+        '200':
+          description: Billing algorithm summary
+          schema:
+            $ref: '#/definitions/BillingReport'
   /user/:
     post:
       tags:
@@ -295,6 +313,33 @@ paths:
           description: Not authorized to read that datasets
         '404':
           description: The given datasetID was not found in collection
+    delete:
+      tags:
+        - Dataset
+        - Consumer API
+      summary: Deletes a given dataset
+      description: Deletes a given dataset
+      operationId: deleteDatasetsDataset
+      consumes: []
+      produces:
+        - application/json
+      security:
+        - GoogleIdToken: []
+      parameters:
+        - name: datasetID
+          in: path
+          description: ID of a dattaset
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Deletion completed
+        '401':
+          description: No authentication. Need to login.
+        '403':
+          description: Not authorized to delete that dataset
+        '404':
+          description: The given datasetID was not found in collection
     put:
       tags:
         - Dataset
@@ -453,7 +498,7 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/ResultSetID'
-        '400':
+        '400':  
           description: Malformed data
           schema:
             $ref: '#/definitions/Error'
@@ -527,6 +572,28 @@ paths:
           description: Not an owner of the algorithm
         '404':
           description: algorithmID not found
+  '/algorithms/{algorithmID}/test':
+    get:
+      tags:
+        - Algorithms
+        - Supplier API
+      summary: Tests syntax of the algorithm
+      description: Tests syntax of the algorithm
+      operationId: testAlgorithm
+      consumes: []
+      parameters:
+        - name: algorithmID
+          in: path
+          description: ID of an algorithm
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Test OK
+        '400':
+          description: Test failed
+        '404':
+          description: The given algorithmID was not found in collection
   '/algorithms/{algorithmID}/{resultsetID}':
     get:
       tags:
