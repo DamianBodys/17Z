@@ -7,6 +7,7 @@ from datetime import datetime
 # name of kind to store data in Datastore
 _DATASTORE_KIND_ALGORITHMS = 'algorithms'
 _DATASTORE_KIND_USERS = 'users'
+_DATASTORE_KIND_DATASETS = 'datasets'
 
 
 def get_search_url():
@@ -143,6 +144,73 @@ class UserDAO:
             return 1
         entity['userID'] = user_id
         return User(entity)
+
+# Dataset class
+class Dataset:
+    _data = {
+        #    "dataset_id": "string",
+        #    "summary": "string",
+        #    "display_name": "string",
+        #    "link_url": "string",
+        #    "blob": "string",
+        #    "description": "string"
+    }
+
+    def setdataset_id(self, dataset_id):
+        self._data['dataset_id'] = dataset_id
+
+    def getdataset_id(self):
+        return self._data['dataset_id']
+
+    def setsummary(self, summary):
+        self._data['summary'] = summary
+
+    def getsummary(self):
+        return self._data['summary']
+
+    def setdisplay_name(self, display_name):
+        self._data['display_name'] = display_name
+
+    def getdisplay_name(self):
+        return self._data['display_name']
+
+    def setlink_url(self, link_url):
+        self._data['link_url'] = link_url
+
+    def getlink_url(self):
+        return self._data['link_url']
+
+    def setblob(self, blob):
+        self._data['blob'] = blob
+
+    def getblob(self):
+        return self._data['blob']
+
+    def setdescription(self, description):
+        self._data['description'] = description
+
+    def getdescription(self):
+        return self._data['description']
+
+    def __init__(self, dict_data):
+        self.setdataset_id(dict_data['datasetId'])
+        self.setsummary(dict_data['datasetSummary'])
+        self.setdisplay_name(dict_data['displayName'])
+        self.setlink_url(dict_data['linkURL'])
+        self.setblob(dict_data['datasetBLOB'])
+        self.setdescription(dict_data['datasetDescription'])
+
+    def get_dict(self):
+        dataset_dict = {
+            'datasetId': self.getdataset_id(),
+            'datasetSummary': self.getsummary(),
+            'displayName': self.getdisplay_name(),
+            'linkURL': self.getlink_url(),
+            'algorithmBLOB': self.getblob(),
+            'algorithmDescription': self.getdescription(),
+            'datasetDescription': self.getdataset_description()
+        }
+        return dataset_dict
 
 
 # Algorithm class

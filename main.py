@@ -1,7 +1,7 @@
 # [START app]
 import logging
 import os
-from dao import Algorithm, AlgorithmDAO, User, UserDAO
+from dao import Algorithm, AlgorithmDAO, User, UserDAO, Dataset
 from flask import Flask, send_from_directory, url_for, redirect, json, \
     Response, request, render_template
 from authentication import authenticated, get_user_from_id_token
@@ -91,6 +91,33 @@ def algorithms_html():
     """Return a friendly greeting in HTML."""
     return render_template('algorithms.html')
 
+@app.route('/datasets/', methods=['POST'])
+@authenticated
+def api_datasets_post(user_id=None):
+    """Add a new Dataset"""
+    if request.headers['Content-Type'] == 'application/json':
+        dict_data = request.json
+        dataset = Dataset(dict_data)
+        returned_code = AlgorithmDAO.set(dataset)
+        if returned_code == 0:
+            data = {
+                "code": 200,
+                "fields": "string",
+                "message": "OK"
+            }
+            js = json.dumps(data)
+            resp = Response(js, status=200, mimetype='application/json')
+            resp.headers['Content-Type'] = 'application/json; charset=utf-8'
+            return resp
+    data = {
+        "code": 400,
+        "fields": "string",
+        "message": "Malformed Data"
+    }
+    js = json.dumps(data)
+    resp = Response(js, status=400, mimetype='application/json')
+    resp.headers['Content-Type'] = 'application/json; charset=utf-8'
+    return resp
 
 @app.route('/algorithms/', methods=['GET'])
 def api_algorithms_get():
