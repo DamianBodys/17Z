@@ -306,7 +306,7 @@ class AlgorithmDAO:
         :returns: 2 - Connection Error, 1 - other status_code then 200, 0 - EOK
         :rtype: int
         """
-        url = get_search_url()
+        url = get_search_url() + '/algorithms/'
         index_data = {"algorithmId": algorithm.getalgorithm_id(),
                       "algorithmSummary": algorithm.getsummary(),
                       "displayName": algorithm.getdisplay_name(),
@@ -459,15 +459,15 @@ class DatasetDAO:
     @staticmethod
     def setindex(dataset):
         """
-        Writes algorithm to search database in standard
+        Writes dataset to search database in standard
 
-        :param algorithm: an algorithm to be written
-        :type algorithm: Algorithm
+        :param dataset: a dataset to be written
+        :type dataset: Dataset
         :returns: 2 - Connection Error, 1 - other status_code then 200, 0 - EOK
         :rtype: int
         """
-        url = get_search_url()
-        index_data = {"datasetId": dataset.getalgorithm_id(),
+        url = get_search_url() + '/datasets/'
+        index_data = {"datasetId": dataset.getdataset_id(),
                       "datasetSummary": dataset.getsummary(),
                       "displayName": dataset.getdisplay_name(),
                       "linkURL": dataset.getlink_url()}
@@ -505,7 +505,7 @@ class DatasetDAO:
     @staticmethod
     def set(dataset):
         """
-        Writing the whole algorithm partly to index in Full Text Search and mainly to Datastore
+        Writing the whole dataset partly to index in Full Text Search and mainly to Datastore
 
         :param dataset: a dataset to be written
         :type dataset: Dataset

@@ -380,8 +380,8 @@
           "Dataset",
           "Consumer API"
         ],
-        "summary": "Add an empty Dataset",
-        "description": "Add an empty Dataset",
+        "summary": "Add a Dataset",
+        "description": "Add a Dataset",
         "operationId": "postDataset",
         "consumes": [
           "application/json"
@@ -400,7 +400,7 @@
             "name": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/DatasetDetails"
+              "$ref": "#/definitions/DatasetBody"
             }
           }
         ],
@@ -1076,13 +1076,13 @@
           "type": "string",
           "description": "Unique identifier representing a specific dataset."
         },
-        "datasetDescription": {
+        "datasetSummary": {
           "type": "string",
-          "description": "users description of a dataset"
+          "description": "Users description of a dataset"
         },
-        "datasetSize": {
-          "type": "integer",
-          "description": "size in kB"
+        "displayName": {
+          "type": "string",
+          "description": "Display name of the dataset"
         },
         "linkURL": {
           "type": "string",
@@ -1090,14 +1090,38 @@
         }
       }
     },
-    "DatasetDetails": {
+    "DatasetBody": {
       "type": "object",
+      "required": [
+        "datasetBLOB"
+      ],
       "properties": {
+        "datasetBLOB": {
+          "type": "string",
+          "description": "Dataset initial parameters or output values"
+        },
         "datasetDescription": {
           "type": "string",
-          "description": "users description of a dataset"
+          "description": "detailed description of the dataset."
+        },
+        "datasetId": {
+          "type": "string",
+          "description": "Unique identifier representing a specific dataset."
+        },
+        "datasetSummary": {
+          "type": "string",
+          "description": "Brief summary of the dataset."
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Display name of the dataset."
+        },
+        "linkURL": {
+          "type": "string",
+          "description": "detailed url of the dataset."
         }
-      }
+      },
+      "description": "All the data to needed to store a dataset"
     },
     "Error": {
       "type": "object",

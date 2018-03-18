@@ -57,7 +57,7 @@ paths:
           description: Billing Report
           schema:
             $ref: '#/definitions/BillingReport'
-  /bill/result/{resultsetId}:
+  '/bill/result/{resultsetId}':
     get:
       tags:
         - Billing
@@ -73,13 +73,13 @@ paths:
         - name: resultsetId
           in: path
           required: true
-          type: string  
+          type: string
       responses:
         '200':
           description: Billing result set summary
           schema:
             $ref: '#/definitions/BillingReport'
-  /bill/algorithm/{algorithmId}:
+  '/bill/algorithm/{algorithmId}':
     get:
       tags:
         - Billing
@@ -91,11 +91,11 @@ paths:
         - application/json
       security:
         - GoogleIdToken: []
-      parameters: 
+      parameters:
         - name: algorithmId
           in: path
           required: true
-          type: string  
+          type: string
       responses:
         '200':
           description: Billing algorithm summary
@@ -259,8 +259,8 @@ paths:
       tags:
         - Dataset
         - Consumer API
-      summary: Add an empty Dataset
-      description: Add an empty Dataset
+      summary: Add a Dataset
+      description: Add a Dataset
       operationId: postDataset
       consumes:
         - application/json
@@ -273,7 +273,7 @@ paths:
           name: body
           required: true
           schema:
-            $ref: '#/definitions/DatasetDetails'
+            $ref: '#/definitions/DatasetBody'
       responses:
         '200':
           description: OK - returns datasetID
@@ -498,7 +498,7 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/ResultSetID'
-        '400':  
+        '400':
           description: Malformed data
           schema:
             $ref: '#/definitions/Error'
@@ -740,21 +740,39 @@ definitions:
       datasetId:
         type: string
         description: Unique identifier representing a specific dataset.
-      datasetDescription:
+      datasetSummary:
         type: string
-        description: users description of a dataset
-      datasetSize:
-        type: integer
-        description: size in kB
+        description: Users description of a dataset
+      displayName:
+        type: string
+        description: Display name of the dataset
       linkURL:
         type: string
         description: detailed url of the dataset.
-  DatasetDetails:
+  DatasetBody:
     type: object
+    required:
+      - datasetBLOB
     properties:
+      datasetBLOB:
+        type: string
+        description: 'Dataset initial parameters or output values'
       datasetDescription:
         type: string
-        description: users description of a dataset
+        description: detailed description of the dataset.
+      datasetId:
+        type: string
+        description: Unique identifier representing a specific dataset.
+      datasetSummary:
+        type: string
+        description: Brief summary of the dataset.
+      displayName:
+        type: string
+        description: Display name of the dataset.
+      linkURL:
+        type: string
+        description: detailed url of the dataset.
+    description: All the data to needed to store a dataset
   Error:
     type: object
     properties:

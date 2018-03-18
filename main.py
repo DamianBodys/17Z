@@ -91,7 +91,7 @@ def algorithms_html():
     """Return a friendly greeting in HTML."""
     return render_template('algorithms.html')
 
-@app.route('/datasets/', methods=['POST'])
+@app.route('/datasets', methods=['POST'])
 @authenticated
 def api_datasets_post(user_id=None):
     """Add a new Dataset"""
