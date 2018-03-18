@@ -451,5 +451,164 @@ class AlgorithmDAO:
         found_algorithm = Algorithm(idx)
         return found_algorithm
 
+class DatasetDAO:
+    """
+    Data Access Object Interface for Dataset
+    """
+
+    @staticmethod
+    def setindex(dataset):
+        """
+        Writes algorithm to search database in standard
+
+        :param algorithm: an algorithm to be written
+        :type algorithm: Algorithm
+        :returns: 2 - Connection Error, 1 - other status_code then 200, 0 - EOK
+        :rtype: int
+        """
+        url = get_search_url()
+        index_data = {"datasetId": dataset.getalgorithm_id(),
+                      "datasetSummary": dataset.getsummary(),
+                      "displayName": dataset.getdisplay_name(),
+                      "linkURL": dataset.getlink_url()}
+        try:
+            response = requests.post(url, json=index_data, headers={'Content-Type': 'application/json; charset=utf-8'})
+        except requests.ConnectionError:
+            return 2
+        if response.status_code != 200:
+            return 1
+        return 0
+
+    @staticmethod
+    def setdata(dataset):
+        """
+        Writing main blob dataset data to Datastore
+
+        :param dataset: a dataset to be written
+        :type dataset: Dataset
+        :returns: 1 - Error, 0 - EOK
+        :rtype: int
+        """
+        ds = datastore.Client()
+        try:
+            entity = datastore.Entity(key=ds.key(_DATASTORE_KIND_DATASETS, dataset.getdataset_id()))
+            entity.update({
+                'datasetBLOB': dataset.getblob(),
+                'datasetDescription': dataset.getdescription(),
+                'timestamp': datetime.now()
+            })
+            ds.put(entity)
+        except:
+            return 1
+        return 0
+
+    @staticmethod
+    def set(dataset):
+        """
+        Writing the whole algorithm partly to index in Full Text Search and mainly to Datastore
+
+        :param dataset: a dataset to be written
+        :type dataset: Dataset
+        :returns: 0 - EOK, first digit Datastore error code, second digit search GAE error code
+        :rtype: int
+
+        .. todo:: set digits according to returns description
+        """
+        idx = DatasetDAO.setindex(dataset)
+        if idx == 0:
+            dat = DatasetDAO.setdata(dataset)
+        else:
+            dat = 2
+        return 10 * dat + idx
+
+    @staticmethod
+    def searchindex(found_datasets_list, tags=''):
+        """
+        Search for datasets in index from Full Text Search and write into found_datasets_list
+
+        :rtype : int
+        :returns: 0 OK, 1 Malformed query in uri, 2 Connection error, 3 Application or server error
+        """
+        url = get_search_url()
+        if tags != '':
+            query_string = ' OR '.join(tags.split(','))
+            url += '?query=' + query_string
+        try:
+            response_from_url = requests.get(url)
+        except requests.ConnectionError:
+            return 2
+        if response_from_url.status_code > 499:
+            # server error 500 and above
+            return 3
+        if response_from_url.status_code != 200:
+            return 1
+        # to pass list by reference one can't touch the outer list one can only append or extend
+        # it's a major distinction of python from real programming languages like C
+        try:
+            js = json.loads(response_from_url.text)
+            found_datasets_list.extend(js)
+        except:
+            return 3
+        return 0
+
+    @staticmethod
+    def getindex(dataset_id):
+        """
+        Get a single algorithm data from GAE Search
+
+        :param dataset_id: id of an algorithm to be retrieved
+        :type dataset_id: str
+        :rtype : dict
+        :returns: dictionary of a single algorithm index
+        """
+        url = get_search_url() + '/datasets/' + dataset_id
+        try:
+            response_from_url = requests.get(url)
+        except requests.ConnectionError:
+            return 2
+        if response_from_url.status_code != 200:
+            return 1
+        dataset_index_dict = json.loads(response_from_url.text)
+        return dataset_index_dict
+
+    @staticmethod
+    def getdata(dataset_id):
+        """
+        Get a single algorithm data from Datastore
+
+        :param dataset_id: id of an dataset to be retrieved
+        :type dataset_id: str
+        :returns: dictionary of a single dataset data or 1 - Error
+        :rtype : dict, int
+        """
+        ds = datastore.Client()
+        try:
+            key = ds.key(_DATASTORE_KIND_DATASETS, dataset_id)
+            entity = ds.get(key)
+            entity.pop('timestamp')
+        except:
+            return 1
+        return entity
+
+    @staticmethod
+    def get(dataset_id):
+        """
+        Get specific algorithm data
+
+        :param dataset_id: id of an dataset to be retrieved
+        :type dataset_id: str
+        :returns: Dataset object or 1 - GAE search Error or 2 - Datastore Error
+        :rtype : Dataset, int
+        """
+        idx = DatasetDAO.getindex(dataset_id)
+        if idx in [1, 2]:
+            return 1
+        dat = DatasetDAO.getdata(dataset_id)
+        if dat == 1:
+            return 2
+        idx.update(dat)
+        found_dataset = Dataset(idx)
+        return found_dataset
+
 
 

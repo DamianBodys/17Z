@@ -1,7 +1,7 @@
 # [START app]
 import logging
 import os
-from dao import Algorithm, AlgorithmDAO, User, UserDAO, Dataset
+from dao import Algorithm, AlgorithmDAO, User, UserDAO, Dataset, DatasetDAO
 from flask import Flask, send_from_directory, url_for, redirect, json, \
     Response, request, render_template
 from authentication import authenticated, get_user_from_id_token
@@ -98,7 +98,7 @@ def api_datasets_post(user_id=None):
     if request.headers['Content-Type'] == 'application/json':
         dict_data = request.json
         dataset = Dataset(dict_data)
-        returned_code = AlgorithmDAO.set(dataset)
+        returned_code = DatasetDAO.set(dataset)
         if returned_code == 0:
             data = {
                 "code": 200,
