@@ -170,6 +170,27 @@ def api_datasets_post(user_id=None):
     return resp
 
 
+@app.route('/datasets/<dataset_id>', methods=['DELETE'])
+@authenticated
+def api_dataset_delete(dataset_id, user_id=None):
+    """
+     Remove a single dataset
+    """
+    result = DatasetDAO.delete(dataset_id)
+    if result not in [1, 2]:
+        resp = Response(status=200, mimetype='application/json')
+        resp.headers['Content-Type'] = 'application/json; charset=utf-8'
+    else:
+        data = {
+            "code": 404,
+            "fields": "string",
+            "message": "Not Found"
+        }
+        js = json.dumps(data)
+        resp = Response(js, status=404, mimetype='application/json')
+        resp.headers['Content-Type'] = 'application/json; charset=utf-8'
+    return resp
+
 @app.route('/datasets/<dataset_id>', methods=['GET'])
 def api_dataset_get(dataset_id):
     """
@@ -243,6 +264,27 @@ def api_algorithms_get():
         resp.headers['Content-Type'] = 'application/json; charset=utf-8'
         return resp
 
+
+@app.route('/algorithms/<algorithm_id>', methods=['DELETE'])
+@authenticated
+def api_algorithm_delete(algorithm_id, user_id=None):
+    """
+     Remove a single algorithm
+    """
+    result = AlgorithmDAO.delete(algorithm_id)
+    if result not in [1, 2]:
+        resp = Response(status=200, mimetype='application/json')
+        resp.headers['Content-Type'] = 'application/json; charset=utf-8'
+    else:
+        data = {
+            "code": 404,
+            "fields": "string",
+            "message": "Not Found"
+        }
+        js = json.dumps(data)
+        resp = Response(js, status=404, mimetype='application/json')
+        resp.headers['Content-Type'] = 'application/json; charset=utf-8'
+    return resp
 
 @app.route('/algorithms/', methods=['POST'])
 @authenticated

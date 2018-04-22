@@ -450,6 +450,16 @@ class AlgorithmDAO:
         found_algorithm = Algorithm(idx)
         return found_algorithm
 
+    @staticmethod
+    def delete(algorithm_id):
+        url = get_search_url() + '/algorithms/' + algorithm_id
+        try:
+            response_from_url = requests.delete(url)
+        except requests.ConnectionError:
+            return 2
+        if response_from_url.status_code != 200:
+            return 1
+
 class DatasetDAO:
     """
     Data Access Object Interface for Dataset
@@ -609,5 +619,12 @@ class DatasetDAO:
         found_dataset = Dataset(idx)
         return found_dataset
 
-
-
+    @staticmethod
+    def delete(dataset_id):
+        url = get_search_url() + '/datasets/' + dataset_id
+        try:
+            response_from_url = requests.delete(url)
+        except requests.ConnectionError:
+            return 2
+        if response_from_url.status_code != 200:
+            return 1
