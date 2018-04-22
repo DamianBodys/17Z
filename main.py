@@ -170,6 +170,31 @@ def api_datasets_post(user_id=None):
     return resp
 
 
+@app.route('/datasets/<dataset_id>', methods=['GET'])
+def api_dataset_get(dataset_id):
+    """
+     Get a single dataset detailed information
+     Everything but algorithmBLOB
+    """
+    result = DatasetDAO.get(dataset_id)
+    if result not in [1, 2]:
+        dataset = result.get_dict()
+        js = json.dumps(dataset)
+        resp = Response(js, status=200, mimetype='application/json')
+        resp.headers['Content-Type'] = 'application/json; charset=utf-8'
+    else:
+        data = {
+            "code": 404,
+            "fields": "string",
+            "message": "Not Found"
+        }
+        js = json.dumps(data)
+        resp = Response(js, status=404, mimetype='application/json')
+        resp.headers['Content-Type'] = 'application/json; charset=utf-8'
+    return resp
+
+"Algorithm API"
+
 @app.route('/algorithms/', methods=['GET'])
 def api_algorithms_get():
     """

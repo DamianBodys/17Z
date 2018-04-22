@@ -207,8 +207,7 @@ class Dataset:
             'displayName': self.getdisplay_name(),
             'linkURL': self.getlink_url(),
             'algorithmBLOB': self.getblob(),
-            'algorithmDescription': self.getdescription(),
-            'datasetDescription': self.getdataset_description()
+            'algorithmDescription': self.getdescription()
         }
         return dataset_dict
 
