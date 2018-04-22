@@ -529,7 +529,7 @@ class DatasetDAO:
         :rtype : int
         :returns: 0 OK, 1 Malformed query in uri, 2 Connection error, 3 Application or server error
         """
-        url = get_search_url()
+        url = get_search_url() + '/datasets/'
         if tags != '':
             query_string = ' OR '.join(tags.split(','))
             url += '?query=' + query_string

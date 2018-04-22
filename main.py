@@ -91,6 +91,56 @@ def algorithms_html():
     """Return a friendly greeting in HTML."""
     return render_template('algorithms.html')
 
+"Dataset API"
+
+@app.route('/datasets/', methods=['GET'])
+def api_datasets_get():
+    """
+    The Datasets endpoint returns information about the available datasets.
+    The response includes the display name and other details about each dataset.
+    It also allows full-text search of tags.
+    result_code:
+        0 OK
+        1 Malformed query in uri
+        2 Connection error
+        3 Application or server error
+        4 Wrong tags parameter
+    """
+    datasets_list = []
+    if 'tags' in request.args:
+        tags = request.args['tags']
+        # check if tags is a string and a coma delimited list of words (one space is acceptable only after coma)
+        if not isinstance(tags, str):
+            result_code = 4
+        else:
+            tags = tags.replace(', ', ',')
+            tags_are_ok = True
+            for tag in tags.split(','):
+                if not has_no_whitespaces(tag):
+                    tags_are_ok = False
+                    break
+            if not tags_are_ok:
+                result_code = 4
+            else:
+                result_code = DatasetDAO.searchindex(tags=tags, found_datasets_list=datasets_list)
+    else:
+        result_code = DatasetDAO.searchindex(found_datasets_list=datasets_list)
+    if result_code == 0:
+        js = json.dumps(datasets_list)
+        resp = Response(js, status=200, mimetype='application/json')
+        resp.headers['Content-Type'] = 'application/json; charset=utf-8'
+        return resp
+    else:
+        data = [{
+            "code": 400,
+            "fields": "string",
+            "message": "Malformed Data"
+        }]
+        js = json.dumps(data)
+        resp = Response(js, status=400, mimetype='application/json')
+        resp.headers['Content-Type'] = 'application/json; charset=utf-8'
+        return resp
+
 @app.route('/datasets', methods=['POST'])
 @authenticated
 def api_datasets_post(user_id=None):
@@ -118,6 +168,7 @@ def api_datasets_post(user_id=None):
     resp = Response(js, status=400, mimetype='application/json')
     resp.headers['Content-Type'] = 'application/json; charset=utf-8'
     return resp
+
 
 @app.route('/algorithms/', methods=['GET'])
 def api_algorithms_get():
