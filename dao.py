@@ -145,6 +145,7 @@ class UserDAO:
         entity['userID'] = user_id
         return User(entity)
 
+
 # Dataset class
 class Dataset:
     _data = {
@@ -460,6 +461,7 @@ class AlgorithmDAO:
         if response_from_url.status_code != 200:
             return 1
 
+
 class DatasetDAO:
     """
     Data Access Object Interface for Dataset
@@ -628,3 +630,83 @@ class DatasetDAO:
             return 2
         if response_from_url.status_code != 200:
             return 1
+
+
+class Period:
+    """
+    Class for Billing Period
+    """
+    _data = {
+        # begin: datetime.data
+        # end: datetime.data
+    }
+
+    def setbegin(self, begin):
+        self._data['begin'] = begin
+
+    def setend(self, end):
+        self._data['end'] = end
+
+    def getbegin(self):
+        return self._data['begin']
+
+    def getend(self):
+        return self._data['end']
+
+    def __init__(self, begin, end):
+        self.setbegin(begin)
+        self.setend(end)
+
+
+class Bill:
+    """
+    Main billing report class
+    """
+    _data = {
+        #      user: User: required
+        #      period: Period
+        #      billedObjID: string : It can be algorithmID or resultsetID witch may not exist anymore
+        #      billBLOB: string
+    }
+
+    def setuser(self, user):
+        self._data['user'] = user
+
+    def setperiod(self, period):
+        self._data['period'] = period
+
+    def setperiod_by_dates(self, begin, end):
+        self._data['period'] = Period(begin, end)
+
+    def setbilled_obj_id(self, billed_obj_id):
+        self._data['billedObjID'] = billed_obj_id
+
+    def getbilled_obj_id(self):
+        return self._data['billedObjID']
+
+    def setbilled_blob(self, bill_blob):
+        self._data['billBLOB'] = bill_blob
+
+    def getbill_blob(self):
+        return
+
+    def __init__(self, user):
+        self.setuser(user)
+
+
+class BillDAO:
+    """
+    The class to get billing information
+    """
+    @staticmethod
+    def getbilling(bill):
+        """
+        Main billing function wchich for now is fakeing results and always returns "abcd1234"
+        Args:
+            bill (Bill): an object with parameters to be searched by Billing engine of IOT Ekosystem
+
+        Returns:
+            bill_blob (string) : a billing report to be returned
+
+        """
+        return "abcd1234"
