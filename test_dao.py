@@ -85,7 +85,7 @@ def save_test_list_to_search_app(data_list):
         SearchWrongStatusCodeError: errors from Search GAE standard
 
     """
-    url = dao.get_search_url()
+    url = dao.get_search_url() + '/algorithms/'
     for item in data_list:
         index_data = {"algorithmId": item["algorithmId"],
                       "algorithmSummary": item["algorithmSummary"],
@@ -138,7 +138,15 @@ def del_all_from_search():
         SearchWrongStatusCodeError: http errors from Search GAE standard
 
     """
-    url = dao.get_search_url()
+    url = dao.get_search_url() + '/algorithms/'
+    try:
+        response = requests.delete(url)
+    except Exception:
+            raise SearchConnectionError('Problem with connection to ' + dao.get_search_url()) from None
+    if response.status_code > 399:
+        raise SearchWrongStatusCodeError(response.status_code)
+
+    url = dao.get_search_url() + '/datasets/'
     try:
         response = requests.delete(url)
     except Exception:
@@ -201,7 +209,7 @@ class DaoUnittestAlgorithmDaoTestCase(unittest.TestCase):
     def test_AlgorithmDAO_searchindex_1Algorithm(self):
         """ checks if from 1 algorithm Search database exactly 1 algorithm is returned and statuscode =0"""
         right_algorithm_list = create_test_search_algorithm_list(1)
-        url = dao.get_search_url()
+        url = dao.get_search_url() + '/algorithms/'
         index_data = {"algorithmId": right_algorithm_list[0]["algorithmId"],
                       "algorithmSummary": right_algorithm_list[0]["algorithmSummary"],
                       "displayName": right_algorithm_list[0]["displayName"],
