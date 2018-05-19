@@ -313,9 +313,12 @@ class DaoUnittestAlgorithmDaoTestCase(unittest.TestCase):
         returned = dao.AlgorithmDAO.getdata(algorithm_id_to_get)
         self.assertEqual(1, returned, msg='Wrongly error status Code not returned from Datastore')
 
+
+class DaoUnittestBillDaoTestCase(unittest.TestCase):
+    """Tests of all static methods of class BillDAO"""
     def test_BillDAO_getbilling_MokUp(self):
         """
-        get mokup billing data from nonexistent billing engine
+        get mok-up billing data from nonexistent billing engine
         """
         user_dict = {
             'userID': 'mokUserID',
