@@ -132,7 +132,7 @@ class UserDAO:
     @staticmethod
     def get(user_id):
         """
-        Get a single algorithm data from Datastore
+        Get a user data from Datastore
         :rtype : User
         """
         ds = datastore.Client()
@@ -709,4 +709,4 @@ class BillDAO:
             bill_blob (string) : a billing report to be returned
 
         """
-        return "abcd1234"
+        return 'abcd1234'
