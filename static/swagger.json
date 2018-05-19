@@ -119,8 +119,8 @@
           "Billing",
           "Supplier API"
         ],
-        "summary": "Receive a billing summary for result set",
-        "description": "Receive a billing summary for result set",
+        "summary": "Receive a billing summary for algorith",
+        "description": "Receive a billing summary for algorithm",
         "operationId": "bill_algorithm_id_rcv",
         "produces": [
           "application/json"

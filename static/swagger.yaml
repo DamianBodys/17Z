@@ -84,8 +84,8 @@ paths:
       tags:
         - Billing
         - Supplier API
-      summary: Receive a billing summary for result set
-      description: Receive a billing summary for result set
+      summary: Receive a billing summary for algorith
+      description: Receive a billing summary for algorithm
       operationId: bill_algorithm_id_rcv
       produces:
         - application/json
@@ -756,7 +756,7 @@ definitions:
     properties:
       datasetBLOB:
         type: string
-        description: 'Dataset initial parameters or output values'
+        description: Dataset initial parameters or output values
       datasetDescription:
         type: string
         description: detailed description of the dataset.
