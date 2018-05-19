@@ -52,6 +52,13 @@ paths:
         - application/json
       security:
         - GoogleIdToken: []
+      parameters:
+        - in: body
+          name: period
+          description: Time span of a report
+          required: false
+          schema:
+            $ref: '#/definitions/Period'
       responses:
         '200':
           description: Billing Report
@@ -74,6 +81,12 @@ paths:
           in: path
           required: true
           type: string
+        - in: body
+          name: period
+          description: Time span of a report
+          required: false
+          schema:
+            $ref: '#/definitions/Period'
       responses:
         '200':
           description: Billing result set summary
@@ -96,6 +109,12 @@ paths:
           in: path
           required: true
           type: string
+        - in: body
+          name: period
+          description: Time span of a report
+          required: false
+          schema:
+            $ref: '#/definitions/Period'
       responses:
         '200':
           description: Billing algorithm summary
@@ -115,7 +134,7 @@ paths:
         - GoogleIdToken: []
       parameters:
         - in: body
-          name: body
+          name: user
           description: User object to be created
           required: true
           schema:
@@ -829,7 +848,7 @@ definitions:
         description: User Status
   Period:
     type: object
-    description: Time span of e report
+    description: Time span of a report
     properties:
       begin:
         type: integer
