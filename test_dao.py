@@ -181,7 +181,7 @@ class DaoUnittestAlgorithmDaoTestCase(unittest.TestCase):
             del_all()
         except SearchConnectionError:
             self.fail("there was a problem while deleting everything check if search GAE standard app is OK?" +
-                      dao.get_search_url())
+                      dao.get_search_url() + '/algorithms/')
         except SearchWrongStatusCodeError:
             self.fail("there was a problem while deleting everything check if value exists in search GAE standard app")
         except DatastoreProjectNameValueError:
