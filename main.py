@@ -1,11 +1,11 @@
-# [START app]
 import logging
 import os
-from dao import Algorithm, AlgorithmDAO, User, UserDAO, Dataset, DatasetDAO
+from dao import Algorithm, AlgorithmDAO, User, UserDAO, Dataset, DatasetDAO, Bill, BillDAO, Period
 from flask import Flask, send_from_directory, url_for, redirect, json, \
     Response, request, render_template
 from authentication import authenticated, get_user_from_id_token
 import string
+import datetime
 
 app = Flask(__name__)
 
@@ -91,7 +91,8 @@ def algorithms_html():
     """Return a friendly greeting in HTML."""
     return render_template('algorithms.html')
 
-"Dataset API"
+# "Dataset API"
+
 
 @app.route('/datasets/', methods=['GET'])
 def api_datasets_get():
@@ -140,6 +141,7 @@ def api_datasets_get():
         resp = Response(js, status=400, mimetype='application/json')
         resp.headers['Content-Type'] = 'application/json; charset=utf-8'
         return resp
+
 
 @app.route('/datasets', methods=['POST'])
 @authenticated
@@ -191,6 +193,7 @@ def api_dataset_delete(dataset_id, user_id=None):
         resp.headers['Content-Type'] = 'application/json; charset=utf-8'
     return resp
 
+
 @app.route('/datasets/<dataset_id>', methods=['GET'])
 def api_dataset_get(dataset_id):
     """
@@ -214,7 +217,8 @@ def api_dataset_get(dataset_id):
         resp.headers['Content-Type'] = 'application/json; charset=utf-8'
     return resp
 
-"Algorithm API"
+# "Algorithm API"
+
 
 @app.route('/algorithms/', methods=['GET'])
 def api_algorithms_get():
@@ -286,6 +290,7 @@ def api_algorithm_delete(algorithm_id, user_id=None):
         resp.headers['Content-Type'] = 'application/json; charset=utf-8'
     return resp
 
+
 @app.route('/algorithms/', methods=['POST'])
 @authenticated
 def api_algorithms_post(user_id=None):
@@ -337,6 +342,8 @@ def api_algorithm_get(algorithm_id):
         resp = Response(js, status=404, mimetype='application/json')
         resp.headers['Content-Type'] = 'application/json; charset=utf-8'
     return resp
+
+# "User API"
 
 
 @app.route('/user/', methods=['POST'])
@@ -448,6 +455,76 @@ def get_user_by_id(uid, user_id=None):
         resp.headers['Content-Type'] = 'application/json; charset=utf-8'
     return resp
 
+# "Billing API"
+
+
+@app.route('/bill/', methods=['GET'])
+@authenticated
+def bill_rcv(user_id=None):
+    user = UserDAO.get(user_id)
+    bill = Bill(user)
+    if request.headers['Content-Type'] == 'application/json':
+        try:
+            dict_param = request.json
+            begin = convert_to_date(dict_param['begin'])
+            end = convert_to_date(dict_param['end'])
+            if end < begin:
+                raise ValueError('End date ' + end + ' is less then begin date' + begin)
+        except Exception as err:
+            data = {
+                "code": 400,
+                "fields": str(err),
+                "message": "Wrong period in request body"
+            }
+            js = json.dumps(data)
+            resp = Response(js, status=400, mimetype='application/json')
+            resp.headers['Content-Type'] = 'application/json; charset=utf-8'
+            return resp
+        period = Period(begin, end)
+        bill.setperiod(period)
+    returned_billing = BillDAO.getbilling(bill)
+    if returned_billing == 1:
+        data = {
+            "code": 404,
+            "fields": str(err),
+            "message": "There is no billing for a given parameters"
+        }
+        js = json.dumps(data)
+        resp = Response(js, status=404, mimetype='application/json')
+        resp.headers['Content-Type'] = 'application/json; charset=utf-8'
+    else:
+        bill_data = Response(js, status=200, mimetype='application/json')
+        resp = bill_data
+        resp.headers['Content-Type'] = 'text/xml; charset=utf-8'
+    return resp
+
+def convert_to_date(date):
+    """
+    Converts integer rrrrmmdd to datetime.date
+    Args:
+        date (int): date in rrrrmmdd format
+
+    Returns:
+        date_out (datetime.date):
+
+    Raises:
+        ValueError: when the date is not a true date
+        TypeError: when the date is not an Integer
+
+    """
+    if type(date) is int:
+        day = date % 100
+        month = ((date - day) / 100) % 100
+        year = (date - day - month*100) / 10000
+        try:
+            date_out = datetime.date(year, month, day)
+        except ValueError('The provided parameter ' + date + 'is not date'):
+            return 1
+        return date_out
+    else:
+        raise TypeError('The provided parameter ' + date + ' is not Integer')
+
+
 
 @app.errorhandler(404)
 def error404(e):
@@ -471,4 +548,4 @@ if __name__ == '__main__':
     #    app.run(host='0.0.0.0', port=5000, debug=True)
     app.run(host='localhost', port=5000, debug=False)
     # app.run(host='localhost', port=8080, debug=True)
-# [END app]
+
