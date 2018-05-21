@@ -3,6 +3,7 @@ import json
 import os
 from google.cloud import datastore
 from datetime import datetime
+import xml.etree.cElementTree as ET
 
 # name of kind to store data in Datastore
 _DATASTORE_KIND_ALGORITHMS = 'algorithms'
@@ -666,14 +667,23 @@ class Bill:
         #      user: User: required
         #      period: Period
         #      billedObjID: string : It can be algorithmID or resultsetID witch may not exist anymore
-        #      billBLOB: string
+        #      billBLOB: string : xml containing the bill
     }
 
     def setuser(self, user):
         self._data['user'] = user
 
+    def getuser(self):
+        return self._data['user']
+
     def setperiod(self, period):
         self._data['period'] = period
+
+    def getperiod(self):
+        if 'period' in self._data.keys():
+            return self._data['period']
+        else:
+            return None
 
     def setperiod_by_dates(self, begin, end):
         self._data['period'] = Period(begin, end)
@@ -682,13 +692,19 @@ class Bill:
         self._data['billedObjID'] = billed_obj_id
 
     def getbilled_obj_id(self):
-        return self._data['billedObjID']
+        if 'billedObjID' in self._data.keys():
+            return self._data['billedObjID']
+        else:
+            return None
 
     def setbilled_blob(self, bill_blob):
         self._data['billBLOB'] = bill_blob
 
     def getbill_blob(self):
-        return
+        if 'billBLOB' in self._data.keys():
+            return self._data['billBLOB']
+        else:
+            return None
 
     def __init__(self, user):
         self.setuser(user)
@@ -701,12 +717,36 @@ class BillDAO:
     @staticmethod
     def getbilling(bill):
         """
-        Main billing function wchich for now is fakeing results and always returns "abcd1234"
+        Main billing function which in real ekosystem should contain a call to Billing.
+        For now it's faking results and always returns serialized bill object and
+        98.30 balance as xml.
         Args:
             bill (Bill): an object with parameters to be searched by Billing engine of IOT Ekosystem
 
         Returns:
-            bill_blob (string) : a billing report to be returned
+            bill_blob (string) : a billing report to be returned as xml string
 
         """
-        return 'abcd1234'
+        rcv = ET.Element('rcv')
+        head = ET.SubElement(rcv, 'head')
+        userid = ET.SubElement(head, 'userid')
+        user = bill.getuser()
+        userid.text = user.getuser_id()
+        periodobj = bill.getperiod()
+        if periodobj is not None:
+            period = ET.SubElement(head, 'period')
+            begin = ET.SubElement(period, 'begin')
+            beginobj = periodobj.getbegin()
+            begin.text = str(beginobj.year * 10000 + beginobj.month * 100 + beginobj.day)
+            end = ET.SubElement(period, 'end')
+            endobj = periodobj.getend()
+            end.text = str(endobj.year * 10000 + endobj.month * 100 + endobj.day)
+        billobjid = bill.getbilled_obj_id()
+        if billobjid is not None:
+            billedobj = ET.SubElement(head, 'billedobj')
+            billedobj.text = billobjid
+        billelement = ET.SubElement(rcv, 'bill')
+        balance = ET.SubElement(billelement, 'balance')
+        balance.set('currency', 'EUR')
+        balance.text = '98.30'
+        return ET.tostring(rcv, encoding='utf-8')

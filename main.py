@@ -10,6 +10,33 @@ import datetime
 app = Flask(__name__)
 
 
+def convert_to_date(date):
+    """
+    Converts integer rrrrmmdd to datetime.date
+    Args:
+        date (int): date in rrrrmmdd format
+
+    Returns:
+        date_out (datetime.date):
+
+    Raises:
+        ValueError: when the date is not a true date
+        TypeError: when the date is not an Integer
+
+    """
+    if type(date) is int and date > 10000000:
+        day = date % 100
+        month = ((date - day) / 100) % 100
+        year = (date - day - month*100) / 10000
+        try:
+            date_out = datetime.date(year, month, day)
+        except ValueError('The provided parameter ' + str(date) + 'is not date'):
+            return 1
+        return date_out
+    else:
+        raise TypeError('The provided parameter ' + str(date) + ' is not Integer')
+
+
 def has_no_whitespaces(my_string):
     for my_char in my_string:
         if my_char in string.whitespace:
@@ -91,9 +118,8 @@ def algorithms_html():
     """Return a friendly greeting in HTML."""
     return render_template('algorithms.html')
 
+
 # "Dataset API"
-
-
 @app.route('/datasets/', methods=['GET'])
 def api_datasets_get():
     """
@@ -217,9 +243,8 @@ def api_dataset_get(dataset_id):
         resp.headers['Content-Type'] = 'application/json; charset=utf-8'
     return resp
 
+
 # "Algorithm API"
-
-
 @app.route('/algorithms/', methods=['GET'])
 def api_algorithms_get():
     """
@@ -343,9 +368,8 @@ def api_algorithm_get(algorithm_id):
         resp.headers['Content-Type'] = 'application/json; charset=utf-8'
     return resp
 
+
 # "User API"
-
-
 @app.route('/user/', methods=['POST'])
 @authenticated
 def create_user(user_id=None):
@@ -455,9 +479,8 @@ def get_user_by_id(uid, user_id=None):
         resp.headers['Content-Type'] = 'application/json; charset=utf-8'
     return resp
 
+
 # "Billing API"
-
-
 @app.route('/bill/', methods=['GET'])
 @authenticated
 def bill_rcv(user_id=None):
@@ -469,7 +492,7 @@ def bill_rcv(user_id=None):
             begin = convert_to_date(dict_param['begin'])
             end = convert_to_date(dict_param['end'])
             if end < begin:
-                raise ValueError('End date ' + end + ' is less then begin date' + begin)
+                raise ValueError('End date ' + str(end) + ' is less then begin date' + str(begin))
         except Exception as err:
             data = {
                 "code": 400,
@@ -486,44 +509,17 @@ def bill_rcv(user_id=None):
     if returned_billing == 1:
         data = {
             "code": 404,
-            "fields": str(err),
+            "fields": "string",
             "message": "There is no billing for a given parameters"
         }
         js = json.dumps(data)
         resp = Response(js, status=404, mimetype='application/json')
         resp.headers['Content-Type'] = 'application/json; charset=utf-8'
     else:
-        bill_data = Response(js, status=200, mimetype='application/json')
+        bill_data = Response(js, status=200, mimetype='text/xml')
         resp = bill_data
         resp.headers['Content-Type'] = 'text/xml; charset=utf-8'
     return resp
-
-def convert_to_date(date):
-    """
-    Converts integer rrrrmmdd to datetime.date
-    Args:
-        date (int): date in rrrrmmdd format
-
-    Returns:
-        date_out (datetime.date):
-
-    Raises:
-        ValueError: when the date is not a true date
-        TypeError: when the date is not an Integer
-
-    """
-    if type(date) is int:
-        day = date % 100
-        month = ((date - day) / 100) % 100
-        year = (date - day - month*100) / 10000
-        try:
-            date_out = datetime.date(year, month, day)
-        except ValueError('The provided parameter ' + date + 'is not date'):
-            return 1
-        return date_out
-    else:
-        raise TypeError('The provided parameter ' + date + ' is not Integer')
-
 
 
 @app.errorhandler(404)

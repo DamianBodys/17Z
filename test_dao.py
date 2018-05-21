@@ -331,7 +331,9 @@ class DaoUnittestBillDaoTestCase(unittest.TestCase):
         user = dao.User(user_dict)
         bill = dao.Bill(user)
         returned_bill = dao.BillDAO.getbilling(bill)
-        self.assertEqual('abcd1234', returned_bill, msg='Wrong mokup data returned')
+        self.assertEqual('<rcv><head><userid>' + user_dict['userID'] + '</userid></head><bill>' +
+                         '<balance currency="EUR">98.30</balance></bill></rcv>', returned_bill,
+                         msg='Wrong mok-up data returned')
 
 
 if __name__ == '__main__':
