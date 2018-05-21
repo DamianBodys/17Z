@@ -4,11 +4,14 @@ pip install WebTest
 import unittest
 import webtest
 import main
+from test_auth import get_id_token_for_testing
+from test_dao import del_all
 
 
-class MainHTTPTestCase(unittest.TestCase):
+class AlgorithmHTTPTestCase(unittest.TestCase):
     def setUp(self):
         self.test_app = webtest.TestApp(main.app)
+        del_all()
 
     def test_algorithms_GET_Empty(self):
         """Tests empty database"""
@@ -84,6 +87,19 @@ class MainHTTPTestCase(unittest.TestCase):
         self.assertEqual(400, response.status_int, msg='Wrong response status')
         self.assertIsNotNone(response.charset, msg='There is no charset in response')
         self.assertEqual('application/json', response.content_type)
+
+
+class BillingHTTPTestCase(unittest.TestCase):
+    def setUp(self):
+        self.test_app = webtest.TestApp(main.app)
+
+    def test_bill_GET(self):
+        """ Test normal GET - it should receive mok-up data"""
+        self.test_app.authorization = ('Bearer', get_id_token_for_testing())
+        response = self.test_app.get('/bill/')
+        self.assertEqual(200, response.status_int, msg='Wrong response status')
+        self.assertIsNotNone(response.charset, msg='There is no charset in response')
+        self.assertEqual('text/xml', response.content_type)
 
 
 if __name__ == '__main__':

@@ -1236,12 +1236,12 @@
         "begin": {
           "type": "integer",
           "format": "int64",
-          "description": "Date of the beginning of a report period"
+          "description": "Date of the beginning of a report period in rrrrmmdd format"
         },
         "end": {
           "type": "integer",
           "format": "int64",
-          "description": "Date of the end of a report period"
+          "description": "Date of the end of a report period in rrrrmmdd format"
         }
       }
     },

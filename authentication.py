@@ -50,15 +50,13 @@ def verify_google_id_token(id_token):
     :param id_token: 
     :return: None or sub
     """
-
+    print(client.verify_id_token(id_token, None))
     try:
         # id_info = client.verify_id_token(id_token, CLIENT_ID)
-
         # Or, if multiple clients access the backend server:
         id_info = client.verify_id_token(id_token, None)
         # if id_info['aud'] not in [CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]:
         #    raise crypt.AppIdentityError("Unrecognized client.")
-
         if id_info['iss'] not in ['accounts.google.com', 'https://accounts.google.com']:
             raise crypt.AppIdentityError("Wrong issuer.")
 

@@ -26,7 +26,8 @@
   </label><br>
   <label>Content-Type:
     <select name="Content-Type">
-      <option value="application/json" selected>application/json
+      <option value=""></option>
+      <option value="application/json" selected>application/json</option>
     </select>
   </label><br>
   <label>data:<br>
@@ -42,7 +43,7 @@
 <input type="submit" name="submit" value="Submit"><br>
   <label>user:(click inside to copy user schema)<br>
   <textarea name="user_data" rows="7" cols="50" readonly onclick="changeData();">{
-"userID" : '00000',
+"userID" : "00000",
 "firstName" : "string",
 "lastName" : "string",
 "email" : "string",
@@ -78,11 +79,14 @@ body:<br>
   };
   var form = $('#restform');
   var headers = new Object();
-  headers['Content-Type']= $( 'select[name=Content-Type' ).val();
+
   form.submit(function(event){
     event.preventDefault();
     if ($( 'textarea[name=Authorization]' ).val() != "") {
       headers['Authorization']= $( "textarea[name=Authorization]" ).val();
+    };
+    if ($( 'select[name=Content-Type]' ).val() != "") {
+    headers['Content-Type']= $( 'select[name=Content-Type]' ).val();
     };
     $.ajax({
       type: $( "select[name=method]" ).val(),

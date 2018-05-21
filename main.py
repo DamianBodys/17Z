@@ -487,8 +487,8 @@ def bill_rcv(user_id=None):
     user = UserDAO.get(user_id)
     bill = Bill(user)
     if request.headers['Content-Type'] == 'application/json':
+        dict_param = request.json
         try:
-            dict_param = request.json
             begin = convert_to_date(dict_param['begin'])
             end = convert_to_date(dict_param['end'])
             if end < begin:
