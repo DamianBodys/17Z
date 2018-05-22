@@ -463,6 +463,8 @@ class AlgorithmDAO:
             return 1
 
 
+
+
 class DatasetDAO:
     """
     Data Access Object Interface for Dataset
@@ -631,6 +633,19 @@ class DatasetDAO:
             return 2
         if response_from_url.status_code != 200:
             return 1
+
+class ExecutorMockup:
+    "Mockup of the executing module"
+
+    @staticmethod
+    def execute(algorithm_id, dataset_id):
+        algorithm = AlgorithmDAO.get(algorithm_id)
+        dataset = DatasetDAO.get(dataset_id)
+        if algorithm in [1, 2] or dataset in [1, 2]:
+            return 1
+        else:
+            return 0
+
 
 
 class Period:

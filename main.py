@@ -1,6 +1,6 @@
 import logging
 import os
-from dao import Algorithm, AlgorithmDAO, User, UserDAO, Dataset, DatasetDAO, Bill, BillDAO, Period
+from dao import Algorithm, AlgorithmDAO, User, UserDAO, Dataset, DatasetDAO, ExecutorMockup, Bill, BillDAO, Period
 from flask import Flask, send_from_directory, url_for, redirect, json, \
     Response, request, render_template
 from authentication import authenticated, get_user_from_id_token
@@ -368,6 +368,26 @@ def api_algorithm_get(algorithm_id):
         resp.headers['Content-Type'] = 'application/json; charset=utf-8'
     return resp
 
+@app.route('/algorithms/<algorithm_id>/<dataset_id>', methods=['GET'])
+@authenticated
+def api_algorithm_post(algorithm_id, dataset_id, user_id=None):
+    """
+     Execute algorithm with a dataset_id
+    """
+    result = ExecutorMockup.execute(algorithm_id, dataset_id)
+    if result == 0:
+        resp = Response(status=200, mimetype='application/json')
+        resp.headers['Content-Type'] = 'application/json; charset=utf-8'
+    else:
+        data = {
+            "code": 404,
+            "fields": "string",
+            "message": "Not Found"
+        }
+        js = json.dumps(data)
+        resp = Response(js, status=404, mimetype='application/json')
+        resp.headers['Content-Type'] = 'application/json; charset=utf-8'
+    return resp
 
 # "User API"
 @app.route('/user/', methods=['POST'])
