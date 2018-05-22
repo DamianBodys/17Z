@@ -484,7 +484,7 @@ def get_user_by_id(uid, user_id=None):
 @app.route('/bill/', methods=['GET'])
 @authenticated
 def bill_rcv(user_id=None):
-    user = UserDAO.get(user_id)
+    user = get_user_from_id_token(request.headers['Authorization'].split(" ")[1])
     bill = Bill(user)
     if request.headers['Content-Type'] == 'application/json':
         dict_param = request.json
@@ -516,7 +516,7 @@ def bill_rcv(user_id=None):
         resp = Response(js, status=404, mimetype='application/json')
         resp.headers['Content-Type'] = 'application/json; charset=utf-8'
     else:
-        bill_data = Response(js, status=200, mimetype='text/xml')
+        bill_data = Response('<?xml version="1.0" encoding="UTF-8"?>' + returned_billing, status=200, mimetype='text/xml')
         resp = bill_data
         resp.headers['Content-Type'] = 'text/xml; charset=utf-8'
     return resp
