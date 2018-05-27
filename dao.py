@@ -30,11 +30,12 @@ class User:
     """ User class"""
     _data = {
         #      userID: string # google id_info['sub']
-        #      firstName: string
-        #       lastName: string
-        #       email: string
-        #       phone: string
-        #       userStatus: integer
+        #      userStatus: integer
+        # the following lines ware removed because of RODO in EU
+        # ###         firstName: string
+        # ###         lastName: string
+        # ###         email: string
+        # ###         phone: string
     }
 
     def setuser_id(self, user_id):
@@ -55,29 +56,30 @@ class User:
     def getuser_id(self):
         return self._data['userID']
 
-    def setfirst_name(self, first_name):
-        self._data['firstName'] = first_name
-
-    def getfirst_name(self):
-        return self._data['firstName']
-
-    def setlast_name(self, last_name):
-        self._data['lastName'] = last_name
-
-    def getlast_name(self):
-        return self._data['lastName']
-
-    def setemail(self, email):
-        self._data['email'] = email
-
-    def getemail(self):
-        return self._data['email']
-
-    def setphone(self, phone):
-        self._data['phone'] = phone
-
-    def getphone(self):
-        return self._data['phone']
+    # the following lines ware removed because of RODO in EU
+    # def setfirst_name(self, first_name):
+    #     self._data['firstName'] = first_name
+    #
+    # def getfirst_name(self):
+    #     return self._data['firstName']
+    #
+    # def setlast_name(self, last_name):
+    #     self._data['lastName'] = last_name
+    #
+    # def getlast_name(self):
+    #     return self._data['lastName']
+    #
+    # def setemail(self, email):
+    #     self._data['email'] = email
+    #
+    # def getemail(self):
+    #     return self._data['email']
+    #
+    # def setphone(self, phone):
+    #     self._data['phone'] = phone
+    #
+    # def getphone(self):
+    #     return self._data['phone']
     
     def setuser_status(self, user_status):
         self._data['userStatus'] = user_status
@@ -87,19 +89,21 @@ class User:
 
     def __init__(self, dict_data):
         self.setuser_id(dict_data['userID'])
-        self.setfirst_name(dict_data['firstName'])
-        self.setlast_name(dict_data['lastName'])
-        self.setemail(dict_data['email'])
-        self.setphone(dict_data['phone'])
+        # the following lines ware removed because of RODO in EU
+        # self.setfirst_name(dict_data['firstName'])
+        # self.setlast_name(dict_data['lastName'])
+        # self.setemail(dict_data['email'])
+        # self.setphone(dict_data['phone'])
         self.setuser_status(dict_data['userStatus'])
         
     def get_dict(self):
         user_dict = {
             'userID': self.getuser_id(),
-            'firstName': self.getfirst_name(),
-            'lastName': self.getlast_name(),
-            'email': self.getemail(),
-            'phone': self.getphone(),
+            # the following lines ware removed because of RODO in EU
+            # 'firstName': self.getfirst_name(),
+            # 'lastName': self.getlast_name(),
+            # 'email': self.getemail(),
+            # 'phone': self.getphone(),
             'userStatus': self.getuser_status()
         }
         return user_dict
@@ -118,10 +122,11 @@ class UserDAO:
         try:
             entity = datastore.Entity(key=ds.key(_DATASTORE_KIND_USERS, user.getuser_id()))
             entity.update({
-                'firstName': user.getfirst_name(),
-                'lastName': user.getlast_name(),
-                'email': user.getemail(),
-                'phone': user.getphone(),
+                # the following lines ware removed because of RODO in EU
+                # 'firstName': user.getfirst_name(),
+                # 'lastName': user.getlast_name(),
+                # 'email': user.getemail(),
+                # 'phone': user.getphone(),
                 'userStatus': user.getuser_status(),
                 'timestamp': datetime.now()
             })

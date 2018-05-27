@@ -381,10 +381,11 @@ def create_user(user_id=None):
     if request.headers['Content-Type'] == 'application/json':
         dict_data = {
             'userID': 0,
-            'firstName': "",
-            'lastName': "",
-            'email': "",
-            'phone': "",
+            # the following lines ware removed because of RODO in EU
+            # 'firstName': "",
+            # 'lastName': "",
+            # 'email': "",
+            # 'phone': "",
             'userStatus': 0
         }
         dict_data1 = request.json
@@ -486,25 +487,25 @@ def get_user_by_id(uid, user_id=None):
 def bill_rcv(user_id=None):
     user = get_user_from_id_token(request.headers['Authorization'].split(" ")[1])
     bill = Bill(user)
-    if request.headers['Content-Type'] == 'application/json':
-        dict_param = request.json
-        try:
-            begin = convert_to_date(dict_param['begin'])
-            end = convert_to_date(dict_param['end'])
-            if end < begin:
-                raise ValueError('End date ' + str(end) + ' is less then begin date' + str(begin))
-        except Exception as err:
-            data = {
-                "code": 400,
-                "fields": str(err),
-                "message": "Wrong period in request body"
-            }
-            js = json.dumps(data)
-            resp = Response(js, status=400, mimetype='application/json')
-            resp.headers['Content-Type'] = 'application/json; charset=utf-8'
-            return resp
-        period = Period(begin, end)
-        bill.setperiod(period)
+    # if request.headers['Content-Type'] == 'application/json':
+    #     dict_param = request.json
+    #     try:
+    #         begin = convert_to_date(dict_param['begin'])
+    #         end = convert_to_date(dict_param['end'])
+    #         if end < begin:
+    #             raise ValueError('End date ' + str(end) + ' is less then begin date' + str(begin))
+    #     except Exception as err:
+    #         data = {
+    #             "code": 400,
+    #             "fields": str(err),
+    #             "message": "Wrong period in request body"
+    #         }
+    #         js = json.dumps(data)
+    #         resp = Response(js, status=400, mimetype='application/json')
+    #         resp.headers['Content-Type'] = 'application/json; charset=utf-8'
+    #         return resp
+    #     period = Period(begin, end)
+    #     bill.setperiod(period)
     returned_billing = BillDAO.getbilling(bill)
     if returned_billing == 1:
         data = {
@@ -516,7 +517,7 @@ def bill_rcv(user_id=None):
         resp = Response(js, status=404, mimetype='application/json')
         resp.headers['Content-Type'] = 'application/json; charset=utf-8'
     else:
-        bill_data = Response(b'<?xml version="1.0" encoding="UTF-8"?>' + returned_billing, status=200, mimetype='text/xml')
+        bill_data = Response(b'<?xml version="1.0" encoding="UTF-8"?>' + bytes(returned_billing), status=200, mimetype='text/xml')
         resp = bill_data
         resp.headers['Content-Type'] = 'text/xml; charset=utf-8'
     return resp

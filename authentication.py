@@ -14,8 +14,8 @@ These six fields are included in all Google ID Tokens.
  "email_verified": "true",
  "name" : "Test User",
  "picture": "https://lh4.googleusercontent.com/-kYgzyAWpZzJ/ABCDEFGHI/AAAJKLMNOP/tIXL9Ir44LE/s99-c/photo.jpg",
- "given_name": "Test",
- "family_name": "User",
+ "given_name": "Test", as of May the 25th that data is no longer available in ID token because of RODO i EU
+ "family_name": "User",  as of May the 25th that data is no longer available in ID token because of RODO i EU
  "locale": "en"
 """
 from functools import wraps
@@ -34,10 +34,11 @@ def get_user_from_id_token(id_token):
     id_info = client.verify_id_token(id_token, None)
     dict_data = {
         'userID': id_info['sub'],
-        'firstName': id_info['given_name'],
-        'lastName': id_info['family_name'],
-        'email': id_info['email'],
-        'phone': "",
+        # the following lines ware removed because of RODO in EU
+        # 'firstName': id_info['given_name'],
+        # 'lastName': id_info['family_name'],
+        # 'email': id_info['email'],
+        # 'phone': "",
         'userStatus': 0
     }
     user = User(dict_data)
@@ -52,17 +53,9 @@ def verify_google_id_token(id_token):
     """
     print(client.verify_id_token(id_token, None))
     try:
-        # id_info = client.verify_id_token(id_token, CLIENT_ID)
-        # Or, if multiple clients access the backend server:
         id_info = client.verify_id_token(id_token, None)
-        # if id_info['aud'] not in [CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]:
-        #    raise crypt.AppIdentityError("Unrecognized client.")
         if id_info['iss'] not in ['accounts.google.com', 'https://accounts.google.com']:
             raise crypt.AppIdentityError("Wrong issuer.")
-
-            # If auth request is from a G Suite domain:
-            # if idinfo['hd'] != GSUITE_DOMAIN_NAME:
-            #    raise crypt.AppIdentityError("Wrong hosted domain.")
     except crypt.AppIdentityError:
         # Invalid token
         return None
