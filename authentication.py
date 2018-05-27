@@ -51,7 +51,7 @@ def verify_google_id_token(id_token):
     :param id_token: 
     :return: None or sub
     """
-    print(client.verify_id_token(id_token, None))
+    # print(client.verify_id_token(id_token, None))
     try:
         id_info = client.verify_id_token(id_token, None)
         if id_info['iss'] not in ['accounts.google.com', 'https://accounts.google.com']:
