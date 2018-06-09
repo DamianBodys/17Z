@@ -7,6 +7,7 @@ from oauth2client import tools
 from oauth2client.file import Storage
 from oauth2client.client import flow_from_clientsecrets, verify_id_token
 from oauth2client.client import Credentials
+import argparse
 
 SCOPE = 'profile'  # this is needed to get id_token for Bearer authentication
 CLIENT_SECRET_FILE = environ['GOOGLE_TEST_CREDENTIALS']
@@ -24,7 +25,11 @@ def get_id_token_for_testing():
     storage = Storage(CREDENTIALS_FILE)
     credentials = storage.get()
     if credentials is None or credentials.invalid:
-        credentials = tools.run_flow(flow, storage, tools.argparser.parse_args())
+        parser = argparse.ArgumentParser(parents=[tools.argparser])
+        parser.add_argument('args', nargs=argparse.REMAINDER)
+        flags = parser.parse_args()
+        flags.auth_host_port=[8089]
+        credentials = tools.run_flow(flow, storage, flags)
     if credentials.access_token_expired:
         credentials.refresh(httplib2.Http())
     id_token = credentials.token_response['id_token']

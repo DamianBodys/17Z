@@ -517,7 +517,8 @@ def bill_rcv(user_id=None):
         resp = Response(js, status=404, mimetype='application/json')
         resp.headers['Content-Type'] = 'application/json; charset=utf-8'
     else:
-        bill_data = Response(b'<?xml version="1.0" encoding="UTF-8"?>' + bytes(returned_billing), status=200, mimetype='text/xml')
+        bill_str = '<?xml version="1.0" encoding="UTF-8"?>' + returned_billing
+        bill_data = Response(bill_str, status=200, mimetype='text/xml', content_type='text/xml;charset=utf-8')
         resp = bill_data
         resp.headers['Content-Type'] = 'text/xml; charset=utf-8'
     return resp
