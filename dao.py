@@ -754,4 +754,5 @@ class BillDAO:
         balance = ET.SubElement(billelement, 'balance')
         balance.set('currency', 'EUR')
         balance.text = '98.30'
-        return ET.tostring(rcv, encoding='utf-8')
+        retxml = ET.tostring(rcv, encoding='unicode')
+        return retxml
