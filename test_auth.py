@@ -31,7 +31,10 @@ def get_id_token_for_testing():
         flags.auth_host_port=[8089]
         credentials = tools.run_flow(flow, storage, flags)
     if credentials.access_token_expired:
-        credentials.refresh(httplib2.Http())
+        http = httplib2.Http()
+        credentials.refresh(http)
+        for conn in http.connections.values():
+            conn.close()
     id_token = credentials.token_response['id_token']
     #id_info = verify_id_token(id_token, None)
     return id_token
