@@ -49,6 +49,7 @@ def get_billingperiod(requestargs):
             if end < begin:
                 raise WrongBillingPeriodError('End date ' + str(end) + ' is less then begin date' + str(begin))
             period = Period(begin, end)
+            return period
         else:
             raise WrongBillingPeriodError("Wrong period in request query: there was a begin without an end")
     else:
@@ -69,9 +70,9 @@ def convert_to_date(date):
     """
     if len(date) == 8 and date.isnumeric():
         try:
-            day = int(date[6-7])
-            month = int(date[4-5])
-            year = int(date[0-3])
+            day = int(date[6:])
+            month = int(date[4:6])
+            year = int(date[0:4])
             date_out = datetime.date(year, month, day)
         except ValueError as err:
             raise WrongBillingPeriodError('The provided parameter ' + date + ' is not date in a form of yyyymmdd')
