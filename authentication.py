@@ -27,9 +27,13 @@ from dao import User
 def get_user_from_id_token(id_token):
     """
     Extracts user data from Google Identity Platform id_token.
+    It assumes that a token is verified.
     There is no phone in id_token so it's set to ""
-    :param id_token: 
-    :return: User object 
+    firstName', 'lastName', 'email' ware removed because of RODO in EU
+    Args:
+        id_token (string): google id_token
+    Returns:
+        User (User):
     """
     id_info = client.verify_id_token(id_token, None)
     dict_data = {
@@ -48,10 +52,11 @@ def get_user_from_id_token(id_token):
 def verify_google_id_token(id_token):
     """
     Verifies if id_token is a valid google account token
-    :param id_token: 
-    :return: None or sub
+    Args:
+        id_token(string): google id_token
+    Returns:
+        sub(string): or None if crypt.AppIdentityError occurs
     """
-    # print(client.verify_id_token(id_token, None))
     try:
         id_info = client.verify_id_token(id_token, None)
         if id_info['iss'] not in ['accounts.google.com', 'https://accounts.google.com']:
@@ -68,13 +73,15 @@ def authenticated(fn):
     Decorator which checks if there is Authenticate: Bearer id_token in headers and then 
     checks if it's a valid Google ID
     Returns sub of the user or None if error
-    :param fn: 
-    :return: None or sub
+    Args:
+        fn (function): wrapped function
+    Returns:
+        sub(string): or None if crypt.AppIdentityError occurs
     Usage:
-    @app.route("/")
-    @authenticated
-    def something(user_id=None):
-        pass
+        @app.route("/")
+        @authenticated
+        def something(user_id=None):
+            pass
     """
     @wraps(fn)
     def wrapped_function(*args, **kwargs):
