@@ -56,9 +56,9 @@ def get_billingperiod(requestargs):
 
 def convert_to_date(date):
     """
-    Converts integer rrrrmmdd to datetime.date
+    Converts date in integer like string rrrrmmdd format to datetime.date
     Args:
-        date (int): date in rrrrmmdd format
+        date (str): date in rrrrmmdd format
 
     Returns:
         date_out (datetime.date):
@@ -67,17 +67,17 @@ def convert_to_date(date):
         WrongBillingPeriodError: if there is something wrong in provided parameter
 
     """
-    if type(date) is int and date > 10000000:
-        day = date % 100
-        month = ((date - day) / 100) % 100
-        year = (date - day - month*100) / 10000
+    if len(date) == 8 and date.isnumeric():
         try:
+            day = int(date[6-7])
+            month = int(date[4-5])
+            year = int(date[0-3])
             date_out = datetime.date(year, month, day)
-        except WrongBillingPeriodError('The provided parameter ' + str(date) + 'is not date in a form of ddmmyyyy'):
-            return None
+        except ValueError as err:
+            raise WrongBillingPeriodError('The provided parameter ' + date + ' is not date in a form of yyyymmdd')
         return date_out
     else:
-        raise WrongBillingPeriodError('The provided parameter ' + str(date) + ' is not an Integer')
+        raise WrongBillingPeriodError('The provided parameter ' + date + ' is not numeric or is not 8 digits long')
 
 
 def has_no_whitespaces(my_string):

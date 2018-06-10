@@ -102,5 +102,15 @@ class BillingHTTPTestCase(unittest.TestCase):
         self.assertEqual('text/xml', response.content_type)
 
 
+    def test_bill_with_period_GET(self):
+        """ Test normal GET - it should receive mok-up data"""
+        self.test_app.authorization = ('Bearer', get_id_token_for_testing())
+        begin = 20180402
+        end = 20180403
+        response = self.test_app.get('/bill/', params={'begin': begin, 'end': end})
+        self.assertEqual(200, response.status_int, msg='Wrong response status')
+        self.assertIsNotNone(response.charset, msg='There is no charset in response')
+        self.assertEqual('text/xml', response.content_type)
+
 if __name__ == '__main__':
     unittest.main()

@@ -85,7 +85,6 @@ def authenticated(fn):
     """
     @wraps(fn)
     def wrapped_function(*args, **kwargs):
-        # TODO: input data verification to be handled by separate module
         if 'Authorization' not in request.headers:
             # Unauthorized
             print("There is no id_token in header")
