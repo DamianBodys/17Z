@@ -9,6 +9,50 @@ import datetime
 
 app = Flask(__name__)
 
+class WrongBillingPeriodError(Exception):
+    """
+    Exception raised when there are errors in suplied begin and end parameters for Period object
+
+    Attributes:
+        message (str): message
+
+    """
+    def __init__(self, message=None):
+        """
+        Exception constructor
+
+        Args:
+            message (str):  message
+        """
+        if message is not None:
+            self.message = message
+        else:
+            self.message = 'Period related error'
+
+
+def get_billingperiod(requestargs):
+    """
+    Gets period of a billing query from request.args dictionary provided
+    Args:
+        requestargs (dict): request arguments where we look for begin and end
+
+    Returns:
+        period (Period): period of billing or None if not specified
+
+    Raises:
+        WrongBillingPeriodError: if there is begin argument in request query and something is wrong or missing
+    """
+    if 'begin' in requestargs:
+        if 'end' in requestargs:
+            begin = convert_to_date(requestargs['begin'])
+            end = convert_to_date(requestargs['end'])
+            if end < begin:
+                raise WrongBillingPeriodError('End date ' + str(end) + ' is less then begin date' + str(begin))
+            period = Period(begin, end)
+        else:
+            raise WrongBillingPeriodError("Wrong period in request query: there was a begin without an end")
+    else:
+        return None
 
 def convert_to_date(date):
     """
@@ -20,8 +64,7 @@ def convert_to_date(date):
         date_out (datetime.date):
 
     Raises:
-        ValueError: when the date is not a true date
-        TypeError: when the date is not an Integer
+        WrongBillingPeriodError: if there is something wrong in provided parameter
 
     """
     if type(date) is int and date > 10000000:
@@ -30,11 +73,11 @@ def convert_to_date(date):
         year = (date - day - month*100) / 10000
         try:
             date_out = datetime.date(year, month, day)
-        except ValueError('The provided parameter ' + str(date) + 'is not date'):
-            return 1
+        except WrongBillingPeriodError('The provided parameter ' + str(date) + 'is not date in a form of ddmmyyyy'):
+            return None
         return date_out
     else:
-        raise TypeError('The provided parameter ' + str(date) + ' is not Integer')
+        raise WrongBillingPeriodError('The provided parameter ' + str(date) + ' is not an Integer')
 
 
 def has_no_whitespaces(my_string):
@@ -487,25 +530,20 @@ def get_user_by_id(uid, user_id=None):
 def bill_rcv(user_id=None):
     user = get_user_from_id_token(request.headers['Authorization'].split(" ")[1])
     bill = Bill(user)
-    # if request.headers['Content-Type'] == 'application/json':
-    #     dict_param = request.json
-    #     try:
-    #         begin = convert_to_date(dict_param['begin'])
-    #         end = convert_to_date(dict_param['end'])
-    #         if end < begin:
-    #             raise ValueError('End date ' + str(end) + ' is less then begin date' + str(begin))
-    #     except Exception as err:
-    #         data = {
-    #             "code": 400,
-    #             "fields": str(err),
-    #             "message": "Wrong period in request body"
-    #         }
-    #         js = json.dumps(data)
-    #         resp = Response(js, status=400, mimetype='application/json')
-    #         resp.headers['Content-Type'] = 'application/json; charset=utf-8'
-    #         return resp
-    #     period = Period(begin, end)
-    #     bill.setperiod(period)
+    try:
+        period = get_billingperiod(request.args)
+        if period is not None:
+            bill.setperiod(period)
+    except WrongBillingPeriodError as err:
+        data = {
+            "code": 400,
+            "fields": err.message,
+            "message": "Wrong period in request query"
+            }
+        js = json.dumps(data)
+        resp = Response(js, status=400, mimetype='application/json')
+        resp.headers['Content-Type'] = 'application/json; charset=utf-8'
+        return resp
     returned_billing = BillDAO.getbilling(bill)
     if returned_billing == 1:
         data = {

@@ -30,6 +30,7 @@ class SearchConnectionError(Exception):
     """
     Exception rised by requests to Search Database in GAE standard
     """
+    pass
 
 
 class DatastoreProjectNameValueError(ValueError):
