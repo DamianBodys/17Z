@@ -29,6 +29,25 @@ class WrongBillingPeriodError(Exception):
         else:
             self.message = 'Period related error'
 
+class WrongPathIdError(Exception):
+    """
+    Exception raised when there are errors in suplied id in request path ie. algorithmid
+
+    Attributes:
+        message (str): message
+
+    """
+    def __init__(self, message=None):
+        """
+        Exception constructor
+
+        Args:
+            message (str):  message
+        """
+        if message is not None:
+            self.message = message
+        else:
+            self.message = 'ID related error'
 
 def get_billingperiod(requestargs):
     """
@@ -527,19 +546,40 @@ def get_user_by_id(uid, user_id=None):
 
 # "Billing API"
 @app.route('/bill/', methods=['GET'])
+@app.route('/bill/result/<resultsetid>', methods=['GET'])
+@app.route('/bill/algorithm/<algorithmid>', methods=['GET'])
 @authenticated
-def bill_rcv(user_id=None):
+def bill_rcv(resultsetid=None, algorithmid=None, user_id=None):
     user = get_user_from_id_token(request.headers['Authorization'].split(" ")[1])
     bill = Bill(user)
     try:
         period = get_billingperiod(request.args)
         if period is not None:
             bill.setperiod(period)
+        if resultsetid or algorithmid:
+            if not has_no_whitespaces(resultsetid):
+                raise WrongPathIdError('resutlsetid has whitespaces')
+            if not has_no_whitespaces(algorithmid):
+                raise WrongPathIdError('algorithmid has whitespaces')
+            if resultsetid:
+                Bill.setbilled_obj_id(resultsetid)
+            else:
+                Bill.setbilled_obj_id(algorithmid)
     except WrongBillingPeriodError as err:
         data = {
             "code": 400,
             "fields": err.message,
             "message": "Wrong period in request query"
+            }
+        js = json.dumps(data)
+        resp = Response(js, status=400, mimetype='application/json')
+        resp.headers['Content-Type'] = 'application/json; charset=utf-8'
+        return resp
+    except WrongPathIdError as err:
+        data = {
+            "code": 400,
+            "fields": err.message,
+            "message": "Wrong id in request path"
             }
         js = json.dumps(data)
         resp = Response(js, status=400, mimetype='application/json')
