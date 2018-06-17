@@ -556,15 +556,14 @@ def bill_rcv(resultsetid=None, algorithmid=None, user_id=None):
         period = get_billingperiod(request.args)
         if period is not None:
             bill.setperiod(period)
-        if resultsetid or algorithmid:
+        if resultsetid is not None:
             if not has_no_whitespaces(resultsetid):
                 raise WrongPathIdError('resutlsetid has whitespaces')
+            bill.setbilled_obj_id(billed_obj_id=resultsetid)
+        if algorithmid is not None:
             if not has_no_whitespaces(algorithmid):
                 raise WrongPathIdError('algorithmid has whitespaces')
-            if resultsetid:
-                Bill.setbilled_obj_id(resultsetid)
-            else:
-                Bill.setbilled_obj_id(algorithmid)
+            bill.setbilled_obj_id(billed_obj_id=algorithmid)
     except WrongBillingPeriodError as err:
         data = {
             "code": 400,

@@ -115,5 +115,27 @@ class BillingHTTPTestCase(unittest.TestCase):
         self.assertEqual(begin,response.xml.findall('./head/period/begin')[0].text)
         self.assertEqual(end, response.xml.findall('./head/period/end')[0].text)
 
+
+    def test_bill_with_resultsetid_GET(self):
+        """ Test normal GET - it should receive mok-up data"""
+        self.test_app.authorization = ('Bearer', get_id_token_for_testing())
+        resultsetid = 'ResultsetID'
+        response = self.test_app.get('/bill/result/' + resultsetid)
+        self.assertEqual(200, response.status_int, msg='Wrong response status')
+        self.assertIsNotNone(response.charset, msg='There is no charset in response')
+        self.assertEqual('text/xml', response.content_type)
+        self.assertEqual(resultsetid,response.xml.findall('./head/billedobj')[0].text)
+
+
+    def test_bill_with_algorithmid_GET(self):
+        """ Test normal GET - it should receive mok-up data"""
+        self.test_app.authorization = ('Bearer', get_id_token_for_testing())
+        algorithmid = 'AlgorithmID'
+        response = self.test_app.get('/bill/algorithm/' + algorithmid)
+        self.assertEqual(200, response.status_int, msg='Wrong response status')
+        self.assertIsNotNone(response.charset, msg='There is no charset in response')
+        self.assertEqual('text/xml', response.content_type)
+        self.assertEqual(algorithmid,response.xml.findall('./head/billedobj')[0].text)
+
 if __name__ == '__main__':
     unittest.main()
