@@ -55,14 +55,16 @@ paths:
       parameters:
         - in: query
           name: begin
-          type: integer
-          description: Begin of the time span of a report
+          type: string
+          description: Begin of the time span of a report (yyyymmdd)
           required: false
+          x-example: '20180410'
         - in: query
           name: end
-          type: integer
-          description: End of a time span of a report
+          type: string
+          description: End of a time span of a report (yyyymmdd)
           required: false
+          x-example: '20180410'
       responses:
         '200':
           description: Billing Report
@@ -75,7 +77,7 @@ paths:
         - Consumer API
       summary: Receive a billing summary for result set
       description: Receive a billing summary for result set
-      operationId: bill_result_id_rcv
+      operationId: bill_rcv(resultsetId)
       produces:
         - application/json
       security:
@@ -87,14 +89,16 @@ paths:
           type: string
         - in: query
           name: begin
-          type: integer
-          description: Begin of the time span of a report
+          type: string
+          description: Begin of the time span of a report (yyyymmdd)
           required: false
+          x-example: '20180410'
         - in: query
           name: end
-          type: integer
-          description: End of a time span of a report
+          type: string
+          description: End of a time span of a report (yyyymmdd)
           required: false
+          x-example: '20180410'
       responses:
         '200':
           description: Billing result set summary
@@ -107,7 +111,7 @@ paths:
         - Supplier API
       summary: Receive a billing summary for algorith
       description: Receive a billing summary for algorithm
-      operationId: bill_algorithm_id_rcv
+      operationId: bill_rcv(algorithmId)
       produces:
         - application/json
       security:
@@ -119,14 +123,16 @@ paths:
           type: string
         - in: query
           name: begin
-          type: integer
-          description: Begin of the time span of a report
+          type: string
+          description: Begin of the time span of a report (yyyymmdd)
           required: false
+          x-example: '20180410'
         - in: query
           name: end
-          type: integer
-          description: End of a time span of a report
+          type: string
+          description: End of a time span of a report (yyyymmdd)
           required: false
+          x-example: '20180410'
       responses:
         '200':
           description: Billing algorithm summary
@@ -864,4 +870,4 @@ definitions:
     properties:
       reportData:
         type: string
-        description: Complete data of the billing report
+        description: Complete data of the billing report in xml

@@ -116,6 +116,16 @@ class BillingHTTPTestCase(unittest.TestCase):
         self.assertEqual(end, response.xml.findall('./head/period/end')[0].text)
 
 
+    def test_bill_with_period_GET_without_end(self):
+        """ Test normal GET - it should receive mok-up data"""
+        self.test_app.authorization = ('Bearer', get_id_token_for_testing())
+        begin = '20180402'
+        response = self.test_app.get('/bill/', params={'begin': begin}, expect_errors=True)
+        self.assertEqual(400, response.status_int, msg='Wrong response status')
+        self.assertIsNotNone(response.charset, msg='There is no charset in response')
+        self.assertEqual('application/json', response.content_type)
+
+
     def test_bill_with_resultsetid_GET(self):
         """ Test normal GET - it should receive mok-up data"""
         self.test_app.authorization = ('Bearer', get_id_token_for_testing())
@@ -136,6 +146,16 @@ class BillingHTTPTestCase(unittest.TestCase):
         self.assertIsNotNone(response.charset, msg='There is no charset in response')
         self.assertEqual('text/xml', response.content_type)
         self.assertEqual(algorithmid,response.xml.findall('./head/billedobj')[0].text)
+
+
+    def test_bill_with_resultsetid_GET_whitespace(self):
+        """ Test normal GET - it should receive mok-up data"""
+        self.test_app.authorization = ('Bearer', get_id_token_for_testing())
+        resultsetid = 'Resultset ID'
+        response = self.test_app.get('/bill/result/' + resultsetid,expect_errors=True)
+        self.assertEqual(400, response.status_int, msg='Wrong response status')
+        self.assertIsNotNone(response.charset, msg='There is no charset in response')
+        self.assertEqual('application/json', response.content_type)
 
 if __name__ == '__main__':
     unittest.main()
