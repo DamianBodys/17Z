@@ -14,8 +14,8 @@ These six fields are included in all Google ID Tokens.
  "email_verified": "true",
  "name" : "Test User",
  "picture": "https://lh4.googleusercontent.com/-kYgzyAWpZzJ/ABCDEFGHI/AAAJKLMNOP/tIXL9Ir44LE/s99-c/photo.jpg",
- "given_name": "Test",
- "family_name": "User",
+ "given_name": "Test", as of May the 25th that data is no longer available in ID token because of RODO i EU
+ "family_name": "User",  as of May the 25th that data is no longer available in ID token because of RODO i EU
  "locale": "en"
 """
 from functools import wraps
@@ -27,17 +27,22 @@ from dao import User
 def get_user_from_id_token(id_token):
     """
     Extracts user data from Google Identity Platform id_token.
+    It assumes that a token is verified.
     There is no phone in id_token so it's set to ""
-    :param id_token: 
-    :return: User object 
+    firstName', 'lastName', 'email' ware removed because of RODO in EU
+    Args:
+        id_token (string): google id_token
+    Returns:
+        User (User):
     """
     id_info = client.verify_id_token(id_token, None)
     dict_data = {
         'userID': id_info['sub'],
-        'firstName': id_info['given_name'],
-        'lastName': id_info['family_name'],
-        'email': id_info['email'],
-        'phone': "",
+        # the following lines ware removed because of RODO in EU
+        # 'firstName': id_info['given_name'],
+        # 'lastName': id_info['family_name'],
+        # 'email': id_info['email'],
+        # 'phone': "",
         'userStatus': 0
     }
     user = User(dict_data)
@@ -47,22 +52,15 @@ def get_user_from_id_token(id_token):
 def verify_google_id_token(id_token):
     """
     Verifies if id_token is a valid google account token
-    :param id_token: 
-    :return: None or sub
+    Args:
+        id_token(string): google id_token
+    Returns:
+        sub(string): or None if crypt.AppIdentityError occurs
     """
-    print(client.verify_id_token(id_token, None))
     try:
-        # id_info = client.verify_id_token(id_token, CLIENT_ID)
-        # Or, if multiple clients access the backend server:
         id_info = client.verify_id_token(id_token, None)
-        # if id_info['aud'] not in [CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]:
-        #    raise crypt.AppIdentityError("Unrecognized client.")
         if id_info['iss'] not in ['accounts.google.com', 'https://accounts.google.com']:
             raise crypt.AppIdentityError("Wrong issuer.")
-
-            # If auth request is from a G Suite domain:
-            # if idinfo['hd'] != GSUITE_DOMAIN_NAME:
-            #    raise crypt.AppIdentityError("Wrong hosted domain.")
     except crypt.AppIdentityError:
         # Invalid token
         return None
@@ -75,17 +73,18 @@ def authenticated(fn):
     Decorator which checks if there is Authenticate: Bearer id_token in headers and then 
     checks if it's a valid Google ID
     Returns sub of the user or None if error
-    :param fn: 
-    :return: None or sub
+    Args:
+        fn (function): wrapped function
+    Returns:
+        sub(string): or None if crypt.AppIdentityError occurs
     Usage:
-    @app.route("/")
-    @authenticated
-    def something(user_id=None):
-        pass
+        @app.route("/")
+        @authenticated
+        def something(user_id=None):
+            pass
     """
     @wraps(fn)
     def wrapped_function(*args, **kwargs):
-        # TODO: input data verification to be handled by separate module
         if 'Authorization' not in request.headers:
             # Unauthorized
             print("There is no id_token in header")

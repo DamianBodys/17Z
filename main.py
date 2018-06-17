@@ -9,32 +9,95 @@ import datetime
 
 app = Flask(__name__)
 
+class WrongBillingPeriodError(Exception):
+    """
+    Exception raised when there are errors in suplied begin and end parameters for Period object
+
+    Attributes:
+        message (str): message
+
+    """
+    def __init__(self, message=None):
+        """
+        Exception constructor
+
+        Args:
+            message (str):  message
+        """
+        if message is not None:
+            self.message = message
+        else:
+            self.message = 'Period related error'
+
+class WrongPathIdError(Exception):
+    """
+    Exception raised when there are errors in suplied id in request path ie. algorithmid
+
+    Attributes:
+        message (str): message
+
+    """
+    def __init__(self, message=None):
+        """
+        Exception constructor
+
+        Args:
+            message (str):  message
+        """
+        if message is not None:
+            self.message = message
+        else:
+            self.message = 'ID related error'
+
+def get_billingperiod(requestargs):
+    """
+    Gets period of a billing query from request.args dictionary provided
+    Args:
+        requestargs (dict): request arguments where we look for begin and end
+
+    Returns:
+        period (Period): period of billing or None if not specified
+
+    Raises:
+        WrongBillingPeriodError: if there is begin argument in request query and something is wrong or missing
+    """
+    if 'begin' in requestargs:
+        if 'end' in requestargs:
+            begin = convert_to_date(requestargs['begin'])
+            end = convert_to_date(requestargs['end'])
+            if end < begin:
+                raise WrongBillingPeriodError('End date ' + str(end) + ' is less then begin date' + str(begin))
+            period = Period(begin, end)
+            return period
+        else:
+            raise WrongBillingPeriodError("Wrong period in request query: there was a begin without an end")
+    else:
+        return None
 
 def convert_to_date(date):
     """
-    Converts integer rrrrmmdd to datetime.date
+    Converts date in integer like string rrrrmmdd format to datetime.date
     Args:
-        date (int): date in rrrrmmdd format
+        date (str): date in rrrrmmdd format
 
     Returns:
         date_out (datetime.date):
 
     Raises:
-        ValueError: when the date is not a true date
-        TypeError: when the date is not an Integer
+        WrongBillingPeriodError: if there is something wrong in provided parameter
 
     """
-    if type(date) is int and date > 10000000:
-        day = date % 100
-        month = ((date - day) / 100) % 100
-        year = (date - day - month*100) / 10000
+    if len(date) == 8 and date.isnumeric():
         try:
+            day = int(date[6:])
+            month = int(date[4:6])
+            year = int(date[0:4])
             date_out = datetime.date(year, month, day)
-        except ValueError('The provided parameter ' + str(date) + 'is not date'):
-            return 1
+        except ValueError as err:
+            raise WrongBillingPeriodError('The provided parameter ' + date + ' is not date in a form of yyyymmdd')
         return date_out
     else:
-        raise TypeError('The provided parameter ' + str(date) + ' is not Integer')
+        raise WrongBillingPeriodError('The provided parameter ' + date + ' is not numeric or is not 8 digits long')
 
 
 def has_no_whitespaces(my_string):
@@ -401,10 +464,11 @@ def create_user(user_id=None):
     if request.headers['Content-Type'] == 'application/json':
         dict_data = {
             'userID': 0,
-            'firstName': "",
-            'lastName': "",
-            'email': "",
-            'phone': "",
+            # the following lines ware removed because of RODO in EU
+            # 'firstName': "",
+            # 'lastName': "",
+            # 'email': "",
+            # 'phone': "",
             'userStatus': 0
         }
         dict_data1 = request.json
@@ -502,29 +566,45 @@ def get_user_by_id(uid, user_id=None):
 
 # "Billing API"
 @app.route('/bill/', methods=['GET'])
+@app.route('/bill/result/<resultsetid>', methods=['GET'])
+@app.route('/bill/algorithm/<algorithmid>', methods=['GET'])
 @authenticated
-def bill_rcv(user_id=None):
+def bill_rcv(resultsetid=None, algorithmid=None, user_id=None):
     user = get_user_from_id_token(request.headers['Authorization'].split(" ")[1])
     bill = Bill(user)
-    if request.headers['Content-Type'] == 'application/json':
-        dict_param = request.json
-        try:
-            begin = convert_to_date(dict_param['begin'])
-            end = convert_to_date(dict_param['end'])
-            if end < begin:
-                raise ValueError('End date ' + str(end) + ' is less then begin date' + str(begin))
-        except Exception as err:
-            data = {
-                "code": 400,
-                "fields": str(err),
-                "message": "Wrong period in request body"
+    try:
+        period = get_billingperiod(request.args)
+        if period is not None:
+            bill.setperiod(period)
+        if resultsetid or algorithmid:
+            if not has_no_whitespaces(resultsetid):
+                raise WrongPathIdError('resutlsetid has whitespaces')
+            if not has_no_whitespaces(algorithmid):
+                raise WrongPathIdError('algorithmid has whitespaces')
+            if resultsetid:
+                Bill.setbilled_obj_id(resultsetid)
+            else:
+                Bill.setbilled_obj_id(algorithmid)
+    except WrongBillingPeriodError as err:
+        data = {
+            "code": 400,
+            "fields": err.message,
+            "message": "Wrong period in request query"
             }
-            js = json.dumps(data)
-            resp = Response(js, status=400, mimetype='application/json')
-            resp.headers['Content-Type'] = 'application/json; charset=utf-8'
-            return resp
-        period = Period(begin, end)
-        bill.setperiod(period)
+        js = json.dumps(data)
+        resp = Response(js, status=400, mimetype='application/json')
+        resp.headers['Content-Type'] = 'application/json; charset=utf-8'
+        return resp
+    except WrongPathIdError as err:
+        data = {
+            "code": 400,
+            "fields": err.message,
+            "message": "Wrong id in request path"
+            }
+        js = json.dumps(data)
+        resp = Response(js, status=400, mimetype='application/json')
+        resp.headers['Content-Type'] = 'application/json; charset=utf-8'
+        return resp
     returned_billing = BillDAO.getbilling(bill)
     if returned_billing == 1:
         data = {
@@ -536,7 +616,8 @@ def bill_rcv(user_id=None):
         resp = Response(js, status=404, mimetype='application/json')
         resp.headers['Content-Type'] = 'application/json; charset=utf-8'
     else:
-        bill_data = Response(b'<?xml version="1.0" encoding="UTF-8"?>' + returned_billing, status=200, mimetype='text/xml')
+        bill_str = '<?xml version="1.0" encoding="UTF-8"?>' + returned_billing
+        bill_data = Response(bill_str, status=200, mimetype='text/xml', content_type='text/xml;charset=utf-8')
         resp = bill_data
         resp.headers['Content-Type'] = 'text/xml; charset=utf-8'
     return resp
@@ -551,7 +632,6 @@ def error404(e):
 
 @app.errorhandler(500)
 def server_error(e):
-    logging.exception('An error occurred during a request.')
     return """
     An internal error occurred: <pre>{}</pre>
     See logs for full stack-trace.

@@ -1,3 +1,4 @@
+httplib2
 Flask
 google-cloud-datastore
 gunicorn

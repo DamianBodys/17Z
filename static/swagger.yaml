@@ -3,7 +3,7 @@ info:
   description: >-
     This API is a set of functions that provides consumer and supplier with all
     ecosystem services
-  version: 1.0.3
+  version: 1.0.4
   title: Internet of Things Analytical Ecosystem API
   contact: {}
 host: 'localhost:5000'
@@ -53,12 +53,16 @@ paths:
       security:
         - GoogleIdToken: []
       parameters:
-        - in: body
-          name: period
-          description: Time span of a report
+        - in: query
+          name: begin
+          type: integer
+          description: Begin of the time span of a report
           required: false
-          schema:
-            $ref: '#/definitions/Period'
+        - in: query
+          name: end
+          type: integer
+          description: End of a time span of a report
+          required: false
       responses:
         '200':
           description: Billing Report
@@ -81,12 +85,16 @@ paths:
           in: path
           required: true
           type: string
-        - in: body
-          name: period
-          description: Time span of a report
+        - in: query
+          name: begin
+          type: integer
+          description: Begin of the time span of a report
           required: false
-          schema:
-            $ref: '#/definitions/Period'
+        - in: query
+          name: end
+          type: integer
+          description: End of a time span of a report
+          required: false
       responses:
         '200':
           description: Billing result set summary
@@ -109,12 +117,16 @@ paths:
           in: path
           required: true
           type: string
-        - in: body
-          name: period
-          description: Time span of a report
+        - in: query
+          name: begin
+          type: integer
+          description: Begin of the time span of a report
           required: false
-          schema:
-            $ref: '#/definitions/Period'
+        - in: query
+          name: end
+          type: integer
+          description: End of a time span of a report
+          required: false
       responses:
         '200':
           description: Billing algorithm summary
@@ -846,18 +858,6 @@ definitions:
         type: integer
         format: int32
         description: User Status
-  Period:
-    type: object
-    description: Time span of a report
-    properties:
-      begin:
-        type: integer
-        format: int64
-        description: Date of the beginning of a report period in rrrrmmdd format
-      end:
-        type: integer
-        format: int64
-        description: Date of the end of a report period in rrrrmmdd format
   BillingReport:
     type: object
     description: Report containng billing information

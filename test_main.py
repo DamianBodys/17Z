@@ -6,6 +6,7 @@ import webtest
 import main
 from test_auth import get_id_token_for_testing
 from test_dao import del_all
+import xml.etree.cElementTree as ET
 
 
 class AlgorithmHTTPTestCase(unittest.TestCase):
@@ -101,6 +102,18 @@ class BillingHTTPTestCase(unittest.TestCase):
         self.assertIsNotNone(response.charset, msg='There is no charset in response')
         self.assertEqual('text/xml', response.content_type)
 
+
+    def test_bill_with_period_GET(self):
+        """ Test normal GET - it should receive mok-up data"""
+        self.test_app.authorization = ('Bearer', get_id_token_for_testing())
+        begin = '20180402'
+        end = '20180403'
+        response = self.test_app.get('/bill/', params={'begin': begin, 'end': end})
+        self.assertEqual(200, response.status_int, msg='Wrong response status')
+        self.assertIsNotNone(response.charset, msg='There is no charset in response')
+        self.assertEqual('text/xml', response.content_type)
+        self.assertEqual(begin,response.xml.findall('./head/period/begin')[0].text)
+        self.assertEqual(end, response.xml.findall('./head/period/end')[0].text)
 
 if __name__ == '__main__':
     unittest.main()
