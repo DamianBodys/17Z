@@ -229,6 +229,8 @@ class Algorithm:
         #    "blob": "string",
         #    "description": "string",
         #    "dataset_description": "string",
+        #    "score_sum": "integer",
+        #    "score_count": "integer"
     }
 
     def setalgorithm_id(self, algorithm_id):
@@ -273,6 +275,30 @@ class Algorithm:
     def getdataset_description(self):
         return self._data['dataset_description']
 
+    def setscore_sum(self, score_sum):
+        self._data['score_sum'] = score_sum
+
+    def getscore_sum(self):
+        return self._data['score_sum']
+
+    def setscore_count(self, score_count):
+        self._data['score_count'] = score_count
+
+    def getscore_count(self):
+        return self._data['score_count']
+
+    def add_score(self, score):
+        self._data['score_sum']  = self._data['score_sum'] + score
+        self._data['score_count'] = self._data['score_count'] + 1
+
+    def modify_score(self, prev_score, score):
+        self._data['score_sum'] = self._data['score_sum'] - prev_score
+        self._data['score_sum'] = self._data['score_sum'] + score
+
+    def remove_score(self, score):
+        self._data['score_sum'] = self._data['score_sum'] - score
+        self._data['score_count'] = self._data['score_count'] - 1
+
     def __init__(self, dict_data):
         self.setalgorithm_id(dict_data['algorithmId'])
         self.setsummary(dict_data['algorithmSummary'])
@@ -281,6 +307,8 @@ class Algorithm:
         self.setblob(dict_data['algorithmBLOB'])
         self.setdescription(dict_data['algorithmDescription'])
         self.setdataset_description(dict_data['datasetDescription'])
+        self.setscore_sum(0)
+        self.setscore_count(0)
 
     def get_dict(self):
         algorithm_dict = {
@@ -290,7 +318,9 @@ class Algorithm:
             'linkURL': self.getlink_url(),
             'algorithmBLOB': self.getblob(),
             'algorithmDescription': self.getdescription(),
-            'datasetDescription': self.getdataset_description()
+            'datasetDescription': self.getdataset_description(),
+            'score_sum': self.getscore_sum(),
+            'score_count': self.getscore_count()
         }
         return algorithm_dict
 
