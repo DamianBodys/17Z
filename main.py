@@ -431,7 +431,7 @@ def api_algorithm_get(algorithm_id):
         resp.headers['Content-Type'] = 'application/json; charset=utf-8'
     return resp
 
-@app.route('/algorithms/<algorithm_id>/<dataset_id>', methods=['GET'])
+@app.route('/algorithms/<algorithm_id>/<dataset_id>', methods=['POST'])
 @authenticated
 def api_algorithm_post(algorithm_id, dataset_id, user_id=None):
     """

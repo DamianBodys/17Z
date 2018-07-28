@@ -3,7 +3,7 @@ info:
   description: >-
     This API is a set of functions that provides consumer and supplier with all
     ecosystem services
-  version: 1.0.4
+  version: 1.0.3
   title: Internet of Things Analytical Ecosystem API
   contact: {}
 host: 'localhost:5000'
@@ -52,17 +52,6 @@ paths:
         - application/json
       security:
         - GoogleIdToken: []
-      parameters:
-        - in: query
-          name: begin
-          type: integer
-          description: Begin of the time span of a report
-          required: false
-        - in: query
-          name: end
-          type: integer
-          description: End of a time span of a report
-          required: false
       responses:
         '200':
           description: Billing Report
@@ -85,16 +74,6 @@ paths:
           in: path
           required: true
           type: string
-        - in: query
-          name: begin
-          type: integer
-          description: Begin of the time span of a report
-          required: false
-        - in: query
-          name: end
-          type: integer
-          description: End of a time span of a report
-          required: false
       responses:
         '200':
           description: Billing result set summary
@@ -105,8 +84,8 @@ paths:
       tags:
         - Billing
         - Supplier API
-      summary: Receive a billing summary for algorith
-      description: Receive a billing summary for algorithm
+      summary: Receive a billing summary for result set
+      description: Receive a billing summary for result set
       operationId: bill_algorithm_id_rcv
       produces:
         - application/json
@@ -117,16 +96,6 @@ paths:
           in: path
           required: true
           type: string
-        - in: query
-          name: begin
-          type: integer
-          description: Begin of the time span of a report
-          required: false
-        - in: query
-          name: end
-          type: integer
-          description: End of a time span of a report
-          required: false
       responses:
         '200':
           description: Billing algorithm summary
@@ -146,7 +115,7 @@ paths:
         - GoogleIdToken: []
       parameters:
         - in: body
-          name: user
+          name: body
           description: User object to be created
           required: true
           schema:
@@ -498,47 +467,6 @@ paths:
             $ref: '#/definitions/AlgorithmDetails'
         '404':
           description: The given algorithmID was not found in collection
-    post:
-      tags:
-        - Algorithms
-        - Dataset
-        - Consumer API
-      summary: Run an algorithm with a Data Set
-      description: Run an algorithm with a Data Set
-      operationId: executeAlgorithm
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      security:
-        - GoogleIdToken: []
-      parameters:
-        - name: algorithmID
-          in: path
-          description: ID of an algorithm
-          required: true
-          type: string
-        - in: body
-          name: body
-          description: ID of a dataset
-          required: true
-          schema:
-            $ref: '#/definitions/DatasetID'
-      responses:
-        '200':
-          description: OK
-          schema:
-            $ref: '#/definitions/ResultSetID'
-        '400':
-          description: Malformed data
-          schema:
-            $ref: '#/definitions/Error'
-        '401':
-          description: No authentication. Need to login.
-        '403':
-          description: Not authorized to run algorithms
-        '404':
-          description: The given algorithmID was not found in collection
     put:
       tags:
         - Algorithms
@@ -625,6 +553,39 @@ paths:
           description: Test failed
         '404':
           description: The given algorithmID was not found in collection
+  '/algorithms/{algorithmID}/{datasetID}':
+    post:
+      tags:
+        - Algorithms
+        - Consumer API
+        - Dataset
+      summary: >-
+        Executes algorithm using specified dataset
+      description: >-
+        Executes algorithm using specified dataset
+      operationId: postAlgorithmsAlgorithmIdDatasetId
+      consumes: []
+      produces:
+        - application/json
+      security:
+        - GoogleIdToken: []
+      parameters:
+        - name: algorithmID
+          in: path
+          description: ID of an algorithm
+          required: true
+          type: string
+        - name: datasetID
+          in: path
+          description: ID of a dataset
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Operation has been queued
+        '404':
+          description: Wrong datasetID or algorithmID
+      
   '/algorithms/{algorithmID}/{resultsetID}':
     get:
       tags:
@@ -787,7 +748,7 @@ definitions:
     properties:
       datasetBLOB:
         type: string
-        description: Dataset initial parameters or output values
+        description: 'Dataset initial parameters or output values'
       datasetDescription:
         type: string
         description: detailed description of the dataset.
@@ -858,6 +819,18 @@ definitions:
         type: integer
         format: int32
         description: User Status
+  Period:
+    type: object
+    description: Time span of e report
+    properties:
+      begin:
+        type: integer
+        format: int64
+        description: Date of the beginning of a report period
+      end:
+        type: integer
+        format: int64
+        description: Date of the end of a report period
   BillingReport:
     type: object
     description: Report containng billing information
