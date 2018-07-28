@@ -151,6 +151,22 @@ class UserDAO:
         entity['userID'] = user_id
         return User(entity)
 
+    @staticmethod
+    def saveResultSet(user_id):
+        """
+        Save a resultSet
+        :rtype : User
+        """
+        ds = datastore.Client()
+        try:
+            key = ds.key(_DATASTORE_KIND_USERS, user_id)
+            entity = ds.get(key)
+        except:
+            return 1
+        resultSet = datastore.Entity()
+        entity['resultSet'] = resultSet
+        ds.put(entity)
+        return 0
 
 # Dataset class
 class Dataset:

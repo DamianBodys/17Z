@@ -438,6 +438,9 @@ def api_algorithm_post(algorithm_id, dataset_id, user_id=None):
      Execute algorithm with a dataset_id
     """
     result = ExecutorMockup.execute(algorithm_id, dataset_id)
+    user = get_user_from_id_token(request.headers['Authorization'].split(" ")[1])
+    UserDAO.saveResultSet(user)
+
     if result == 0:
         resp = Response(status=200, mimetype='application/json')
         resp.headers['Content-Type'] = 'application/json; charset=utf-8'
