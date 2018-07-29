@@ -769,7 +769,7 @@ class Bill:
     def setperiod_by_dates(self, begin, end):
         self._data['period'] = Period(begin, end)
 
-    def setbilled_obj_id(self, billed_obj_id):
+    def setbilled_obj_id(self,billed_obj_id):
         self._data['billedObjID'] = billed_obj_id
 
     def getbilled_obj_id(self):
