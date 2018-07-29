@@ -9,6 +9,7 @@ import xml.etree.cElementTree as ET
 _DATASTORE_KIND_ALGORITHMS = 'algorithms'
 _DATASTORE_KIND_USERS = 'users'
 _DATASTORE_KIND_DATASETS = 'datasets'
+_DATASTORE_KIND_RESULTSETS = 'resultsets'
 
 
 def get_search_url():
@@ -158,12 +159,12 @@ class UserDAO:
         :rtype : User
         """
         ds = datastore.Client()
-        try:
-            key = ds.key(_DATASTORE_KIND_USERS, user_id)
-            result = ds.delete(key)
-        except:
-            return 1
-        return result
+        key = ds.key(_DATASTORE_KIND_USERS, user_id)
+        ds.delete(key)
+        entity = ds.get(key)
+        if entity == None:
+            return 0
+        return 1
 
     @staticmethod
     def saveResultSet(user_id):
@@ -831,3 +832,100 @@ class BillDAO:
         balance.text = '98.30'
         retxml = ET.tostring(rcv, encoding='unicode')
         return retxml
+
+
+class ResultSet:
+    """ ResultSet class"""
+    _data = {
+        #      resultSetID: string
+        #      resultBody: string
+    }
+
+    def setresult_body(self, result_body):
+        """
+        Writes resultBody
+
+        :param result_body: id to write
+        :type result_body: str
+        """
+
+        self._data['resultBody'] = result_body
+
+    def getresult_body(self):
+        return self._data['resultBody']
+
+    def setresultset_id(self, resultset_id):
+        self._data['resultSetID'] = resultset_id
+
+    def getresultset_id(self):
+        return self._data['resultSetID']
+
+    def generateresultset_id(self, user_id, algorithm_id, dataset_id):
+        return user_id + algorithm_id + dataset_id
+
+    def __init__(self, dict_data):
+        self.setresultset_id(dict_data['resultSetID'])
+        self.setresult_body(dict_data['resultBody'])
+
+        #      resultSetID: string
+        #      resultBody: string
+
+    def get_dict(self):
+        resultset_dict = {
+            'resultSetID': self.getresultset_id(),
+            'resultBody': self.getresult_body()
+        }
+        return resultset_dict
+
+
+class ResultSetDAO:
+
+    @staticmethod
+    def set(resultSet):
+        """
+        Writing resultSet data to Datastore
+        :rtype : int
+        """
+        ds = datastore.Client()
+        try:
+            entity = datastore.Entity(key=ds.key(_DATASTORE_KIND_RESULTSETS, resultSet.getresultset_id()))
+            entity.update({
+                'resultSetID': resultSet.getresultset_id(),
+                'resultBody': resultSet.getresult_body()
+            })
+            ds.put(entity)
+        except:
+            return 1
+        return 0
+
+    @staticmethod
+    def get(resultSet_id):
+        """
+        Get resultSet data from Datastore
+        :rtype : User
+        """
+        ds = datastore.Client()
+        key = ds.key(_DATASTORE_KIND_RESULTSETS, resultSet_id)
+        entity = ds.get(key)
+        if entity == None:
+            return 1
+        else:
+            result_data = {"resultSetID": entity['resultSetID'],
+                          "resultBody": entity['resultBody']}
+            return ResultSet(result_data)
+
+    @staticmethod
+    def delete(resultset_id):
+        """
+        Delete resultSet data from Datastore
+        :rtype : resultset_id
+        """
+        ds = datastore.Client()
+        key = ds.key(_DATASTORE_KIND_RESULTSETS, resultset_id)
+        ds.delete(key)
+        entity = ds.get(key)
+        if entity == None:
+            return 0
+        return 1
+
+

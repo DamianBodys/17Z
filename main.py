@@ -1,6 +1,6 @@
 import logging
 import os
-from dao import Algorithm, AlgorithmDAO, User, UserDAO, Dataset, DatasetDAO, ExecutorMockup, Bill, BillDAO, Period
+from dao import Algorithm, AlgorithmDAO, User, UserDAO, Dataset, DatasetDAO, ExecutorMockup, Bill, BillDAO, Period, ResultSet, ResultSetDAO
 from flask import Flask, send_from_directory, url_for, redirect, json, \
     Response, request, render_template
 from authentication import authenticated, get_user_from_id_token
@@ -437,10 +437,71 @@ def api_algorithm_post(algorithm_id, dataset_id, user_id=None):
     """
      Execute algorithm with a dataset_id
     """
-    result = ExecutorMockup.execute(algorithm_id, dataset_id)
+    result_body = ExecutorMockup.execute(algorithm_id, dataset_id)
+    emptyresult_data = {"resultSetID": 'empty',
+                        "resultBody": 'empty'}
+    result = ResultSet(emptyresult_data)
     user = get_user_from_id_token(request.headers['Authorization'].split(" ")[1])
-    UserDAO.saveResultSet(user)
+    result.setresultset_id(result.generateresultset_id(user.getuser_id(), algorithm_id, dataset_id))
+    result.setresult_body(result_body)
+    check = ResultSetDAO.set(result)
 
+    if check == 0:
+        resp = Response(status=200, mimetype='application/json')
+        resp.headers['Content-Type'] = 'application/json; charset=utf-8'
+    else:
+        data = {
+            "code": 404,
+            "fields": "string",
+            "message": "Not Found"
+        }
+        js = json.dumps(data)
+        resp = Response(js, status=404, mimetype='application/json')
+        resp.headers['Content-Type'] = 'application/json; charset=utf-8'
+    return resp
+
+# "ResultSet API"
+
+@app.route('/results/<algorithm_id>/<dataset_id>', methods=['GET'])
+@authenticated
+def api_resultset_get(algorithm_id, dataset_id, user_id=None):
+    """
+     Get resultset from datastore
+    """
+    emptyresult_data = {"resultSetID": 'empty',
+                        "resultBody": 'empty'}
+    result = ResultSet(emptyresult_data)
+    user = get_user_from_id_token(request.headers['Authorization'].split(" ")[1])
+    resultset_id = result.generateresultset_id(user.getuser_id(), algorithm_id, dataset_id)
+    result = ResultSetDAO.get(resultset_id)
+    if result != 1:
+        resultset = result.get_dict()
+        js = json.dumps(resultset)
+        resp = Response(js, status=200, mimetype='application/json')
+        resp.headers['Content-Type'] = 'application/json; charset=utf-8'
+    else:
+        data = {
+            "code": 404,
+            "fields": "string",
+            "message": "Not Found"
+        }
+        js = json.dumps(data)
+        resp = Response(js, status=404, mimetype='application/json')
+        resp.headers['Content-Type'] = 'application/json; charset=utf-8'
+    return resp
+
+@app.route('/results/<algorithm_id>/<dataset_id>', methods=['DELETE'])
+@authenticated
+def api_resultset_delete(algorithm_id, dataset_id, user_id=None):
+    """
+     Remove resultset from datastore
+    """
+    emptyresult_data = {"resultSetID": 'empty',
+                        "resultBody": 'empty'}
+    result = ResultSet(emptyresult_data)
+    user = get_user_from_id_token(request.headers['Authorization'].split(" ")[1])
+    resultset_id = result.generateresultset_id(user.getuser_id(), algorithm_id, dataset_id)
+    result = ResultSetDAO.delete(resultset_id)
     if result == 0:
         resp = Response(status=200, mimetype='application/json')
         resp.headers['Content-Type'] = 'application/json; charset=utf-8'

@@ -36,6 +36,10 @@
     {
       "name": "Consumer API",
       "description": "Consumer functions"
+    },
+    {
+      "name": "Results",
+      "description": "All result oriented functions"
     }
   ],
   "schemes": [
@@ -176,44 +180,6 @@
           },
           "400": {
             "description": "Invalid username"
-          },
-          "404": {
-            "description": "User not found"
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "User",
-          "Admin",
-          "Consumer API",
-          "Supplier API"
-        ],
-        "summary": "Update user",
-        "description": "This can only be done by the authorized user.",
-        "operationId": "update_user",
-        "produces": [
-          "application/json"
-        ],
-        "security": [
-          {
-            "GoogleIdToken": []
-          }
-        ],
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "description": "Updated user object",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/User"
-            }
-          }
-        ],
-        "responses": {
-          "400": {
-            "description": "Invalid user supplied"
           },
           "404": {
             "description": "User not found"
@@ -794,15 +760,15 @@
         }
       }
     },
-    "/algorithms/{algorithmID}/{resultsetID}": {
+    "/results/{algorithmID}/{datasetID}": {
       "get": {
         "tags": [
-          "Algorithms",
+          "Results",
           "Consumer API"
         ],
-        "summary": "The Result Set endpoint returns result set data for a given algorithm and ID.",
-        "description": "The Result Set endpoint returns result set data for a given algorithm and ID.",
-        "operationId": "getAlgorithmsAlgorithmResultsetID",
+        "summary": "Returns resultSet for specified algorithm+dataset combination",
+        "description": "Returns resultSet for specified algorithm+dataset combination",
+        "operationId": "getResult",
         "consumes": [],
         "produces": [
           "application/json"
@@ -821,47 +787,34 @@
             "type": "string"
           },
           {
-            "name": "resultsetID",
+            "name": "datasetID",
             "in": "path",
-            "description": "ID of the result-set",
+            "description": "ID of a dataset",
             "required": true,
             "type": "string"
           }
         ],
         "responses": {
-          "102": {
-            "description": "The job is in progress"
-          },
           "200": {
-            "description": "A resulting set of data.",
-            "schema": {
-              "$ref": "#/definitions/ResultSet"
-            }
-          },
-          "401": {
-            "description": "Not authenticated. Need to login."
-          },
-          "403": {
-            "description": "Not the proper owner of that result-set"
+            "description": "Result"
           },
           "404": {
-            "description": "Wrong resultsetID or algorithmID",
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
+            "description": "Result not found"
           }
         }
       },
       "delete": {
         "tags": [
-          "Algorithms",
+          "Results",
           "Consumer API"
         ],
-        "summary": "Confirm Result-Set receive and request deletion.",
-        "description": "Confirm Result-Set receive and request deletion.",
-        "operationId": "deleteResultSet",
+        "summary": "Deletes resultSet for specified algorithm+dataset combination",
+        "description": "Deletes resultSet for specified algorithm+dataset combination",
+        "operationId": "deleteResult",
         "consumes": [],
-        "produces": [],
+        "produces": [
+          "application/json"
+        ],
         "security": [
           {
             "GoogleIdToken": []
@@ -876,28 +829,19 @@
             "type": "string"
           },
           {
-            "name": "resultsetID",
+            "name": "datasetID",
             "in": "path",
-            "description": "ID of the result-set",
+            "description": "ID of a dataset",
             "required": true,
             "type": "string"
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Not authenticated. Need to login."
-          },
-          "403": {
-            "description": "Not the proper owner of that result-set"
+            "description": "Result has been deleted"
           },
           "404": {
-            "description": "Wrong resultsetID or algorithmID",
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
+            "description": "Result not found"
           }
         }
       }
