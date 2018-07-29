@@ -152,6 +152,20 @@ class UserDAO:
         return User(entity)
 
     @staticmethod
+    def delete(user_id):
+        """
+        Delete a user data from Datastore
+        :rtype : User
+        """
+        ds = datastore.Client()
+        try:
+            key = ds.key(_DATASTORE_KIND_USERS, user_id)
+            result = ds.delete(key)
+        except:
+            return 1
+        return result
+
+    @staticmethod
     def saveResultSet(user_id):
         """
         Save a resultSet

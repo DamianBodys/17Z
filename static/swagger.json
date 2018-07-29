@@ -149,66 +149,6 @@
       }
     },
     "/user/": {
-      "post": {
-        "tags": [
-          "User",
-          "Admin"
-        ],
-        "summary": "Create a new user",
-        "description": "This can only be done by admin.",
-        "operationId": "create_user",
-        "produces": [
-          "application/json"
-        ],
-        "security": [
-          {
-            "GoogleIdToken": []
-          }
-        ],
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "description": "User object to be created",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/User"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/user/signup": {
-      "post": {
-        "tags": [
-          "User",
-          "Consumer API",
-          "Supplier API"
-        ],
-        "summary": "Create a new user by self sign-up.",
-        "description": "This can only be done by a user authenticated in Google Identity Platform. User data is decoded form id_token. Additional information supposed to be added through '/user/{userID} PUT'",
-        "operationId": "self_sign_up",
-        "produces": [
-          "application/json"
-        ],
-        "security": [
-          {
-            "GoogleIdToken": []
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/user/{userID}": {
       "get": {
         "tags": [
           "User",
@@ -216,23 +156,15 @@
           "Consumer API",
           "Supplier API"
         ],
-        "summary": "Get user by user ID",
+        "summary": "Get user information",
         "description": "Get user info - requres authorization",
-        "operationId": "get_user_by_id",
+        "operationId": "get_user",
         "produces": [
           "application/json"
         ],
         "security": [
           {
             "GoogleIdToken": []
-          }
-        ],
-        "parameters": [
-          {
-            "name": "userID",
-            "in": "path",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
@@ -270,12 +202,6 @@
         ],
         "parameters": [
           {
-            "name": "userID",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
             "in": "body",
             "name": "body",
             "description": "Updated user object",
@@ -310,21 +236,34 @@
             "GoogleIdToken": []
           }
         ],
-        "parameters": [
-          {
-            "name": "userID",
-            "in": "path",
-            "description": "The name that needs to be deleted",
-            "required": true,
-            "type": "string"
-          }
-        ],
         "responses": {
           "400": {
             "description": "Invalid username supplied"
           },
           "404": {
             "description": "User not found"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "User",
+          "Admin"
+        ],
+        "summary": "Create a new user",
+        "description": "This can only be done by admin.",
+        "operationId": "create_user",
+        "produces": [
+          "application/json"
+        ],
+        "security": [
+          {
+            "GoogleIdToken": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }

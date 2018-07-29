@@ -460,34 +460,11 @@ def api_algorithm_post(algorithm_id, dataset_id, user_id=None):
 @authenticated
 def create_user(user_id=None):
     """
-    Create new user from json object
+    Create new user
     :param user_id: 
     :return: 
     """
-    if request.headers['Content-Type'] == 'application/json':
-        dict_data = {
-            'userID': 0,
-            # the following lines ware removed because of RODO in EU
-            # 'firstName': "",
-            # 'lastName': "",
-            # 'email': "",
-            # 'phone': "",
-            'userStatus': 0
-        }
-        dict_data1 = request.json
-        dict_data.update(dict_data1)
-        user = User(dict_data)
-    else:
-        data = {
-            "code": 400,
-            "fields": "Content-Type",
-            "message": "Malformed Data"
-        }
-        js = json.dumps(data)
-        resp = Response(js, status=400, mimetype='application/json')
-        resp.headers['Content-Type'] = 'application/json; charset=utf-8'
-        return resp
-    returned_code = UserDAO.set(user)
+    returned_code = UserDAO.set(get_user_from_id_token(request.headers['Authorization'].split(" ")[1]))
     if returned_code == 0:
         data = {
             "code": 200,
@@ -509,46 +486,16 @@ def create_user(user_id=None):
     return resp
 
 
-@app.route('/user/signup/', methods=['POST'])
+@app.route('/user/', methods=['GET'])
 @authenticated
-def self_sign_up(user_id=None):
-    """
-    :param user_id: 'sub' field from Google id_token supplied in header Authenticate: Bearer <id_token>  
-    :return: OK
-    """
-    user = get_user_from_id_token(request.headers['Authorization'].split(" ")[1])
-    returned_code = UserDAO.set(user)
-    if returned_code == 0:
-        data = {
-            "code": 200,
-            "fields": "",
-            "message": "OK"
-        }
-        js = json.dumps(data)
-        resp = Response(js, status=200, mimetype='application/json')
-        resp.headers['Content-Type'] = 'application/json; charset=utf-8'
-    else:
-        data = {
-            "code": 400,
-            "fields": "string",
-            "message": "Malformed Data"
-        }
-        js = json.dumps(data)
-        resp = Response(js, status=400, mimetype='application/json')
-        resp.headers['Content-Type'] = 'application/json; charset=utf-8'
-    return resp
-
-
-@app.route('/user/<uid>', methods=['GET'])
-@authenticated
-def get_user_by_id(uid, user_id=None):
+def get_user_by_id(user_id=None):
     """
     Get complete user data
-    :param uid: ID of a user to get 
     :param user_id: ID of the logged on user
     :return: user_data
     """
-    result = UserDAO.get(uid)
+    user = get_user_from_id_token(request.headers['Authorization'].split(" ")[1])
+    result = UserDAO.get(user.getuser_id())
     if result != 1:
         user = result.get_dict()
         js = json.dumps(user)
@@ -566,6 +513,35 @@ def get_user_by_id(uid, user_id=None):
         resp.headers['Content-Type'] = 'application/json; charset=utf-8'
     return resp
 
+@app.route('/user/', methods=['DELETE'])
+@authenticated
+def delete_user(user_id=None):
+    """
+    Delete user information
+    :param user_id:
+    :return:
+    """
+    user = get_user_from_id_token(request.headers['Authorization'].split(" ")[1])
+    result = UserDAO.delete(user.getuser_id())
+    if result == 0:
+        data = {
+            "code": 200,
+            "fields": "",
+            "message": "OK"
+        }
+        js = json.dumps(data)
+        resp = Response(js, status=200, mimetype='application/json')
+        resp.headers['Content-Type'] = 'application/json; charset=utf-8'
+    else:
+        data = {
+            "code": 400,
+            "fields": "returned_code",
+            "message": "Malformed Data"
+        }
+        js = json.dumps(data)
+        resp = Response(js, status=400, mimetype='application/json')
+        resp.headers['Content-Type'] = 'application/json; charset=utf-8'
+    return resp
 
 # "Billing API"
 @app.route('/bill/', methods=['GET'])
