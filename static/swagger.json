@@ -2,7 +2,7 @@
   "swagger": "2.0",
   "info": {
     "description": "This API is a set of functions that provides consumer and supplier with all ecosystem services",
-    "version": "1.0.4",
+    "version": "1.0.3",
     "title": "Internet of Things Analytical Ecosystem API",
     "contact": {}
   },
@@ -20,10 +20,6 @@
     {
       "name": "Dataset",
       "description": "Access to data"
-    },
-    {
-      "name": "Admin",
-      "description": "Administration API"
     },
     {
       "name": "User",
@@ -72,24 +68,6 @@
             "GoogleIdToken": []
           }
         ],
-        "parameters": [
-          {
-            "in": "query",
-            "name": "begin",
-            "type": "string",
-            "description": "Begin of the time span of a report (yyyymmdd)",
-            "required": false,
-            "x-example": "20180410"
-          },
-          {
-            "in": "query",
-            "name": "end",
-            "type": "string",
-            "description": "End of a time span of a report (yyyymmdd)",
-            "required": false,
-            "x-example": "20180410"
-          }
-        ],
         "responses": {
           "200": {
             "description": "Billing Report",
@@ -108,7 +86,7 @@
         ],
         "summary": "Receive a billing summary for result set",
         "description": "Receive a billing summary for result set",
-        "operationId": "bill_rcv(resultsetId)",
+        "operationId": "bill_result_id_rcv",
         "produces": [
           "application/json"
         ],
@@ -123,22 +101,6 @@
             "in": "path",
             "required": true,
             "type": "string"
-          },
-          {
-            "in": "query",
-            "name": "begin",
-            "type": "string",
-            "description": "Begin of the time span of a report (yyyymmdd)",
-            "required": false,
-            "x-example": "20180410"
-          },
-          {
-            "in": "query",
-            "name": "end",
-            "type": "string",
-            "description": "End of a time span of a report (yyyymmdd)",
-            "required": false,
-            "x-example": "20180410"
           }
         ],
         "responses": {
@@ -157,9 +119,9 @@
           "Billing",
           "Supplier API"
         ],
-        "summary": "Receive a billing summary for algorith",
-        "description": "Receive a billing summary for algorithm",
-        "operationId": "bill_rcv(algorithmId)",
+        "summary": "Receive a billing summary for result set",
+        "description": "Receive a billing summary for result set",
+        "operationId": "bill_algorithm_id_rcv",
         "produces": [
           "application/json"
         ],
@@ -174,22 +136,6 @@
             "in": "path",
             "required": true,
             "type": "string"
-          },
-          {
-            "in": "query",
-            "name": "begin",
-            "type": "string",
-            "description": "Begin of the time span of a report (yyyymmdd)",
-            "required": false,
-            "x-example": "20180410"
-          },
-          {
-            "in": "query",
-            "name": "end",
-            "type": "string",
-            "description": "End of a time span of a report (yyyymmdd)",
-            "required": false,
-            "x-example": "20180410"
           }
         ],
         "responses": {
@@ -206,7 +152,6 @@
       "get": {
         "tags": [
           "User",
-          "Admin",
           "Consumer API",
           "Supplier API"
         ],
@@ -238,8 +183,7 @@
       },
       "delete": {
         "tags": [
-          "User",
-          "Admin"
+          "User"
         ],
         "summary": "Delete user",
         "description": "This can only be done by the Administrator.",
@@ -263,8 +207,7 @@
       },
       "post": {
         "tags": [
-          "User",
-          "Admin"
+          "User"
         ],
         "summary": "Create a new user",
         "description": "This can only be done by admin.",
@@ -460,61 +403,6 @@
             "description": "The given datasetID was not found in collection"
           }
         }
-      },
-      "put": {
-        "tags": [
-          "Dataset",
-          "Consumer API"
-        ],
-        "summary": "Add etities to dataset",
-        "description": "Add etities to dataset",
-        "operationId": "addDatasetsData",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [],
-        "security": [
-          {
-            "GoogleIdToken": []
-          }
-        ],
-        "parameters": [
-          {
-            "name": "datasetID",
-            "in": "path",
-            "description": "ID of a dataset",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "body",
-            "name": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/Dataset"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Malformed data",
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
-          },
-          "401": {
-            "description": "No authentication. Need to login."
-          },
-          "403": {
-            "description": "Not authorized to post data at all or not an owner of a given dataset"
-          },
-          "404": {
-            "description": "algorithmID not found"
-          }
-        }
       }
     },
     "/algorithms/": {
@@ -638,61 +526,6 @@
           }
         }
       },
-      "put": {
-        "tags": [
-          "Algorithms",
-          "Supplier API"
-        ],
-        "summary": "Update existing Algorithm",
-        "description": "Replace existing Algorithm",
-        "operationId": "updateAlgorithm",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [],
-        "security": [
-          {
-            "GoogleIdToken": []
-          }
-        ],
-        "parameters": [
-          {
-            "name": "algorithmID",
-            "in": "path",
-            "description": "ID of an algorithm",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "body",
-            "name": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/AlgorithmBody"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Malformed data",
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
-          },
-          "401": {
-            "description": "No authentication. Need to login."
-          },
-          "403": {
-            "description": "Not authorized to replace algorithms at all or not an owner of a given algorithm"
-          },
-          "404": {
-            "description": "algorithmID not found"
-          }
-        }
-      },
       "delete": {
         "tags": [
           "Algorithms",
@@ -729,38 +562,6 @@
           },
           "404": {
             "description": "algorithmID not found"
-          }
-        }
-      }
-    },
-    "/algorithms/{algorithmID}/test": {
-      "get": {
-        "tags": [
-          "Algorithms",
-          "Supplier API"
-        ],
-        "summary": "Tests syntax of the algorithm",
-        "description": "Tests syntax of the algorithm",
-        "operationId": "testAlgorithm",
-        "consumes": [],
-        "parameters": [
-          {
-            "name": "algorithmID",
-            "in": "path",
-            "description": "ID of an algorithm",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Test OK"
-          },
-          "400": {
-            "description": "Test failed"
-          },
-          "404": {
-            "description": "The given algorithmID was not found in collection"
           }
         }
       }
@@ -1138,7 +939,7 @@
       "properties": {
         "reportData": {
           "type": "string",
-          "description": "Complete data of the billing report in xml"
+          "description": "Complete data of the billing report"
         }
       }
     }

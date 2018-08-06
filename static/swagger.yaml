@@ -3,7 +3,7 @@ info:
   description: >-
     This API is a set of functions that provides consumer and supplier with all
     ecosystem services
-  version: 1.0.4
+  version: 1.0.3
   title: Internet of Things Analytical Ecosystem API
   contact: {}
 host: 'localhost:5000'
@@ -15,8 +15,6 @@ tags:
     description: Billing and settlements
   - name: Dataset
     description: Access to data
-  - name: Admin
-    description: Administration API
   - name: User
     description: User manipulation
   - name: Supplier API
@@ -54,19 +52,6 @@ paths:
         - application/json
       security:
         - GoogleIdToken: []
-      parameters:
-        - in: query
-          name: begin
-          type: string
-          description: Begin of the time span of a report (yyyymmdd)
-          required: false
-          x-example: '20180410'
-        - in: query
-          name: end
-          type: string
-          description: End of a time span of a report (yyyymmdd)
-          required: false
-          x-example: '20180410'
       responses:
         '200':
           description: Billing Report
@@ -79,7 +64,7 @@ paths:
         - Consumer API
       summary: Receive a billing summary for result set
       description: Receive a billing summary for result set
-      operationId: bill_rcv(resultsetId)
+      operationId: bill_result_id_rcv
       produces:
         - application/json
       security:
@@ -89,18 +74,6 @@ paths:
           in: path
           required: true
           type: string
-        - in: query
-          name: begin
-          type: string
-          description: Begin of the time span of a report (yyyymmdd)
-          required: false
-          x-example: '20180410'
-        - in: query
-          name: end
-          type: string
-          description: End of a time span of a report (yyyymmdd)
-          required: false
-          x-example: '20180410'
       responses:
         '200':
           description: Billing result set summary
@@ -111,9 +84,9 @@ paths:
       tags:
         - Billing
         - Supplier API
-      summary: Receive a billing summary for algorith
-      description: Receive a billing summary for algorithm
-      operationId: bill_rcv(algorithmId)
+      summary: Receive a billing summary for result set
+      description: Receive a billing summary for result set
+      operationId: bill_algorithm_id_rcv
       produces:
         - application/json
       security:
@@ -123,18 +96,6 @@ paths:
           in: path
           required: true
           type: string
-        - in: query
-          name: begin
-          type: string
-          description: Begin of the time span of a report (yyyymmdd)
-          required: false
-          x-example: '20180410'
-        - in: query
-          name: end
-          type: string
-          description: End of a time span of a report (yyyymmdd)
-          required: false
-          x-example: '20180410'
       responses:
         '200':
           description: Billing algorithm summary
@@ -144,7 +105,6 @@ paths:
     get:
       tags:
         - User
-        - Admin
         - Consumer API
         - Supplier API
       summary: Get user information
@@ -166,7 +126,6 @@ paths:
     delete:
       tags:
         - User
-        - Admin
       summary: Delete user
       description: This can only be done by the Administrator.
       operationId: deleteUser
@@ -182,7 +141,6 @@ paths:
     post:
       tags:
         - User
-        - Admin
       summary: Create a new user
       description: This can only be done by admin.
       operationId: create_user
@@ -312,44 +270,6 @@ paths:
           description: Not authorized to delete that dataset
         '404':
           description: The given datasetID was not found in collection
-    put:
-      tags:
-        - Dataset
-        - Consumer API
-      summary: Add etities to dataset
-      description: Add etities to dataset
-      operationId: addDatasetsData
-      consumes:
-        - application/json
-      produces: []
-      security:
-        - GoogleIdToken: []
-      parameters:
-        - name: datasetID
-          in: path
-          description: ID of a dataset
-          required: true
-          type: string
-        - in: body
-          name: body
-          required: true
-          schema:
-            $ref: '#/definitions/Dataset'
-      responses:
-        '200':
-          description: OK
-        '400':
-          description: Malformed data
-          schema:
-            $ref: '#/definitions/Error'
-        '401':
-          description: No authentication. Need to login.
-        '403':
-          description: >-
-            Not authorized to post data at all or not an owner of a given
-            dataset
-        '404':
-          description: algorithmID not found
   /algorithms/:
     get:
       tags:
@@ -439,44 +359,6 @@ paths:
             $ref: '#/definitions/AlgorithmDetails'
         '404':
           description: The given algorithmID was not found in collection
-    put:
-      tags:
-        - Algorithms
-        - Supplier API
-      summary: Update existing Algorithm
-      description: Replace existing Algorithm
-      operationId: updateAlgorithm
-      consumes:
-        - application/json
-      produces: []
-      security:
-        - GoogleIdToken: []
-      parameters:
-        - name: algorithmID
-          in: path
-          description: ID of an algorithm
-          required: true
-          type: string
-        - in: body
-          name: body
-          required: true
-          schema:
-            $ref: '#/definitions/AlgorithmBody'
-      responses:
-        '200':
-          description: OK
-        '400':
-          description: Malformed data
-          schema:
-            $ref: '#/definitions/Error'
-        '401':
-          description: No authentication. Need to login.
-        '403':
-          description: >-
-            Not authorized to replace algorithms at all or not an owner of a
-            given algorithm
-        '404':
-          description: algorithmID not found
     delete:
       tags:
         - Algorithms
@@ -503,28 +385,6 @@ paths:
           description: Not an owner of the algorithm
         '404':
           description: algorithmID not found
-  '/algorithms/{algorithmID}/test':
-    get:
-      tags:
-        - Algorithms
-        - Supplier API
-      summary: Tests syntax of the algorithm
-      description: Tests syntax of the algorithm
-      operationId: testAlgorithm
-      consumes: []
-      parameters:
-        - name: algorithmID
-          in: path
-          description: ID of an algorithm
-          required: true
-          type: string
-      responses:
-        '200':
-          description: Test OK
-        '400':
-          description: Test failed
-        '404':
-          description: The given algorithmID was not found in collection
   '/algorithms/{algorithmID}/{datasetID}':
     post:
       tags:
@@ -618,9 +478,9 @@ paths:
           description: Result has been deleted
         '404':
           description: Result not found
-
-
-
+      
+    
+  
 definitions:
   AlgorithmBody:
     type: object
@@ -796,4 +656,4 @@ definitions:
     properties:
       reportData:
         type: string
-        description: Complete data of the billing report in xml
+        description: Complete data of the billing report
