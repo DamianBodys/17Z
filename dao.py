@@ -128,6 +128,7 @@ class UserDAO:
                 # 'lastName': user.getlast_name(),
                 # 'email': user.getemail(),
                 # 'phone': user.getphone(),
+                'userID': user.getuser_id(),
                 'userStatus': user.getuser_status(),
                 'timestamp': datetime.now()
             })
@@ -149,7 +150,6 @@ class UserDAO:
             entity.pop('timestamp')
         except:
             return 1
-        entity['userID'] = user_id
         return User(entity)
 
     @staticmethod
@@ -262,6 +262,7 @@ class Algorithm:
         #    "dataset_description": "string",
         #    "score_sum": "integer",
         #    "score_count": "integer"
+        #    "userID": "string"
     }
 
     def setalgorithm_id(self, algorithm_id):
@@ -306,6 +307,12 @@ class Algorithm:
     def getdataset_description(self):
         return self._data['dataset_description']
 
+    def setuserID(self, userID):
+        self._data['userID'] = userID
+
+    def getuserID(self):
+        return self._data['userID']
+
     def setscore_sum(self, score_sum):
         self._data['score_sum'] = score_sum
 
@@ -338,6 +345,7 @@ class Algorithm:
         self.setblob(dict_data['algorithmBLOB'])
         self.setdescription(dict_data['algorithmDescription'])
         self.setdataset_description(dict_data['datasetDescription'])
+        self.setuserID(dict_data['userID'])
         self.setscore_sum(0)
         self.setscore_count(0)
 
@@ -350,6 +358,7 @@ class Algorithm:
             'algorithmBLOB': self.getblob(),
             'algorithmDescription': self.getdescription(),
             'datasetDescription': self.getdataset_description(),
+            'userID': self.getuserID(),
             'score_sum': self.getscore_sum(),
             'score_count': self.getscore_count()
         }
@@ -403,6 +412,7 @@ class AlgorithmDAO:
                 'algorithmBLOB': algorithm.getblob(),
                 'algorithmDescription': algorithm.getdescription(),
                 'datasetDescription': algorithm.getdataset_description(),
+                'userID': algorithm.getuserID(),
                 'timestamp': datetime.now()
             })
             ds.put(entity)
@@ -458,6 +468,24 @@ class AlgorithmDAO:
         except:
             return 3
         return 0
+
+    @staticmethod
+    def isOwner(userID, algorithm_id):
+        """
+                Check if the userID is the owner of algorithm_id
+
+                :param userID: id of a user for whom the ownership is checked
+                :param algorithm_id: id of an algorithm of which ownership is checked
+                :type userID: str
+                :type algorithm_id: str
+                :rtype : int
+                :returns: 0 if userID is the owner of the algorithm, 1 otherwise
+                """
+        algorithm = AlgorithmDAO.get(algorithm_id)
+        if algorithm.getuserID() == userID:
+            return 0
+        else:
+            return 1
 
     @staticmethod
     def getindex(algorithm_id):
@@ -520,6 +548,7 @@ class AlgorithmDAO:
 
     @staticmethod
     def delete(algorithm_id):
+
         url = get_search_url() + '/algorithms/' + algorithm_id
         try:
             response_from_url = requests.delete(url)
@@ -527,6 +556,7 @@ class AlgorithmDAO:
             return 2
         if response_from_url.status_code != 200:
             return 1
+        return 0
 
 
 

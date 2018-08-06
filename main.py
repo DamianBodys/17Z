@@ -363,18 +363,40 @@ def api_algorithm_delete(algorithm_id, user_id=None):
     """
      Remove a single algorithm
     """
-    result = AlgorithmDAO.delete(algorithm_id)
-    if result not in [1, 2]:
-        resp = Response(status=200, mimetype='application/json')
-        resp.headers['Content-Type'] = 'application/json; charset=utf-8'
+    userID = get_user_from_id_token(request.headers['Authorization'].split(" ")[1])
+    user = UserDAO.get(userID.getuser_id())
+    if user != 1:
+        if AlgorithmDAO.isOwner(user.getuser_id(), algorithm_id) == 0:
+            result = AlgorithmDAO.delete(algorithm_id)
+            if result not in [1, 2]:
+                resp = Response(status=200, mimetype='application/json')
+                resp.headers['Content-Type'] = 'application/json; charset=utf-8'
+            else:
+                data = {
+                    "code": 404,
+                    "fields": "string",
+                    "message": "Not Found"
+                }
+                js = json.dumps(data)
+                resp = Response(js, status=404, mimetype='application/json')
+                resp.headers['Content-Type'] = 'application/json; charset=utf-8'
+        else:
+            data = {
+                "code": 403,
+                "fields": "string",
+                "message": "Forbidden"
+            }
+            js = json.dumps(data)
+            resp = Response(js, status=404, mimetype='application/json')
+            resp.headers['Content-Type'] = 'application/json; charset=utf-8'
     else:
         data = {
-            "code": 404,
+            "code": 401,
             "fields": "string",
-            "message": "Not Found"
+            "message": "Unauthorized"
         }
         js = json.dumps(data)
-        resp = Response(js, status=404, mimetype='application/json')
+        resp = Response(js, status=401, mimetype='application/json')
         resp.headers['Content-Type'] = 'application/json; charset=utf-8'
     return resp
 
@@ -385,18 +407,50 @@ def api_algorithms_post(user_id=None):
     """Add a new Algorithm"""
     if request.headers['Content-Type'] == 'application/json':
         dict_data = request.json
-        algorithm = Algorithm(dict_data)
-        returned_code = AlgorithmDAO.set(algorithm)
-        if returned_code == 0:
+        userID = get_user_from_id_token(request.headers['Authorization'].split(" ")[1])
+        user = UserDAO.get(userID.getuser_id())
+        if user != 1:
+            if (AlgorithmDAO.getindex(dict_data['algorithmId']) != 1 and AlgorithmDAO.isOwner(user.getuser_id(),dict_data['algorithmId']) == 0) or AlgorithmDAO.getindex(dict_data['algorithmId']) == 1:
+                dict_data['userID'] = user.getuser_id()
+                algorithm = Algorithm(dict_data)
+                returned_code = AlgorithmDAO.set(algorithm)
+                if returned_code == 0:
+                    data = {
+                        "code": 200,
+                        "fields": "string",
+                        "message": "OK"
+                    }
+                    js = json.dumps(data)
+                    resp = Response(js, status=200, mimetype='application/json')
+                    resp.headers['Content-Type'] = 'application/json; charset=utf-8'
+                    return resp
+                data = {
+                    "code": 401,
+                    "fields": "string",
+                    "message": "Failed to add Algorithm"
+                }
+                js = json.dumps(data)
+                resp = Response(js, status=400, mimetype='application/json')
+                resp.headers['Content-Type'] = 'application/json; charset=utf-8'
+                return resp
             data = {
-                "code": 200,
+                "code": 403,
                 "fields": "string",
-                "message": "OK"
+                "message": "Forbidden"
             }
             js = json.dumps(data)
-            resp = Response(js, status=200, mimetype='application/json')
+            resp = Response(js, status=400, mimetype='application/json')
             resp.headers['Content-Type'] = 'application/json; charset=utf-8'
             return resp
+        data = {
+            "code": 401,
+            "fields": "string",
+            "message": "Unauthorized"
+        }
+        js = json.dumps(data)
+        resp = Response(js, status=400, mimetype='application/json')
+        resp.headers['Content-Type'] = 'application/json; charset=utf-8'
+        return resp
     data = {
         "code": 400,
         "fields": "string",
