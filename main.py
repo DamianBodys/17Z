@@ -377,7 +377,7 @@ def api_dataset_get(dataset_id, user_id=None):
             data = {
                 "code": 403,
                 "fields": "string",
-                "message": "Forbidden - dataset not owned by the user"
+                "message": "Forbidden - dataset not owned by user"
             }
             js = json.dumps(data)
             resp = Response(js, status=403, mimetype='application/json')
@@ -578,26 +578,49 @@ def api_algorithm_post(algorithm_id, dataset_id, user_id=None):
     """
      Execute algorithm with a dataset_id
     """
-    result_body = ExecutorMockup.execute(algorithm_id, dataset_id)
-    emptyresult_data = {"resultSetID": 'empty',
-                        "resultBody": 'empty'}
-    result = ResultSet(emptyresult_data)
-    user = get_user_from_id_token(request.headers['Authorization'].split(" ")[1])
-    result.setresultset_id(result.generateresultset_id(user.getuser_id(), algorithm_id, dataset_id))
-    result.setresult_body(result_body)
-    check = ResultSetDAO.set(result)
+    userID = get_user_from_id_token(request.headers['Authorization'].split(" ")[1])
+    user = UserDAO.get(userID.getuser_id())
 
-    if check == 0:
-        resp = Response(status=200, mimetype='application/json')
-        resp.headers['Content-Type'] = 'application/json; charset=utf-8'
+    if user != 1:
+        if DatasetDAO.getindex(dataset_id) != 1 and DatasetDAO.isOwner(user.getuser_id(), dataset_id) == 0:
+            result_body = ExecutorMockup.execute(algorithm_id, dataset_id)
+            emptyresult_data = {"resultSetID": 'empty',
+                                "resultBody": 'empty'}
+            result = ResultSet(emptyresult_data)
+            user = get_user_from_id_token(request.headers['Authorization'].split(" ")[1])
+            result.setresultset_id(result.generateresultset_id(user.getuser_id(), algorithm_id, dataset_id))
+            result.setresult_body(result_body)
+            check = ResultSetDAO.set(result)
+
+            if check == 0:
+                resp = Response(status=200, mimetype='application/json')
+                resp.headers['Content-Type'] = 'application/json; charset=utf-8'
+            else:
+                data = {
+                    "code": 404,
+                    "fields": "string",
+                    "message": "Not Found"
+                }
+                js = json.dumps(data)
+                resp = Response(js, status=404, mimetype='application/json')
+                resp.headers['Content-Type'] = 'application/json; charset=utf-8'
+        else:
+            data = {
+                "code": 403,
+                "fields": "string",
+                "message": "Forbidden - dataset not owned by user"
+            }
+            js = json.dumps(data)
+            resp = Response(js, status=403, mimetype='application/json')
+            resp.headers['Content-Type'] = 'application/json; charset=utf-8'
     else:
         data = {
-            "code": 404,
+            "code": 401,
             "fields": "string",
-            "message": "Not Found"
+            "message": "Unauthorized - user not registered"
         }
         js = json.dumps(data)
-        resp = Response(js, status=404, mimetype='application/json')
+        resp = Response(js, status=401, mimetype='application/json')
         resp.headers['Content-Type'] = 'application/json; charset=utf-8'
     return resp
 
