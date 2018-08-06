@@ -192,6 +192,7 @@ class Dataset:
         #    "link_url": "string",
         #    "blob": "string",
         #    "description": "string"
+        #    "userID": "string"
     }
 
     def setdataset_id(self, dataset_id):
@@ -211,6 +212,12 @@ class Dataset:
 
     def getdisplay_name(self):
         return self._data['display_name']
+
+    def setuserID(self, userID):
+        self._data['userID'] = userID
+
+    def getuserID(self):
+        return self._data['userID']
 
     def setlink_url(self, link_url):
         self._data['link_url'] = link_url
@@ -237,6 +244,7 @@ class Dataset:
         self.setlink_url(dict_data['linkURL'])
         self.setblob(dict_data['datasetBLOB'])
         self.setdescription(dict_data['datasetDescription'])
+        self.setuserID(dict_data['userID'])
 
     def get_dict(self):
         dataset_dict = {
@@ -245,7 +253,8 @@ class Dataset:
             'displayName': self.getdisplay_name(),
             'linkURL': self.getlink_url(),
             'algorithmBLOB': self.getblob(),
-            'algorithmDescription': self.getdescription()
+            'algorithmDescription': self.getdescription(),
+            'userID': self.getuserID()
         }
         return dataset_dict
 
@@ -605,6 +614,7 @@ class DatasetDAO:
             entity.update({
                 'datasetBLOB': dataset.getblob(),
                 'datasetDescription': dataset.getdescription(),
+                'userID': dataset.getuserID(),
                 'timestamp': datetime.now()
             })
             ds.put(entity)
@@ -630,6 +640,24 @@ class DatasetDAO:
         else:
             dat = 2
         return 10 * dat + idx
+
+    @staticmethod
+    def isOwner(userID, dataset_id):
+        """
+                Check if the userID is the owner of algorithm_id
+
+                :param userID: id of a user for whom the ownership is checked
+                :param dataset_id: id of a dataset of which ownership is checked
+                :type userID: str
+                :type dataset_id: str
+                :rtype : int
+                :returns: 0 if userID is the owner of the algorithm, 1 otherwise
+                """
+        dataset = DatasetDAO.get(dataset_id)
+        if dataset.getuserID() == userID:
+            return 0
+        else:
+            return 1
 
     @staticmethod
     def searchindex(found_datasets_list, tags=''):

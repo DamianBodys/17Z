@@ -183,6 +183,7 @@ def algorithms_html():
 
 
 # "Dataset API"
+@authenticated
 @app.route('/datasets/', methods=['GET'])
 def api_datasets_get():
     """
@@ -196,6 +197,8 @@ def api_datasets_get():
         3 Application or server error
         4 Wrong tags parameter
     """
+    userID = get_user_from_id_token(request.headers['Authorization'].split(" ")[1])
+    user = UserDAO.get(userID.getuser_id())
     datasets_list = []
     if 'tags' in request.args:
         tags = request.args['tags']
@@ -216,6 +219,11 @@ def api_datasets_get():
     else:
         result_code = DatasetDAO.searchindex(found_datasets_list=datasets_list)
     if result_code == 0:
+        for dataset in datasets_list:
+            dtst = DatasetDAO.get(dataset['datasetId'])
+            if dtst.getuserID() != user.getuser_id():
+                datasets_list.remove(dataset)
+
         js = json.dumps(datasets_list)
         resp = Response(js, status=200, mimetype='application/json')
         resp.headers['Content-Type'] = 'application/json; charset=utf-8'
@@ -238,18 +246,50 @@ def api_datasets_post(user_id=None):
     """Add a new Dataset"""
     if request.headers['Content-Type'] == 'application/json':
         dict_data = request.json
-        dataset = Dataset(dict_data)
-        returned_code = DatasetDAO.set(dataset)
-        if returned_code == 0:
+        userID = get_user_from_id_token(request.headers['Authorization'].split(" ")[1])
+        user = UserDAO.get(userID.getuser_id())
+        if user != 1:
+            if (DatasetDAO.getindex(dict_data['datasetId']) != 1 and DatasetDAO.isOwner(user.getuser_id(), dict_data['datasetId']) == 0) or DatasetDAO.getindex(dict_data['datasetId']) == 1:
+                dict_data['userID'] = user.getuser_id()
+                dataset = Dataset(dict_data)
+                returned_code = DatasetDAO.set(dataset)
+                if returned_code == 0:
+                    data = {
+                        "code": 200,
+                        "fields": "string",
+                        "message": "OK"
+                    }
+                    js = json.dumps(data)
+                    resp = Response(js, status=200, mimetype='application/json')
+                    resp.headers['Content-Type'] = 'application/json; charset=utf-8'
+                    return resp
+                data = {
+                    "code": 401,
+                    "fields": "string",
+                    "message": "Failed to add Dataset"
+                }
+                js = json.dumps(data)
+                resp = Response(js, status=401, mimetype='application/json')
+                resp.headers['Content-Type'] = 'application/json; charset=utf-8'
+                return resp
             data = {
-                "code": 200,
+                "code": 403,
                 "fields": "string",
-                "message": "OK"
+                "message": "Forbidden"
             }
             js = json.dumps(data)
-            resp = Response(js, status=200, mimetype='application/json')
+            resp = Response(js, status=403, mimetype='application/json')
             resp.headers['Content-Type'] = 'application/json; charset=utf-8'
             return resp
+        data = {
+            "code": 401,
+            "fields": "string",
+            "message": "Unauthorized"
+        }
+        js = json.dumps(data)
+        resp = Response(js, status=400, mimetype='application/json')
+        resp.headers['Content-Type'] = 'application/json; charset=utf-8'
+        return resp
     data = {
         "code": 400,
         "fields": "string",
@@ -267,42 +307,89 @@ def api_dataset_delete(dataset_id, user_id=None):
     """
      Remove a single dataset
     """
-    result = DatasetDAO.delete(dataset_id)
-    if result not in [1, 2]:
-        resp = Response(status=200, mimetype='application/json')
-        resp.headers['Content-Type'] = 'application/json; charset=utf-8'
+    userID = get_user_from_id_token(request.headers['Authorization'].split(" ")[1])
+    user = UserDAO.get(userID.getuser_id())
+
+    if user != 1:
+        if (DatasetDAO.getindex(dataset_id) != 1 and DatasetDAO.isOwner(user.getuser_id(), dataset_id) == 0) or DatasetDAO.getindex(dataset_id) == 1:
+            result = DatasetDAO.delete(dataset_id)
+            if result not in [1, 2]:
+                resp = Response(status=200, mimetype='application/json')
+                resp.headers['Content-Type'] = 'application/json; charset=utf-8'
+            else:
+                data = {
+                    "code": 404,
+                    "fields": "string",
+                    "message": "Not Found"
+                }
+                js = json.dumps(data)
+                resp = Response(js, status=404, mimetype='application/json')
+                resp.headers['Content-Type'] = 'application/json; charset=utf-8'
+        else:
+            data = {
+                "code": 403,
+                "fields": "string",
+                "message": "Forbidden - dataset not owned by user"
+            }
+            js = json.dumps(data)
+            resp = Response(js, status=403, mimetype='application/json')
+            resp.headers['Content-Type'] = 'application/json; charset=utf-8'
     else:
         data = {
-            "code": 404,
+            "code": 401,
             "fields": "string",
-            "message": "Not Found"
+            "message": "Unauthorized - user not registered"
         }
         js = json.dumps(data)
-        resp = Response(js, status=404, mimetype='application/json')
+        resp = Response(js, status=401, mimetype='application/json')
         resp.headers['Content-Type'] = 'application/json; charset=utf-8'
     return resp
 
 
 @app.route('/datasets/<dataset_id>', methods=['GET'])
-def api_dataset_get(dataset_id):
+@authenticated
+def api_dataset_get(dataset_id, user_id=None):
     """
      Get a single dataset detailed information
      Everything but algorithmBLOB
     """
-    result = DatasetDAO.get(dataset_id)
-    if result not in [1, 2]:
-        dataset = result.get_dict()
-        js = json.dumps(dataset)
-        resp = Response(js, status=200, mimetype='application/json')
-        resp.headers['Content-Type'] = 'application/json; charset=utf-8'
+    userID = get_user_from_id_token(request.headers['Authorization'].split(" ")[1])
+    user = UserDAO.get(userID.getuser_id())
+
+    if user != 1:
+        if (DatasetDAO.getindex(dataset_id) != 1 and DatasetDAO.isOwner(user.getuser_id(), dataset_id) == 0) or DatasetDAO.getindex(dataset_id) == 1:
+            result = DatasetDAO.get(dataset_id)
+            if result not in [1, 2]:
+                dataset = result.get_dict()
+                js = json.dumps(dataset)
+                resp = Response(js, status=200, mimetype='application/json')
+                resp.headers['Content-Type'] = 'application/json; charset=utf-8'
+            else:
+                data = {
+                    "code": 404,
+                    "fields": "string",
+                    "message": "Not Found"
+                }
+                js = json.dumps(data)
+                resp = Response(js, status=404, mimetype='application/json')
+                resp.headers['Content-Type'] = 'application/json; charset=utf-8'
+        else:
+            data = {
+                "code": 403,
+                "fields": "string",
+                "message": "Forbidden - dataset not owned by the user"
+            }
+            js = json.dumps(data)
+            resp = Response(js, status=403, mimetype='application/json')
+            resp.headers['Content-Type'] = 'application/json; charset=utf-8'
     else:
         data = {
-            "code": 404,
+            "code": 401,
             "fields": "string",
-            "message": "Not Found"
+            "message": "Unauthorized - user not registered"
         }
         js = json.dumps(data)
-        resp = Response(js, status=404, mimetype='application/json')
+        resp = Response(js, status=401, mimetype='application/json')
         resp.headers['Content-Type'] = 'application/json; charset=utf-8'
     return resp
 
@@ -430,7 +517,7 @@ def api_algorithms_post(user_id=None):
                     "message": "Failed to add Algorithm"
                 }
                 js = json.dumps(data)
-                resp = Response(js, status=400, mimetype='application/json')
+                resp = Response(js, status=401, mimetype='application/json')
                 resp.headers['Content-Type'] = 'application/json; charset=utf-8'
                 return resp
             data = {
@@ -439,7 +526,7 @@ def api_algorithms_post(user_id=None):
                 "message": "Forbidden"
             }
             js = json.dumps(data)
-            resp = Response(js, status=400, mimetype='application/json')
+            resp = Response(js, status=403, mimetype='application/json')
             resp.headers['Content-Type'] = 'application/json; charset=utf-8'
             return resp
         data = {
