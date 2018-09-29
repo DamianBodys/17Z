@@ -248,7 +248,7 @@ def api_datasets_get():
         return resp
 
 
-@app.route('/datasets', methods=['POST'])
+@app.route('/datasets/', methods=['POST'])
 @authenticated
 def api_datasets_post(user_id=None):
     """Add a new Dataset"""

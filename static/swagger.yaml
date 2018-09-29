@@ -151,7 +151,7 @@ paths:
       responses:
         '200':
           description: OK
-  /datasets:
+  /datasets/:
     get:
       tags:
         - Consumer API
@@ -391,10 +391,8 @@ paths:
         - Algorithms
         - Consumer API
         - Dataset
-      summary: >-
-        Executes algorithm using specified dataset
-      description: >-
-        Executes algorithm using specified dataset
+      summary: Executes algorithm using specified dataset
+      description: Executes algorithm using specified dataset
       operationId: postAlgorithmsAlgorithmIdDatasetId
       consumes: []
       produces:
@@ -422,10 +420,8 @@ paths:
       tags:
         - Results
         - Consumer API
-      summary: >-
-        Returns resultSet for specified algorithm+dataset combination
-      description: >-
-        Returns resultSet for specified algorithm+dataset combination
+      summary: Returns resultSet for specified algorithm+dataset combination
+      description: Returns resultSet for specified algorithm+dataset combination
       operationId: getResult
       consumes: []
       produces:
@@ -452,10 +448,8 @@ paths:
       tags:
         - Results
         - Consumer API
-      summary: >-
-        Deletes resultSet for specified algorithm+dataset combination
-      description: >-
-        Deletes resultSet for specified algorithm+dataset combination
+      summary: Deletes resultSet for specified algorithm+dataset combination
+      description: Deletes resultSet for specified algorithm+dataset combination
       operationId: deleteResult
       consumes: []
       produces:
@@ -478,9 +472,6 @@ paths:
           description: Result has been deleted
         '404':
           description: Result not found
-      
-    
-  
 definitions:
   AlgorithmBody:
     type: object
@@ -567,7 +558,7 @@ definitions:
     properties:
       datasetBLOB:
         type: string
-        description: 'Dataset initial parameters or output values'
+        description: Dataset initial parameters or output values
       datasetDescription:
         type: string
         description: detailed description of the dataset.
