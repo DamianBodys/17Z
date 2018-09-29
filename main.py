@@ -430,6 +430,10 @@ def api_algorithms_get():
     if result_code == 0:
         js = json.dumps(algorithms_list)
         resp = Response(js, status=200, mimetype='application/json')
+        resp.headers.add_header("Access-Control-Allow-Origin", "*")
+        resp.headers.add_header('Access-Control-Allow-Methods', 'POST, GET, DELETE, PUT, OPTIONS')
+        resp.headers.add_header('Access-Control-Allow-Headers', 'Content-Type, api_key, Authorization,' +
+                                         ' x-requested-with, Total-Count, Total-Pages, Error-Message')
         resp.headers['Content-Type'] = 'application/json; charset=utf-8'
         return resp
     else:
@@ -440,6 +444,10 @@ def api_algorithms_get():
         }]
         js = json.dumps(data)
         resp = Response(js, status=400, mimetype='application/json')
+        resp.headers.add_header("Access-Control-Allow-Origin", "*")
+        resp.headers.add_header('Access-Control-Allow-Methods', 'POST, GET, DELETE, PUT, OPTIONS')
+        resp.headers.add_header('Access-Control-Allow-Headers', 'Content-Type, api_key, Authorization,' +
+                                         ' x-requested-with, Total-Count, Total-Pages, Error-Message')
         resp.headers['Content-Type'] = 'application/json; charset=utf-8'
         return resp
 
@@ -466,6 +474,10 @@ def api_algorithm_delete(algorithm_id, user_id=None):
                 }
                 js = json.dumps(data)
                 resp = Response(js, status=404, mimetype='application/json')
+                resp.headers.add_header("Access-Control-Allow-Origin", "*")
+                resp.headers.add_header('Access-Control-Allow-Methods', 'POST, GET, DELETE, PUT, OPTIONS')
+                resp.headers.add_header('Access-Control-Allow-Headers', 'Content-Type, api_key, Authorization,' +
+                                         ' x-requested-with, Total-Count, Total-Pages, Error-Message')
                 resp.headers['Content-Type'] = 'application/json; charset=utf-8'
         else:
             data = {
@@ -475,6 +487,10 @@ def api_algorithm_delete(algorithm_id, user_id=None):
             }
             js = json.dumps(data)
             resp = Response(js, status=404, mimetype='application/json')
+            resp.headers.add_header("Access-Control-Allow-Origin", "*")
+            resp.headers.add_header('Access-Control-Allow-Methods', 'POST, GET, DELETE, PUT, OPTIONS')
+            resp.headers.add_header('Access-Control-Allow-Headers', 'Content-Type, api_key, Authorization,' +
+                                         ' x-requested-with, Total-Count, Total-Pages, Error-Message')
             resp.headers['Content-Type'] = 'application/json; charset=utf-8'
     else:
         data = {
@@ -484,6 +500,10 @@ def api_algorithm_delete(algorithm_id, user_id=None):
         }
         js = json.dumps(data)
         resp = Response(js, status=401, mimetype='application/json')
+        resp.headers.add_header("Access-Control-Allow-Origin", "*")
+        resp.headers.add_header('Access-Control-Allow-Methods', 'POST, GET, DELETE, PUT, OPTIONS')
+        resp.headers.add_header('Access-Control-Allow-Headers', 'Content-Type, api_key, Authorization,' +
+                                         ' x-requested-with, Total-Count, Total-Pages, Error-Message')
         resp.headers['Content-Type'] = 'application/json; charset=utf-8'
     return resp
 
@@ -509,6 +529,10 @@ def api_algorithms_post(user_id=None):
                     }
                     js = json.dumps(data)
                     resp = Response(js, status=200, mimetype='application/json')
+                    resp.headers.add_header("Access-Control-Allow-Origin", "*")
+                    resp.headers.add_header('Access-Control-Allow-Methods', 'POST, GET, DELETE, PUT, OPTIONS')
+                    resp.headers.add_header('Access-Control-Allow-Headers', 'Content-Type, api_key, Authorization,' +
+                                         ' x-requested-with, Total-Count, Total-Pages, Error-Message')
                     resp.headers['Content-Type'] = 'application/json; charset=utf-8'
                     return resp
                 data = {
@@ -518,6 +542,10 @@ def api_algorithms_post(user_id=None):
                 }
                 js = json.dumps(data)
                 resp = Response(js, status=401, mimetype='application/json')
+                resp.headers.add_header("Access-Control-Allow-Origin", "*")
+                resp.headers.add_header('Access-Control-Allow-Methods', 'POST, GET, DELETE, PUT, OPTIONS')
+                resp.headers.add_header('Access-Control-Allow-Headers', 'Content-Type, api_key, Authorization,' +
+                                         ' x-requested-with, Total-Count, Total-Pages, Error-Message')
                 resp.headers['Content-Type'] = 'application/json; charset=utf-8'
                 return resp
             data = {
@@ -527,6 +555,10 @@ def api_algorithms_post(user_id=None):
             }
             js = json.dumps(data)
             resp = Response(js, status=403, mimetype='application/json')
+            resp.headers.add_header("Access-Control-Allow-Origin", "*")
+            resp.headers.add_header('Access-Control-Allow-Methods', 'POST, GET, DELETE, PUT, OPTIONS')
+            resp.headers.add_header('Access-Control-Allow-Headers', 'Content-Type, api_key, Authorization,' +
+                                         ' x-requested-with, Total-Count, Total-Pages, Error-Message')
             resp.headers['Content-Type'] = 'application/json; charset=utf-8'
             return resp
         data = {
@@ -536,6 +568,10 @@ def api_algorithms_post(user_id=None):
         }
         js = json.dumps(data)
         resp = Response(js, status=400, mimetype='application/json')
+        resp.headers.add_header("Access-Control-Allow-Origin", "*")
+        resp.headers.add_header('Access-Control-Allow-Methods', 'POST, GET, DELETE, PUT, OPTIONS')
+        resp.headers.add_header('Access-Control-Allow-Headers', 'Content-Type, api_key, Authorization,' +
+                                         ' x-requested-with, Total-Count, Total-Pages, Error-Message')
         resp.headers['Content-Type'] = 'application/json; charset=utf-8'
         return resp
     data = {
@@ -545,6 +581,10 @@ def api_algorithms_post(user_id=None):
     }
     js = json.dumps(data)
     resp = Response(js, status=400, mimetype='application/json')
+    resp.headers.add_header("Access-Control-Allow-Origin", "*")
+    resp.headers.add_header('Access-Control-Allow-Methods', 'POST, GET, DELETE, PUT, OPTIONS')
+    resp.headers.add_header('Access-Control-Allow-Headers', 'Content-Type, api_key, Authorization,' +
+                                         ' x-requested-with, Total-Count, Total-Pages, Error-Message')
     resp.headers['Content-Type'] = 'application/json; charset=utf-8'
     return resp
 
@@ -560,6 +600,10 @@ def api_algorithm_get(algorithm_id):
         algorithm = result.get_dict()
         js = json.dumps(algorithm)
         resp = Response(js, status=200, mimetype='application/json')
+        resp.headers.add_header("Access-Control-Allow-Origin", "*")
+        resp.headers.add_header('Access-Control-Allow-Methods', 'POST, GET, DELETE, PUT, OPTIONS')
+        resp.headers.add_header('Access-Control-Allow-Headers', 'Content-Type, api_key, Authorization,' +
+                                         ' x-requested-with, Total-Count, Total-Pages, Error-Message')
         resp.headers['Content-Type'] = 'application/json; charset=utf-8'
     else:
         data = {
@@ -569,6 +613,10 @@ def api_algorithm_get(algorithm_id):
         }
         js = json.dumps(data)
         resp = Response(js, status=404, mimetype='application/json')
+        resp.headers.add_header("Access-Control-Allow-Origin", "*")
+        resp.headers.add_header('Access-Control-Allow-Methods', 'POST, GET, DELETE, PUT, OPTIONS')
+        resp.headers.add_header('Access-Control-Allow-Headers', 'Content-Type, api_key, Authorization,' +
+                                         ' x-requested-with, Total-Count, Total-Pages, Error-Message')
         resp.headers['Content-Type'] = 'application/json; charset=utf-8'
     return resp
 
@@ -594,6 +642,10 @@ def api_algorithm_post(algorithm_id, dataset_id, user_id=None):
 
             if check == 0:
                 resp = Response(status=200, mimetype='application/json')
+                resp.headers.add_header("Access-Control-Allow-Origin", "*")
+                resp.headers.add_header('Access-Control-Allow-Methods', 'POST, GET, DELETE, PUT, OPTIONS')
+                resp.headers.add_header('Access-Control-Allow-Headers', 'Content-Type, api_key, Authorization,' +
+                                         ' x-requested-with, Total-Count, Total-Pages, Error-Message')
                 resp.headers['Content-Type'] = 'application/json; charset=utf-8'
             else:
                 data = {
@@ -603,6 +655,10 @@ def api_algorithm_post(algorithm_id, dataset_id, user_id=None):
                 }
                 js = json.dumps(data)
                 resp = Response(js, status=404, mimetype='application/json')
+                resp.headers.add_header("Access-Control-Allow-Origin", "*")
+                resp.headers.add_header('Access-Control-Allow-Methods', 'POST, GET, DELETE, PUT, OPTIONS')
+                resp.headers.add_header('Access-Control-Allow-Headers', 'Content-Type, api_key, Authorization,' +
+                                         ' x-requested-with, Total-Count, Total-Pages, Error-Message')
                 resp.headers['Content-Type'] = 'application/json; charset=utf-8'
         else:
             data = {
@@ -612,6 +668,10 @@ def api_algorithm_post(algorithm_id, dataset_id, user_id=None):
             }
             js = json.dumps(data)
             resp = Response(js, status=403, mimetype='application/json')
+            resp.headers.add_header("Access-Control-Allow-Origin", "*")
+            resp.headers.add_header('Access-Control-Allow-Methods', 'POST, GET, DELETE, PUT, OPTIONS')
+            resp.headers.add_header('Access-Control-Allow-Headers', 'Content-Type, api_key, Authorization,' +
+                                         ' x-requested-with, Total-Count, Total-Pages, Error-Message')
             resp.headers['Content-Type'] = 'application/json; charset=utf-8'
     else:
         data = {
@@ -621,6 +681,10 @@ def api_algorithm_post(algorithm_id, dataset_id, user_id=None):
         }
         js = json.dumps(data)
         resp = Response(js, status=401, mimetype='application/json')
+        resp.headers.add_header("Access-Control-Allow-Origin", "*")
+        resp.headers.add_header('Access-Control-Allow-Methods', 'POST, GET, DELETE, PUT, OPTIONS')
+        resp.headers.add_header('Access-Control-Allow-Headers', 'Content-Type, api_key, Authorization,' +
+                                         ' x-requested-with, Total-Count, Total-Pages, Error-Message')
         resp.headers['Content-Type'] = 'application/json; charset=utf-8'
     return resp
 
@@ -642,6 +706,10 @@ def api_resultset_get(algorithm_id, dataset_id, user_id=None):
         resultset = result.get_dict()
         js = json.dumps(resultset)
         resp = Response(js, status=200, mimetype='application/json')
+        resp.headers.add_header("Access-Control-Allow-Origin", "*")
+        resp.headers.add_header('Access-Control-Allow-Methods', 'POST, GET, DELETE, PUT, OPTIONS')
+        resp.headers.add_header('Access-Control-Allow-Headers', 'Content-Type, api_key, Authorization,' +
+                                         ' x-requested-with, Total-Count, Total-Pages, Error-Message')
         resp.headers['Content-Type'] = 'application/json; charset=utf-8'
     else:
         data = {
@@ -651,6 +719,10 @@ def api_resultset_get(algorithm_id, dataset_id, user_id=None):
         }
         js = json.dumps(data)
         resp = Response(js, status=404, mimetype='application/json')
+        resp.headers.add_header("Access-Control-Allow-Origin", "*")
+        resp.headers.add_header('Access-Control-Allow-Methods', 'POST, GET, DELETE, PUT, OPTIONS')
+        resp.headers.add_header('Access-Control-Allow-Headers', 'Content-Type, api_key, Authorization,' +
+                                         ' x-requested-with, Total-Count, Total-Pages, Error-Message')
         resp.headers['Content-Type'] = 'application/json; charset=utf-8'
     return resp
 
@@ -668,6 +740,10 @@ def api_resultset_delete(algorithm_id, dataset_id, user_id=None):
     result = ResultSetDAO.delete(resultset_id)
     if result == 0:
         resp = Response(status=200, mimetype='application/json')
+        resp.headers.add_header("Access-Control-Allow-Origin", "*")
+        resp.headers.add_header('Access-Control-Allow-Methods', 'POST, GET, DELETE, PUT, OPTIONS')
+        resp.headers.add_header('Access-Control-Allow-Headers', 'Content-Type, api_key, Authorization,' +
+                                         ' x-requested-with, Total-Count, Total-Pages, Error-Message')
         resp.headers['Content-Type'] = 'application/json; charset=utf-8'
     else:
         data = {
@@ -677,6 +753,10 @@ def api_resultset_delete(algorithm_id, dataset_id, user_id=None):
         }
         js = json.dumps(data)
         resp = Response(js, status=404, mimetype='application/json')
+        resp.headers.add_header("Access-Control-Allow-Origin", "*")
+        resp.headers.add_header('Access-Control-Allow-Methods', 'POST, GET, DELETE, PUT, OPTIONS')
+        resp.headers.add_header('Access-Control-Allow-Headers', 'Content-Type, api_key, Authorization,' +
+                                         ' x-requested-with, Total-Count, Total-Pages, Error-Message')
         resp.headers['Content-Type'] = 'application/json; charset=utf-8'
     return resp
 
@@ -698,6 +778,10 @@ def create_user(user_id=None):
         }
         js = json.dumps(data)
         resp = Response(js, status=200, mimetype='application/json')
+        resp.headers.add_header("Access-Control-Allow-Origin", "*")
+        resp.headers.add_header('Access-Control-Allow-Methods', 'POST, GET, DELETE, PUT, OPTIONS')
+        resp.headers.add_header('Access-Control-Allow-Headers', 'Content-Type, api_key, Authorization,' +
+                                         ' x-requested-with, Total-Count, Total-Pages, Error-Message')
         resp.headers['Content-Type'] = 'application/json; charset=utf-8'
     else:
         data = {
@@ -707,6 +791,10 @@ def create_user(user_id=None):
         }
         js = json.dumps(data)
         resp = Response(js, status=400, mimetype='application/json')
+        resp.headers.add_header("Access-Control-Allow-Origin", "*")
+        resp.headers.add_header('Access-Control-Allow-Methods', 'POST, GET, DELETE, PUT, OPTIONS')
+        resp.headers.add_header('Access-Control-Allow-Headers', 'Content-Type, api_key, Authorization,' +
+                                         ' x-requested-with, Total-Count, Total-Pages, Error-Message')
         resp.headers['Content-Type'] = 'application/json; charset=utf-8'
     return resp
 
@@ -726,6 +814,10 @@ def get_user_by_id(user_id=None):
         js = json.dumps(user)
         user_data = Response(js, status=200, mimetype='application/json')
         resp = user_data
+        resp.headers.add_header("Access-Control-Allow-Origin", "*")
+        resp.headers.add_header('Access-Control-Allow-Methods', 'POST, GET, DELETE, PUT, OPTIONS')
+        resp.headers.add_header('Access-Control-Allow-Headers', 'Content-Type, api_key, Authorization,' +
+                                         ' x-requested-with, Total-Count, Total-Pages, Error-Message')
         resp.headers['Content-Type'] = 'application/json; charset=utf-8'
     else:
         data = {
@@ -735,6 +827,10 @@ def get_user_by_id(user_id=None):
         }
         js = json.dumps(data)
         resp = Response(js, status=404, mimetype='application/json')
+        resp.headers.add_header("Access-Control-Allow-Origin", "*")
+        resp.headers.add_header('Access-Control-Allow-Methods', 'POST, GET, DELETE, PUT, OPTIONS')
+        resp.headers.add_header('Access-Control-Allow-Headers', 'Content-Type, api_key, Authorization,' +
+                                         ' x-requested-with, Total-Count, Total-Pages, Error-Message')
         resp.headers['Content-Type'] = 'application/json; charset=utf-8'
     return resp
 
@@ -756,6 +852,10 @@ def delete_user(user_id=None):
         }
         js = json.dumps(data)
         resp = Response(js, status=200, mimetype='application/json')
+        resp.headers.add_header("Access-Control-Allow-Origin", "*")
+        resp.headers.add_header('Access-Control-Allow-Methods', 'POST, GET, DELETE, PUT, OPTIONS')
+        resp.headers.add_header('Access-Control-Allow-Headers', 'Content-Type, api_key, Authorization,' +
+                                         ' x-requested-with, Total-Count, Total-Pages, Error-Message')
         resp.headers['Content-Type'] = 'application/json; charset=utf-8'
     else:
         data = {
@@ -765,6 +865,10 @@ def delete_user(user_id=None):
         }
         js = json.dumps(data)
         resp = Response(js, status=400, mimetype='application/json')
+        resp.headers.add_header("Access-Control-Allow-Origin", "*")
+        resp.headers.add_header('Access-Control-Allow-Methods', 'POST, GET, DELETE, PUT, OPTIONS')
+        resp.headers.add_header('Access-Control-Allow-Headers', 'Content-Type, api_key, Authorization,' +
+                                         ' x-requested-with, Total-Count, Total-Pages, Error-Message')
         resp.headers['Content-Type'] = 'application/json; charset=utf-8'
     return resp
 
@@ -796,6 +900,10 @@ def bill_rcv(resultsetid=None, algorithmid=None, user_id=None):
             }
         js = json.dumps(data)
         resp = Response(js, status=400, mimetype='application/json')
+        resp.headers.add_header("Access-Control-Allow-Origin", "*")
+        resp.headers.add_header('Access-Control-Allow-Methods', 'POST, GET, DELETE, PUT, OPTIONS')
+        resp.headers.add_header('Access-Control-Allow-Headers', 'Content-Type, api_key, Authorization,' +
+                                         ' x-requested-with, Total-Count, Total-Pages, Error-Message')
         resp.headers['Content-Type'] = 'application/json; charset=utf-8'
         return resp
     except WrongPathIdError as err:
@@ -806,6 +914,10 @@ def bill_rcv(resultsetid=None, algorithmid=None, user_id=None):
             }
         js = json.dumps(data)
         resp = Response(js, status=400, mimetype='application/json')
+        resp.headers.add_header("Access-Control-Allow-Origin", "*")
+        resp.headers.add_header('Access-Control-Allow-Methods', 'POST, GET, DELETE, PUT, OPTIONS')
+        resp.headers.add_header('Access-Control-Allow-Headers', 'Content-Type, api_key, Authorization,' +
+                                         ' x-requested-with, Total-Count, Total-Pages, Error-Message')
         resp.headers['Content-Type'] = 'application/json; charset=utf-8'
         return resp
     returned_billing = BillDAO.getbilling(bill)
@@ -817,11 +929,19 @@ def bill_rcv(resultsetid=None, algorithmid=None, user_id=None):
         }
         js = json.dumps(data)
         resp = Response(js, status=404, mimetype='application/json')
+        resp.headers.add_header("Access-Control-Allow-Origin", "*")
+        resp.headers.add_header('Access-Control-Allow-Methods', 'POST, GET, DELETE, PUT, OPTIONS')
+        resp.headers.add_header('Access-Control-Allow-Headers', 'Content-Type, api_key, Authorization,' +
+                                         ' x-requested-with, Total-Count, Total-Pages, Error-Message')
         resp.headers['Content-Type'] = 'application/json; charset=utf-8'
     else:
         bill_str = '<?xml version="1.0" encoding="UTF-8"?>' + returned_billing
         bill_data = Response(bill_str, status=200, mimetype='text/xml', content_type='text/xml;charset=utf-8')
         resp = bill_data
+        resp.headers.add_header("Access-Control-Allow-Origin", "*")
+        resp.headers.add_header('Access-Control-Allow-Methods', 'POST, GET, DELETE, PUT, OPTIONS')
+        resp.headers.add_header('Access-Control-Allow-Headers', 'Content-Type, api_key, Authorization,' +
+                                         ' x-requested-with, Total-Count, Total-Pages, Error-Message')
         resp.headers['Content-Type'] = 'text/xml; charset=utf-8'
     return resp
 
