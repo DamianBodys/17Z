@@ -185,8 +185,8 @@ def algorithms_html():
 
 
 # "Dataset API"
-@authenticated
 @app.route('/datasets/', methods=['GET'])
+@authenticated
 def api_datasets_get():
     """
     The Datasets endpoint returns information about the available datasets.
