@@ -187,7 +187,7 @@ def algorithms_html():
 # "Dataset API"
 @app.route('/datasets/', methods=['GET'])
 @authenticated
-def api_datasets_get():
+def api_datasets_get(user_id=None):
     """
     The Datasets endpoint returns information about the available datasets.
     The response includes the display name and other details about each dataset.
@@ -201,6 +201,20 @@ def api_datasets_get():
     """
     userID = get_user_from_id_token(request.headers['Authorization'].split(" ")[1])
     user = UserDAO.get(userID.getuser_id())
+    if user == 1:
+        data = {
+            "code": 401,
+            "fields": "string",
+            "message": "Unauthorized"
+        }
+        js = json.dumps(data)
+        resp = Response(js, status=401, mimetype='application/json')
+        resp.headers.add_header("Access-Control-Allow-Origin", "*")
+        resp.headers.add_header('Access-Control-Allow-Methods', 'POST, GET, DELETE, PUT, OPTIONS')
+        resp.headers.add_header('Access-Control-Allow-Headers', 'Content-Type, api_key, Authorization,' +
+                                         ' x-requested-with, Total-Count, Total-Pages, Error-Message')
+        resp.headers['Content-Type'] = 'application/json; charset=utf-8'
+        return resp
     datasets_list = []
     if 'tags' in request.args:
         tags = request.args['tags']
@@ -309,7 +323,7 @@ def api_datasets_post(user_id=None):
             "message": "Unauthorized"
         }
         js = json.dumps(data)
-        resp = Response(js, status=400, mimetype='application/json')
+        resp = Response(js, status=401, mimetype='application/json')
         resp.headers.add_header("Access-Control-Allow-Origin", "*")
         resp.headers.add_header('Access-Control-Allow-Methods', 'POST, GET, DELETE, PUT, OPTIONS')
         resp.headers.add_header('Access-Control-Allow-Headers', 'Content-Type, api_key, Authorization,' +
@@ -629,7 +643,7 @@ def api_algorithms_post(user_id=None):
             "message": "Unauthorized"
         }
         js = json.dumps(data)
-        resp = Response(js, status=400, mimetype='application/json')
+        resp = Response(js, status=401, mimetype='application/json')
         resp.headers.add_header("Access-Control-Allow-Origin", "*")
         resp.headers.add_header('Access-Control-Allow-Methods', 'POST, GET, DELETE, PUT, OPTIONS')
         resp.headers.add_header('Access-Control-Allow-Headers', 'Content-Type, api_key, Authorization,' +
@@ -761,7 +775,22 @@ def api_resultset_get(algorithm_id, dataset_id, user_id=None):
     emptyresult_data = {"resultSetID": 'empty',
                         "resultBody": 'empty'}
     result = ResultSet(emptyresult_data)
-    user = get_user_from_id_token(request.headers['Authorization'].split(" ")[1])
+    userID = get_user_from_id_token(request.headers['Authorization'].split(" ")[1])
+    user = UserDAO.get(userID.getuser_id())
+    if user == 1:
+        data = {
+            "code": 401,
+            "fields": "string",
+            "message": "Unauthorized"
+        }
+        js = json.dumps(data)
+        resp = Response(js, status=401, mimetype='application/json')
+        resp.headers.add_header("Access-Control-Allow-Origin", "*")
+        resp.headers.add_header('Access-Control-Allow-Methods', 'POST, GET, DELETE, PUT, OPTIONS')
+        resp.headers.add_header('Access-Control-Allow-Headers', 'Content-Type, api_key, Authorization,' +
+                                         ' x-requested-with, Total-Count, Total-Pages, Error-Message')
+        resp.headers['Content-Type'] = 'application/json; charset=utf-8'
+        return resp
     resultset_id = result.generateresultset_id(user.getuser_id(), algorithm_id, dataset_id)
     result = ResultSetDAO.get(resultset_id)
     if result != 1:
@@ -797,7 +826,22 @@ def api_resultset_delete(algorithm_id, dataset_id, user_id=None):
     emptyresult_data = {"resultSetID": 'empty',
                         "resultBody": 'empty'}
     result = ResultSet(emptyresult_data)
-    user = get_user_from_id_token(request.headers['Authorization'].split(" ")[1])
+    userID = get_user_from_id_token(request.headers['Authorization'].split(" ")[1])
+    user = UserDAO.get(userID.getuser_id())
+    if user == 1:
+        data = {
+            "code": 401,
+            "fields": "string",
+            "message": "Unauthorized"
+        }
+        js = json.dumps(data)
+        resp = Response(js, status=401, mimetype='application/json')
+        resp.headers.add_header("Access-Control-Allow-Origin", "*")
+        resp.headers.add_header('Access-Control-Allow-Methods', 'POST, GET, DELETE, PUT, OPTIONS')
+        resp.headers.add_header('Access-Control-Allow-Headers', 'Content-Type, api_key, Authorization,' +
+                                         ' x-requested-with, Total-Count, Total-Pages, Error-Message')
+        resp.headers['Content-Type'] = 'application/json; charset=utf-8'
+        return resp
     resultset_id = result.generateresultset_id(user.getuser_id(), algorithm_id, dataset_id)
     result = ResultSetDAO.delete(resultset_id)
     if result == 0:
@@ -940,7 +984,22 @@ def delete_user(user_id=None):
 @app.route('/bill/algorithm/<algorithmid>', methods=['GET'])
 @authenticated
 def bill_rcv(resultsetid=None, algorithmid=None, user_id=None):
-    user = get_user_from_id_token(request.headers['Authorization'].split(" ")[1])
+    userID = get_user_from_id_token(request.headers['Authorization'].split(" ")[1])
+    user = UserDAO.get(userID.getuser_id())
+    if user == 1:
+        data = {
+            "code": 401,
+            "fields": "string",
+            "message": "Unauthorized"
+        }
+        js = json.dumps(data)
+        resp = Response(js, status=401, mimetype='application/json')
+        resp.headers.add_header("Access-Control-Allow-Origin", "*")
+        resp.headers.add_header('Access-Control-Allow-Methods', 'POST, GET, DELETE, PUT, OPTIONS')
+        resp.headers.add_header('Access-Control-Allow-Headers', 'Content-Type, api_key, Authorization,' +
+                                         ' x-requested-with, Total-Count, Total-Pages, Error-Message')
+        resp.headers['Content-Type'] = 'application/json; charset=utf-8'
+        return resp
     bill = Bill(user)
     try:
         period = get_billingperiod(request.args)
