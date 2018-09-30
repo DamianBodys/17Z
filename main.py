@@ -6,8 +6,10 @@ from flask import Flask, send_from_directory, url_for, redirect, json, \
 from authentication import authenticated, get_user_from_id_token
 import string
 import datetime
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 class WrongBillingPeriodError(Exception):
     """

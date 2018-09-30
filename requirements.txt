@@ -6,3 +6,4 @@ oauth2client
 requests
 ntplib
 WebTest
+flask-cors
