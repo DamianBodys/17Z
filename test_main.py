@@ -93,10 +93,13 @@ class AlgorithmHTTPTestCase(unittest.TestCase):
 class BillingHTTPTestCase(unittest.TestCase):
     def setUp(self):
         self.test_app = webtest.TestApp(main.app)
+        #set authorization required for testing
+        self.test_app.authorization = ('Bearer', get_id_token_for_testing())
+        #add current user as authorized
+        self.test_app.post('/user/')
 
     def test_bill_GET(self):
         """ Test normal GET - it should receive mok-up data"""
-        self.test_app.authorization = ('Bearer', get_id_token_for_testing())
         response = self.test_app.get('/bill/')
         self.assertEqual(200, response.status_int, msg='Wrong response status')
         self.assertIsNotNone(response.charset, msg='There is no charset in response')
@@ -105,7 +108,6 @@ class BillingHTTPTestCase(unittest.TestCase):
 
     def test_bill_with_period_GET(self):
         """ Test normal GET - it should receive mok-up data"""
-        self.test_app.authorization = ('Bearer', get_id_token_for_testing())
         begin = '20180402'
         end = '20180403'
         response = self.test_app.get('/bill/', params={'begin': begin, 'end': end})
@@ -118,7 +120,6 @@ class BillingHTTPTestCase(unittest.TestCase):
 
     def test_bill_with_period_GET_without_end(self):
         """ Test normal GET - it should receive mok-up data"""
-        self.test_app.authorization = ('Bearer', get_id_token_for_testing())
         begin = '20180402'
         response = self.test_app.get('/bill/', params={'begin': begin}, expect_errors=True)
         self.assertEqual(400, response.status_int, msg='Wrong response status')
@@ -128,7 +129,6 @@ class BillingHTTPTestCase(unittest.TestCase):
 
     def test_bill_with_resultsetid_GET(self):
         """ Test normal GET - it should receive mok-up data"""
-        self.test_app.authorization = ('Bearer', get_id_token_for_testing())
         resultsetid = 'ResultsetID'
         response = self.test_app.get('/bill/result/' + resultsetid)
         self.assertEqual(200, response.status_int, msg='Wrong response status')
@@ -139,7 +139,6 @@ class BillingHTTPTestCase(unittest.TestCase):
 
     def test_bill_with_algorithmid_GET(self):
         """ Test normal GET - it should receive mok-up data"""
-        self.test_app.authorization = ('Bearer', get_id_token_for_testing())
         algorithmid = 'AlgorithmID'
         response = self.test_app.get('/bill/algorithm/' + algorithmid)
         self.assertEqual(200, response.status_int, msg='Wrong response status')
@@ -150,7 +149,6 @@ class BillingHTTPTestCase(unittest.TestCase):
 
     def test_bill_with_resultsetid_GET_whitespace(self):
         """ Test normal GET - it should receive mok-up data"""
-        self.test_app.authorization = ('Bearer', get_id_token_for_testing())
         resultsetid = 'Resultset ID'
         response = self.test_app.get('/bill/result/' + resultsetid,expect_errors=True)
         self.assertEqual(400, response.status_int, msg='Wrong response status')
